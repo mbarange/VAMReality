@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VAMReality WebXR Authoring Tool</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="ui-panel">
+    <h2>Add Scenario Step</h2>
+    <input id="stepName" placeholder="Step Name" />
+    <select id="stepType">
+      <option value="Instruction">Instruction</option>
+      <option value="Action">Action</option>
+      <option value="Validation">Validation</option>
+    </select>
+    <textarea id="instructionText" placeholder="Instruction Text"></textarea>
+    <input id="imageNames" placeholder="Image names (comma-separated)" />
+    <input id="videoNames" placeholder="Video names (comma-separated)" />
+    <input id="pdfNames" placeholder="PDF names (comma-separated)" />
+    <input id="modelNames" placeholder="Model names (comma-separated)" />
+    <button id="addStepBtn">➕ Add Step</button>
+    <ul id="stepList"></ul>
+    <hr />
+    <button id="saveBtn">💾 Save Scenario to GitHub</button>
+  </div>
+  <script type="module" src="main.js"></script>
+</body>
+</html>
