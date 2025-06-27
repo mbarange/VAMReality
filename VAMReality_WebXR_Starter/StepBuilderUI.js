@@ -7,7 +7,10 @@ function parseList(input) {
 
 function setupUI() {
   const addBtn = document.getElementById("addStepBtn");
+  const createScenarioBtn = document.getElementById("createScenarioBtn");
+  const loadScenarioBtn = document.getElementById("loadScenarioBtn");
   const list = document.getElementById("stepList");
+  const scenarioList = document.getElementById("scenarioList");
 
   addBtn.onclick = () => {
     const step = {
@@ -26,6 +29,33 @@ function setupUI() {
     item.textContent = step.stepName + " [" + step.stepType + "]";
     list.appendChild(item);
     clearInputs();
+  };
+
+  createScenarioBtn.onclick = () => {
+    const name = document.getElementById("scenarioName").value;
+    if (name) {
+      scenarioManager.createScenario(name);
+      const opt = document.createElement("option");
+      opt.value = opt.textContent = name;
+      scenarioList.appendChild(opt);
+      scenarioList.value = name;
+      list.innerHTML = "";
+      alert(`Created new scenario: ${name}`);
+    }
+  };
+
+  loadScenarioBtn.onclick = () => {
+    const name = scenarioList.value;
+    if (name) {
+      scenarioManager.loadScenario(name);
+      list.innerHTML = "";
+      const steps = scenarioManager.getCurrentScenario().steps;
+      steps.forEach(step => {
+        const item = document.createElement("li");
+        item.textContent = step.stepName + " [" + step.stepType + "]";
+        list.appendChild(item);
+      });
+    }
   };
 }
 

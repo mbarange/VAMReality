@@ -8,7 +8,18 @@
 </head>
 <body>
   <div id="ui-panel">
-    <h2>Add Scenario Step</h2>
+    <h2>VAMReality Authoring</h2>
+
+    <label for="scenarioName">Scenario Name:</label>
+    <input id="scenarioName" placeholder="Enter new scenario name..." />
+    <button id="createScenarioBtn">➕ Create Scenario</button>
+
+    <label for="scenarioList">Choose Existing Scenario:</label>
+    <select id="scenarioList"></select>
+    <button id="loadScenarioBtn">📂 Load</button>
+
+    <hr />
+    <h3>Add Step</h3>
     <input id="stepName" placeholder="Step Name" />
     <select id="stepType">
       <option value="Instruction">Instruction</option>
