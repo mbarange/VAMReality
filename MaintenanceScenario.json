@@ -24,6 +24,18 @@
       ],
       "instructionModels": [],
       "resourcePlacements": []
+    },
+    {
+      "stepName": "d",
+      "stepType": "Instruction",
+      "instructionText": "hello",
+      "instructionImages": [
+        "sdf"
+      ],
+      "instructionVideos": [],
+      "instructionPDFPaths": [],
+      "instructionModels": [],
+      "resourcePlacements": []
     }
   ]
 }
