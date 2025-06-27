@@ -1,0 +1,29 @@
+{
+  "scenarioName": "MaintenanceScenario",
+  "steps": [
+    {
+      "stepName": "Open Door",
+      "stepType": "Instruction",
+      "instructionText": "Open door with keys",
+      "instructionImages": [
+        "key"
+      ],
+      "instructionVideos": [],
+      "instructionPDFPaths": [],
+      "instructionModels": [],
+      "resourcePlacements": []
+    },
+    {
+      "stepName": "use Key ",
+      "stepType": "Instruction",
+      "instructionText": "use Key from letf to right",
+      "instructionImages": [],
+      "instructionVideos": [],
+      "instructionPDFPaths": [
+        "key"
+      ],
+      "instructionModels": [],
+      "resourcePlacements": []
+    }
+  ]
+}
