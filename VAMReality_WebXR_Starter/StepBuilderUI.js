@@ -1,6 +1,8 @@
 
 import { scenarioStore, renderCurrentScenario } from './ScenarioManager.js';
 
+let editingIndex = null;
+
 export function initializeStepBuilder() {
   document.getElementById('stepList').innerHTML = '';
 }
@@ -24,14 +26,56 @@ window.addStep = function () {
     models
   };
 
-  scenarioStore.current.steps.push(step);
-  renderCurrentScenario();
+  if (editingIndex !== null) {
+    scenarioStore.current.steps[editingIndex] = step;
+    editingIndex = null;
+  } else {
+    scenarioStore.current.steps.push(step);
+  }
 
-  // Clear fields
+  renderCurrentScenario();
+  clearInputs();
+};
+
+function clearInputs() {
   document.getElementById("stepName").value = "";
   document.getElementById("instructionText").value = "";
   document.getElementById("images").value = "";
   document.getElementById("videos").value = "";
   document.getElementById("pdfs").value = "";
   document.getElementById("models").value = "";
+}
+
+window.editStep = function (index) {
+  const step = scenarioStore.current.steps[index];
+  if (!step) return;
+
+  document.getElementById("stepName").value = step.name;
+  document.getElementById("instructionText").value = step.instructionText;
+  document.getElementById("images").value = step.images.join(', ');
+  document.getElementById("videos").value = step.videos.join(', ');
+  document.getElementById("pdfs").value = step.pdfs.join(', ');
+  document.getElementById("models").value = step.models.join(', ');
+
+  editingIndex = index;
+};
+
+window.handleDrop = function (event, targetIndex) {
+  event.preventDefault();
+  const sourceIndex = event.dataTransfer.getData("text/plain");
+  const steps = scenarioStore.current.steps;
+
+  if (sourceIndex !== targetIndex) {
+    const moved = steps.splice(sourceIndex, 1)[0];
+    steps.splice(targetIndex, 0, moved);
+    renderCurrentScenario();
+  }
+};
+
+window.allowDrop = function (event) {
+  event.preventDefault();
+};
+
+window.dragStart = function (event, index) {
+  event.dataTransfer.setData("text/plain", index);
 };

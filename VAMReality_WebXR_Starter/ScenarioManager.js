@@ -46,11 +46,18 @@ export function renderCurrentScenario() {
   if (!scenario) return;
 
   scenario.steps.forEach((step, i) => {
+    // Editor panel step list
     const div = document.createElement("div");
     div.className = "step-block";
     div.innerHTML = `<strong>${step.name}</strong><br>${step.instructionText}`;
+    div.onclick = () => window.editStep(i);
+    div.draggable = true;
+    div.ondragstart = (e) => window.dragStart(e, i);
+    div.ondragover = (e) => window.allowDrop(e);
+    div.ondrop = (e) => window.handleDrop(e, i);
     list.appendChild(div);
 
+    // Flow panel
     const flowDiv = document.createElement("div");
     flowDiv.className = "flow-block";
     flowDiv.innerHTML = `
