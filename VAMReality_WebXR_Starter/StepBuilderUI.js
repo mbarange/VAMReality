@@ -2,6 +2,7 @@
 import { scenarioStore, renderCurrentScenario } from './ScenarioManager.js';
 
 let editingIndex = null;
+let editingBlockId = null;
 
 export function initializeStepBuilder() {
   document.getElementById('stepList').innerHTML = '';
@@ -15,23 +16,24 @@ window.addStep = function () {
   const pdfs = document.getElementById("pdfs").value.split(',').map(s => s.trim()).filter(Boolean);
   const models = document.getElementById("models").value.split(',').map(s => s.trim()).filter(Boolean);
 
-  if (!name || !scenarioStore.current) return;
+  const scenario = scenarioStore.current;
+  const blockId = scenarioStore.currentBlockId;
 
-  const step = {
-    name,
-    instructionText: instruction,
-    images,
-    videos,
-    pdfs,
-    models
-  };
+  if (!scenario || !blockId || !name) return;
 
-  if (editingIndex !== null) {
-    scenarioStore.current.steps[editingIndex] = step;
-    editingIndex = null;
+  const step = { name, instructionText: instruction, images, videos, pdfs, models };
+
+  const block = scenario.blocks.find(b => b.blockId === blockId);
+  if (!block) return;
+
+  if (editingIndex !== null && editingBlockId === blockId) {
+    block.steps[editingIndex] = step;
   } else {
-    scenarioStore.current.steps.push(step);
+    block.steps.push(step);
   }
+
+  editingIndex = null;
+  editingBlockId = null;
 
   renderCurrentScenario();
   clearInputs();
@@ -46,8 +48,11 @@ function clearInputs() {
   document.getElementById("models").value = "";
 }
 
-window.editStep = function (index) {
-  const step = scenarioStore.current.steps[index];
+window.editStep = function (blockId, stepIndex) {
+  const scenario = scenarioStore.current;
+  const block = scenario.blocks.find(b => b.blockId === blockId);
+  if (!block) return;
+  const step = block.steps[stepIndex];
   if (!step) return;
 
   document.getElementById("stepName").value = step.name;
@@ -57,25 +62,6 @@ window.editStep = function (index) {
   document.getElementById("pdfs").value = step.pdfs.join(', ');
   document.getElementById("models").value = step.models.join(', ');
 
-  editingIndex = index;
-};
-
-window.handleDrop = function (event, targetIndex) {
-  event.preventDefault();
-  const sourceIndex = event.dataTransfer.getData("text/plain");
-  const steps = scenarioStore.current.steps;
-
-  if (sourceIndex !== targetIndex) {
-    const moved = steps.splice(sourceIndex, 1)[0];
-    steps.splice(targetIndex, 0, moved);
-    renderCurrentScenario();
-  }
-};
-
-window.allowDrop = function (event) {
-  event.preventDefault();
-};
-
-window.dragStart = function (event, index) {
-  event.dataTransfer.setData("text/plain", index);
+  editingIndex = stepIndex;
+  editingBlockId = blockId;
 };
