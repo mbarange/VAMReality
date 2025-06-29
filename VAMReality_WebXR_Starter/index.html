@@ -34,9 +34,15 @@
         <button onclick="loadSelectedScenario()">Load</button>
 
         <hr/>
-        <h3>Add Steps</h3>
-        <input type="text" id="scenarioName" placeholder="Step name" />
+        <h3>Add Step</h3>
+        <input type="text" id="stepName" placeholder="Step name" />
+        <textarea id="instructionText" placeholder="Instruction text"></textarea>
+        <input type="text" id="images" placeholder="Images (comma-separated)" />
+        <input type="text" id="videos" placeholder="Videos (comma-separated)" />
+        <input type="text" id="pdfs" placeholder="PDFs (comma-separated)" />
+        <input type="text" id="models" placeholder="Models (comma-separated)" />
         <button onclick="addStep()">+ Add Step</button>
+
         <div id="stepList"></div>
 
         <hr/>
