@@ -21,7 +21,7 @@ window.saveToGitHub = async function () {
   try {
     const check = await fetch(apiUrl, {
       headers: {
-        "Authorization": \`token \${token}\`,
+        "Authorization": "token " + token,
         "Accept": "application/vnd.github.v3+json"
       }
     });
