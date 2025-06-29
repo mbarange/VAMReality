@@ -1,19 +1,18 @@
 
-import './ScenarioManager.js';
-import './StepBuilderUI.js';
-
 window.runScenario = function () {
-  const current = window.scenarioStore?.current;
-  if (!current) {
+  const scenarioStore = window.scenarioStore;
+  if (!scenarioStore || !scenarioStore.current) {
     alert("No scenario selected.");
     return;
   }
 
+  const current = scenarioStore.current;
   const steps = [];
+
   for (let b = 0; b < current.blocks.length; b++) {
     const block = current.blocks[b];
     for (let s = 0; s < block.steps.length; s++) {
-      steps.push({ ...block.steps[s], label: b + 1 + '.' + (s + 1) });
+      steps.push({ ...block.steps[s], label: (b + 1) + '.' + (s + 1) });
     }
   }
 
@@ -44,4 +43,19 @@ window.runScenario = function () {
   }
 
   renderStep();
+};
+
+// Placeholder to ensure scenarioStore is defined for testing
+window.scenarioStore = window.scenarioStore || {
+  current: {
+    name: "Example Scenario",
+    blocks: [
+      {
+        steps: [
+          { name: "Step A", instructionText: "Instruction for Step A" },
+          { name: "Step B", instructionText: "Instruction for Step B" }
+        ]
+      }
+    ]
+  }
 };
