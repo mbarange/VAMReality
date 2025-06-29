@@ -98,9 +98,17 @@ export function renderCurrentScenario() {
       flowDiv.innerHTML = `
         <strong>${fullId}. ${step.name}</strong><br>
         <small>${step.instructionText}</small><br>
-        <em>🖼️ ${step.images.length} | 📹 ${step.videos.length} | 📄 ${step.pdfs.length} | 🧱 ${step.models.length}</em>
+        <em>🖼️ ${step.images?.length || 0} | 📹 ${step.videos?.length || 0} | 📄 ${step.pdfs?.length || 0} | 🧱 ${step.models?.length || 0}</em>
+        ${step.conditions && step.conditions.length ? renderConditions(step.conditions) : ""}
       `;
       flow.appendChild(flowDiv);
     });
   });
+}
+
+function renderConditions(conditions) {
+  return `<ul class="conditions">
+    ${conditions.map(c =>
+      `<li>🔀 ${c.label} → ${c.targetBlock}.${c.targetStep}</li>`).join("")}
+  </ul>`;
 }

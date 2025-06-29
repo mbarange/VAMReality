@@ -46,8 +46,14 @@
         <input type="text" id="videos" placeholder="Videos (comma-separated)" />
         <input type="text" id="pdfs" placeholder="PDFs (comma-separated)" />
         <input type="text" id="models" placeholder="Models (comma-separated)" />
-        <button onclick="addStep()">+ Save Step</button>
 
+        <div>
+          <h4>Conditions</h4>
+          <div id="conditionsContainer"></div>
+          <button type="button" id="addConditionBtn">+ Add Condition</button>
+        </div>
+
+        <button onclick="addStep()">+ Save Step</button>
         <div id="stepList"></div>
 
         <hr/>
