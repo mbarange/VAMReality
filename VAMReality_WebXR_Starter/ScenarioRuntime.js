@@ -1,70 +1,75 @@
 
-import { scenarioStore } from './ScenarioManager.js';
+window.runScenario = function () {
+  const current = window.scenarioStore.current;
+  if (!current) return alert("No scenario selected.");
+  const steps = [];
 
-let currentBlockIndex = 0;
-let currentStepIndex = 0;
+  current.blocks.forEach((block, b) => {
+    block.steps.forEach((s, i) => {
+      steps.push({ ...s, label: `${b + 1}.${i + 1}`, blockIndex: b, stepIndex: i });
+    });
+  });
 
-export function runScenario() {
-  currentBlockIndex = 0;
-  currentStepIndex = 0;
-  executeStep();
-}
-
-function executeStep() {
-  const scenario = scenarioStore.current;
-  if (!scenario || !scenario.blocks || scenario.blocks.length === 0) return;
-
-  const block = scenario.blocks[currentBlockIndex];
-  const step = block?.steps?.[currentStepIndex];
-  if (!step) return;
-
-  showStep(step);
-}
-
-function showStep(step) {
+  let currentIndex = 0;
   const display = document.getElementById("stepDisplay");
-  display.innerHTML = `<h2>${step.name}</h2><p>${step.instructionText}</p>`;
 
-  if (step.conditions && step.conditions.length > 0) {
-    const condDiv = document.createElement("div");
-    condDiv.innerHTML = "<strong>Choose next:</strong><br/>";
-    step.conditions.forEach(c => {
-      const btn = document.createElement("button");
-      btn.textContent = c.label;
-      btn.onclick = () => {
-        const blkIndex = scenarioStore.current.blocks.findIndex(b => b.blockId === c.targetBlock);
-        if (blkIndex >= 0) {
-          currentBlockIndex = blkIndex;
-          currentStepIndex = c.targetStep - 1;
-          executeStep();
+  function renderStep() {
+    if (currentIndex >= steps.length) {
+      display.innerHTML = "<b>✅ Scenario complete.</b>";
+      return;
+    }
+
+    const step = steps[currentIndex];
+    display.innerHTML = "<h3>Step " + step.label + ": " + step.name + "</h3><p>" + step.instructionText + "</p>";
+
+    const nav = document.createElement("div");
+    nav.style.marginTop = "1rem";
+
+    if (step.conditions && step.conditions.length) {
+      const form = document.createElement("form");
+      form.innerHTML = "<strong>Choose:</strong><br/>";
+
+      step.conditions.forEach((c, idx) => {
+        const rb = document.createElement("input");
+        rb.type = "radio";
+        rb.name = "stepCond";
+        rb.id = "cond" + idx;
+        rb.value = c.target;
+
+        const label = document.createElement("label");
+        label.htmlFor = "cond" + idx;
+        label.innerText = `${c.label} → Step ${c.target}`;
+
+        form.appendChild(rb);
+        form.appendChild(label);
+        form.appendChild(document.createElement("br"));
+      });
+
+      const goBtn = document.createElement("button");
+      goBtn.textContent = "Go";
+      goBtn.type = "button";
+      goBtn.onclick = () => {
+        const selected = form.querySelector("input[name='stepCond']:checked");
+        if (!selected) return alert("Choose an option.");
+        const match = steps.find(s => s.label === selected.value);
+        if (match) {
+          currentIndex = steps.indexOf(match);
+          renderStep();
         }
       };
-      condDiv.appendChild(btn);
-    });
-    display.appendChild(condDiv);
-  } else {
-    const nextBtn = document.createElement("button");
-    nextBtn.textContent = "Next";
-    nextBtn.onclick = () => {
-      nextStep();
-    };
-    display.appendChild(nextBtn);
-  }
-}
-
-function nextStep() {
-  const scenario = scenarioStore.current;
-  const block = scenario.blocks[currentBlockIndex];
-
-  if (currentStepIndex + 1 < block.steps.length) {
-    currentStepIndex++;
-  } else if (currentBlockIndex + 1 < scenario.blocks.length) {
-    currentBlockIndex++;
-    currentStepIndex = 0;
-  } else {
-    document.getElementById("stepDisplay").innerHTML = "<h2>🎉 Scenario Complete!</h2>";
-    return;
+      form.appendChild(goBtn);
+      display.appendChild(form);
+    } else {
+      const nextBtn = document.createElement("button");
+      nextBtn.textContent = "Next";
+      nextBtn.onclick = () => {
+        currentIndex++;
+        renderStep();
+      };
+      nav.appendChild(nextBtn);
+      display.appendChild(nav);
+    }
   }
 
-  executeStep();
-}
+  renderStep();
+};
