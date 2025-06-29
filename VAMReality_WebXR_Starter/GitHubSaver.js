@@ -1,5 +1,6 @@
 
-import { scenarioStore, renderCurrentScenario } from './ScenarioManager.js';
+const scenarioStore = window.scenarioStore;
+const renderCurrentScenario = window.renderCurrentScenario;
 
 window.saveToGitHub = async function () {
   const user = document.getElementById("githubUser").value.trim();
