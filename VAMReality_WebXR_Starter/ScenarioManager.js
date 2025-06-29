@@ -48,12 +48,16 @@ export function renderCurrentScenario() {
   scenario.steps.forEach((step, i) => {
     const div = document.createElement("div");
     div.className = "step-block";
-    div.innerText = step;
+    div.innerHTML = `<strong>${step.name}</strong><br>${step.instructionText}`;
     list.appendChild(div);
 
     const flowDiv = document.createElement("div");
     flowDiv.className = "flow-block";
-    flowDiv.innerText = `Step ${i + 1}: ${step}`;
+    flowDiv.innerHTML = `
+      <strong>${i + 1}. ${step.name}</strong><br>
+      <small>${step.instructionText}</small><br>
+      <em>🖼️ ${step.images.length} | 📹 ${step.videos.length} | 📄 ${step.pdfs.length} | 🧱 ${step.models.length}</em>
+    `;
     flow.appendChild(flowDiv);
   });
 }
