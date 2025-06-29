@@ -83,15 +83,17 @@
 
   <!-- Script Modules -->
   <script src="GitHubSaver.js"></script>
-  <script type="module" src="ScenarioManager.js"></script>
-  <script type="module" src="StepBuilderUI.js"></script>
-  <script type="module" src="ScenarioRuntime.js"></script>
-  <script type="module" src="FlowRenderer.js"></script>
   <script type="module">
     import { initializeScenarioManager } from './ScenarioManager.js';
     import { initializeStepBuilder } from './StepBuilderUI.js';
-    initializeScenarioManager();
-    initializeStepBuilder();
+    import { runScenario } from './ScenarioRuntime.js';
+    import './FlowRenderer.js';
+
+    window.addEventListener("DOMContentLoaded", () => {
+      initializeScenarioManager();
+      initializeStepBuilder();
+      window.runScenario = runScenario;
+    });
   </script>
 </body>
 </html>
