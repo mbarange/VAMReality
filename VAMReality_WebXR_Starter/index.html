@@ -11,19 +11,21 @@
   <div class="main">
     <h1>3VAMReality Scenario Editor</h1>
 
-    <div>
+    <!-- Scenario Management -->
+    <div style="margin-bottom: 1em;">
       <label>Scenario Name:</label>
       <input type="text" id="newScenarioName" />
       <button onclick="createScenario()">Create</button>
     </div>
 
-    <div>
+    <div style="margin-bottom: 1em;">
       <label>Select Scenario:</label>
-      <select id="scenarioList"></select>
+      <select id="scenarioList" style="margin-right: 0.5em;"></select>
       <button onclick="loadSelectedScenario()">Load</button>
     </div>
 
-    <div>
+    <!-- GitHub Auth & Storage -->
+    <div style="margin-bottom: 1em;">
       <input type="text" id="githubUser" placeholder="GitHub username" value="mbarange" />
       <input type="text" id="githubRepo" placeholder="Repository name" value="VAMReality" />
       <input type="password" id="githubToken" placeholder="GitHub Token" value="" />
@@ -34,7 +36,8 @@
 
     <hr />
 
-    <div>
+    <!-- Block and Step Editor -->
+    <div style="margin-bottom: 1em;">
       <label>Add Block:</label>
       <button onclick="addBlock()">➕ Add Block</button>
       <label>Block:</label>
@@ -42,24 +45,44 @@
     </div>
 
     <div>
-      <h2>Add Step</h2>
+      <h2>Step Editor</h2>
       <input type="text" id="stepName" placeholder="Step Name" />
       <input type="text" id="stepInstruction" placeholder="Instruction Text" />
       <input type="text" id="stepVoice" placeholder="Voice Command" />
-      <input type="text" id="stepImages" placeholder="Image File Names (comma-separated)" />
-      <input type="text" id="stepVideos" placeholder="Video File Names (comma-separated)" />
-      <input type="text" id="stepPDFs" placeholder="PDF File Names (comma-separated)" />
-      <input type="text" id="stepModels" placeholder="Model File Names (comma-separated)" />
-      <button onclick="addStep()">Add Step</button>
+      <select id="stepType">
+        <option value="Instruction">Instruction</option>
+        <option value="Action">Action</option>
+        <option value="Validation">Validation</option>
+      </select>
+      <input type="text" id="stepKeyPoints" placeholder="Key Points (comma-separated)" />
+      <input type="text" id="stepImages" placeholder="Image Names (comma-separated)" />
+      <input type="text" id="stepVideos" placeholder="Video Names (comma-separated)" />
+      <input type="text" id="stepPDFs" placeholder="PDF Paths (comma-separated)" />
+      <input type="text" id="stepModels" placeholder="3D Model Names (comma-separated)" />
+      <input type="text" id="stepPOIRefs" placeholder="POI References (comma-separated)" />
+      <button onclick="addStep()">➕ Add Step</button>
+      <button onclick="saveCurrentStep()">💾 Save Step</button>
     </div>
 
+    <!-- Conditional Navigation -->
+    <div>
+      <h3>Step Conditions (Branching)</h3>
+      <input type="text" id="conditionLabel" placeholder="Condition Label (e.g., 'yes')" />
+      <input type="text" id="targetStep" placeholder="Target Step ID (e.g., 1.2)" />
+      <button onclick="addCondition()">➕ Add Condition</button>
+      <button onclick="saveConditions()">💾 Save Conditions</button>
+    </div>
+
+    <!-- Scenario Playback -->
     <div>
       <button onclick="runScenario()">▶ Run Scenario</button>
     </div>
 
+    <!-- Runtime Output -->
     <div id="stepDisplay" style="margin-top: 20px; border: 1px solid #ccc; padding: 10px;"></div>
   </div>
 
+  <!-- JS scripts -->
   <script src="GitHubSaver.js"></script>
   <script src="main.js"></script>
 </body>
