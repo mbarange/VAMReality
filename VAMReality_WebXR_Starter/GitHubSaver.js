@@ -50,13 +50,13 @@ window.saveToGitHub = async function () {
     });
 
     if (upload.ok) {
-      alert("✅ Scenario saved to GitHub.");
+      alert("Scenario saved to GitHub.");
     } else {
       const error = await upload.json();
-      alert("❌ Save failed: " + error.message);
+      alert(" Save failed: " + error.message);
     }
   } catch (e) {
-    alert("❌ Error: " + e.message);
+    alert("Error: " + e.message);
   }
 };
 
@@ -101,12 +101,12 @@ window.loadFromGitHub = async function () {
     }
 
     if (scenarios.length > 0) {
-      alert("✅ Scenario list loaded. Now select and click 'Load'.");
+      alert("Scenario list loaded. Now select and click 'Load'.");
     } else {
-      alert("⚠️ No scenario files found.");
+      alert("No scenario files found.");
     }
   } catch (e) {
-    alert("❌ Load failed: " + e.message);
+    alert("Load failed: " + e.message);
   }
 };
 
@@ -141,10 +141,10 @@ window.loadSelectedScenario = async function () {
     scenarioStore.scenarios[decoded.name] = decoded;
     scenarioStore.current = decoded;
 
-    alert("✅ Scenario loaded!");
+    alert("Scenario loaded!");
     window.updateBlockSelector();
     renderCurrentScenario();
   } catch (e) {
-    alert("❌ Load failed: " + e.message);
+    alert(" Load failed: " + e.message);
   }
 };
