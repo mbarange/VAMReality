@@ -24,7 +24,7 @@
       <button onclick="loadSelectedScenario()">Load</button>
     </div>
 
-    <!-- GitHub Auth & Storage -->
+    <!-- GitHub Credentials -->
     <div class="section">
       <input type="text" id="githubUser" placeholder="GitHub username" value="mbarange" />
       <input type="text" id="githubRepo" placeholder="Repository name" value="VAMReality" />
@@ -36,16 +36,10 @@
 
     <hr />
 
-    <!-- Block and Step Editor -->
+    <!-- Step Input UI -->
     <div class="section">
-      <label>Add Block:</label>
-      <button onclick="addBlock()">➕ Add Block</button>
-      <label>Block:</label>
-      <select id="blockSelector"></select>
-    </div>
-
-    <div>
       <h2>Step Editor</h2>
+      <select id="blockSelector"></select>
       <input type="text" id="stepName" placeholder="Step Name" />
       <input type="text" id="stepInstruction" placeholder="Instruction Text" />
       <input type="text" id="stepVoice" placeholder="Voice Command" />
@@ -64,25 +58,40 @@
       <button onclick="saveCurrentStep()">💾 Save Step</button>
     </div>
 
-    <!-- Conditional Navigation -->
-    <div>
-      <h3>Step Conditions (Branching)</h3>
+    <!-- Condition Editor -->
+    <div class="section">
+      <h3>Step Conditions</h3>
       <input type="text" id="conditionLabel" placeholder="Condition Label (e.g., 'yes')" />
-      <input type="text" id="targetStep" placeholder="Target Step ID (e.g., 1.2)" />
+      <input type="text" id="targetStep" placeholder="Target Step (e.g., 1.2)" />
       <button onclick="addCondition()">➕ Add Condition</button>
       <button onclick="saveConditions()">💾 Save Conditions</button>
     </div>
 
-    <!-- Scenario Playback -->
-    <div>
-      <button onclick="runScenario()">▶ Run Scenario</button>
+    <!-- Block Diagram Area -->
+    <div class="section">
+      <h3>Scenario Structure</h3>
+      <div id="stepList"></div>
+      <div id="flowBlocks" style="position: relative;"></div>
+      <canvas id="flowCanvas" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events: none;"></canvas>
     </div>
 
-    <!-- Runtime Output -->
-    <div id="stepDisplay" class="output"></div>
+    <div class="section">
+      <button onclick="runScenario()">▶ Run Scenario</button>
+      <div id="stepDisplay" class="output"></div>
+    </div>
   </div>
 
+  <!-- Script Modules -->
   <script src="GitHubSaver.js"></script>
-  <script src="main.js"></script>
+  <script type="module" src="ScenarioManager.js"></script>
+  <script type="module" src="StepBuilderUI.js"></script>
+  <script type="module" src="ScenarioRuntime.js"></script>
+  <script type="module" src="FlowRenderer.js"></script>
+  <script type="module">
+    import { initializeScenarioManager } from './ScenarioManager.js';
+    import { initializeStepBuilder } from './StepBuilderUI.js';
+    initializeScenarioManager();
+    initializeStepBuilder();
+  </script>
 </body>
 </html>
