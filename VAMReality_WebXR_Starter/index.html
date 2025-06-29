@@ -28,7 +28,7 @@
     <div class="section">
       <input type="text" id="githubUser" placeholder="GitHub username" value="mbarange" />
       <input type="text" id="githubRepo" placeholder="Repository name" value="VAMReality" />
-      <input type="password" id="githubToken" placeholder="GitHub Token" value="" />
+      <input type="password" id="githubToken" placeholder="GitHub Token" />
       <input type="text" id="githubFolder" placeholder="Folder (optional)" />
       <button onclick="saveToGitHub()">Save to GitHub</button>
       <button onclick="loadFromGitHub()">Load from GitHub</button>
@@ -54,8 +54,8 @@
       <input type="text" id="stepPDFs" placeholder="PDF Paths (comma-separated)" />
       <input type="text" id="stepModels" placeholder="3D Model Names (comma-separated)" />
       <input type="text" id="stepPOIRefs" placeholder="POI References (comma-separated)" />
-      <button onclick="addStep()">➕ Add Step</button>
-      <button onclick="saveCurrentStep()">💾 Save Step</button>
+      <button id="addStep">➕ Add Step</button>
+      <button id="saveStep">💾 Save Step</button>
     </div>
 
     <!-- Condition Editor -->
@@ -63,8 +63,8 @@
       <h3>Step Conditions</h3>
       <input type="text" id="conditionLabel" placeholder="Condition Label (e.g., 'yes')" />
       <input type="text" id="targetStep" placeholder="Target Step (e.g., 1.2)" />
-      <button onclick="addCondition()">➕ Add Condition</button>
-      <button onclick="saveConditions()">💾 Save Conditions</button>
+      <button id="addCondition">➕ Add Condition</button>
+      <button id="saveConditions">💾 Save Conditions</button>
     </div>
 
     <!-- Block Diagram Area -->
