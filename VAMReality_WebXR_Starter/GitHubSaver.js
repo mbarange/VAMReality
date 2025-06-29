@@ -14,22 +14,24 @@ window.saveToGitHub = async function () {
     return;
   }
 
-  const path = folder ? \`\${folder}/\${scenario.name}.json\` : \`\${scenario.name}.json\`;
-  const apiUrl = \`https://api.github.com/repos/\${user}/\${repo}/contents/\${path}\`;
+  const path = folder ? folder + "/" + scenario.name + ".json" : scenario.name + ".json";
+  const apiUrl = "https://api.github.com/repos/" + user + "/" + repo + "/contents/" + path;
 
   try {
     const check = await fetch(apiUrl, {
       headers: {
-        "Authorization": \`token \${token}\`,
+        "Authorization": "token " + token,
         "Accept": "application/vnd.github.v3+json"
       }
     });
 
-    const content = btoa(unescape(encodeURIComponent(JSON.stringify(scenario, null, 2))));
+    const scenarioJson = JSON.stringify(scenario, null, 2);
+    const content = btoa(unescape(encodeURIComponent(scenarioJson)));
+
     let method = "PUT";
     let body = {
       message: "Save scenario update",
-      content,
+      content: content,
       branch: "main"
     };
 
@@ -39,9 +41,9 @@ window.saveToGitHub = async function () {
     }
 
     const upload = await fetch(apiUrl, {
-      method,
+      method: method,
       headers: {
-        "Authorization": \`token \${token}\`,
+        "Authorization": "token " + token,
         "Accept": "application/vnd.github.v3+json"
       },
       body: JSON.stringify(body)
@@ -71,13 +73,13 @@ window.loadFromGitHub = async function () {
   }
 
   const dirUrl = folder
-    ? \`https://api.github.com/repos/\${user}/\${repo}/contents/\${folder}\`
-    : \`https://api.github.com/repos/\${user}/\${repo}/contents\`;
+    ? "https://api.github.com/repos/" + user + "/" + repo + "/contents/" + folder
+    : "https://api.github.com/repos/" + user + "/" + repo + "/contents";
 
   try {
     const res = await fetch(dirUrl, {
       headers: {
-        "Authorization": \`token \${token}\`,
+        "Authorization": "token " + token,
         "Accept": "application/vnd.github.v3+json"
       }
     });
@@ -85,13 +87,16 @@ window.loadFromGitHub = async function () {
     if (!res.ok) throw new Error("Could not access GitHub directory.");
 
     const files = await res.json();
-    const scenarios = files.filter(f => f.name.endsWith(".json"));
+    const scenarios = files.filter(function (f) {
+      return f.name.endsWith(".json");
+    });
 
     listEl.innerHTML = "";
-    for (const f of scenarios) {
-      const opt = document.createElement("option");
-      opt.value = f.name.replace(".json", "");
-      opt.textContent = opt.value;
+    for (var i = 0; i < scenarios.length; i++) {
+      var name = scenarios[i].name.replace(".json", "");
+      var opt = document.createElement("option");
+      opt.value = name;
+      opt.textContent = name;
       listEl.appendChild(opt);
     }
 
@@ -117,13 +122,13 @@ window.loadSelectedScenario = async function () {
     return;
   }
 
-  const path = folder ? \`\${folder}/\${name}.json\` : \`\${name}.json\`;
-  const fileUrl = \`https://api.github.com/repos/\${user}/\${repo}/contents/\${path}\`;
+  const path = folder ? folder + "/" + name + ".json" : name + ".json";
+  const fileUrl = "https://api.github.com/repos/" + user + "/" + repo + "/contents/" + path;
 
   try {
     const res = await fetch(fileUrl, {
       headers: {
-        "Authorization": \`token \${token}\`,
+        "Authorization": "token " + token,
         "Accept": "application/vnd.github.v3+json"
       }
     });
