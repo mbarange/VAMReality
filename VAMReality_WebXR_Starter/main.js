@@ -5,4 +5,5 @@ import { initializeScenarioManager } from './ScenarioManager.js';
 window.onload = () => {
   initializeScenarioManager();
   initializeStepBuilder();
+  
 };
