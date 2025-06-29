@@ -45,17 +45,44 @@ window.runScenario = function () {
   renderStep();
 };
 
-// Placeholder to ensure scenarioStore is defined for testing
-window.scenarioStore = window.scenarioStore || {
-  current: {
-    name: "Example Scenario",
-    blocks: [
-      {
-        steps: [
-          { name: "Step A", instructionText: "Instruction for Step A" },
-          { name: "Step B", instructionText: "Instruction for Step B" }
-        ]
-      }
-    ]
+window.createScenario = function () {
+  const name = document.getElementById("newScenarioName").value.trim();
+  if (!name) {
+    alert("Please enter a scenario name.");
+    return;
   }
+
+  if (!window.scenarioStore) window.scenarioStore = { scenarios: {} };
+  if (!window.scenarioStore.scenarios[name]) {
+    window.scenarioStore.scenarios[name] = {
+      name: name,
+      blocks: []
+    };
+  }
+
+  window.scenarioStore.current = window.scenarioStore.scenarios[name];
+  window.updateBlockSelector();
+  alert("✅ Scenario '" + name + "' created and selected.");
+};
+
+window.updateBlockSelector = function () {
+  const current = window.scenarioStore?.current;
+  if (!current) return;
+
+  const blockSelector = document.getElementById("blockSelector");
+  if (!blockSelector) return;
+
+  blockSelector.innerHTML = "";
+  current.blocks.forEach(function (block, index) {
+    const opt = document.createElement("option");
+    opt.value = index;
+    opt.textContent = "Block " + (index + 1);
+    blockSelector.appendChild(opt);
+  });
+};
+
+// Optional mock scenarioStore to test flow
+window.scenarioStore = window.scenarioStore || {
+  scenarios: {},
+  current: null
 };
