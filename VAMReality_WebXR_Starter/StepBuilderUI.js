@@ -1,72 +1,15 @@
 
-import { scenarioManager } from './main.js';
+let stepCounter = 0;
 
-function parseList(input) {
-  return input.split(',').map(s => s.trim()).filter(Boolean);
+export function initializeStepBuilder() {
+  document.getElementById('stepList').innerHTML = '';
 }
 
-function setupUI() {
-  const addBtn = document.getElementById("addStepBtn");
-  const createScenarioBtn = document.getElementById("createScenarioBtn");
-  const loadScenarioBtn = document.getElementById("loadScenarioBtn");
-  const list = document.getElementById("stepList");
-  const scenarioList = document.getElementById("scenarioList");
-
-  addBtn.onclick = () => {
-    const step = {
-      stepName: document.getElementById("stepName").value,
-      stepType: document.getElementById("stepType").value,
-      instructionText: document.getElementById("instructionText").value,
-      instructionImages: parseList(document.getElementById("imageNames").value),
-      instructionVideos: parseList(document.getElementById("videoNames").value),
-      instructionPDFPaths: parseList(document.getElementById("pdfNames").value),
-      instructionModels: parseList(document.getElementById("modelNames").value),
-      resourcePlacements: []
-    };
-
-    scenarioManager.addStep(step);
-    const item = document.createElement("li");
-    item.textContent = step.stepName + " [" + step.stepType + "]";
-    list.appendChild(item);
-    clearInputs();
-  };
-
-  createScenarioBtn.onclick = () => {
-    const name = document.getElementById("scenarioName").value;
-    if (name) {
-      scenarioManager.createScenario(name);
-      const opt = document.createElement("option");
-      opt.value = opt.textContent = name;
-      scenarioList.appendChild(opt);
-      scenarioList.value = name;
-      list.innerHTML = "";
-      alert(`Created new scenario: ${name}`);
-    }
-  };
-
-  loadScenarioBtn.onclick = () => {
-    const name = scenarioList.value;
-    if (name) {
-      scenarioManager.loadScenario(name);
-      list.innerHTML = "";
-      const steps = scenarioManager.getCurrentScenario().steps;
-      steps.forEach(step => {
-        const item = document.createElement("li");
-        item.textContent = step.stepName + " [" + step.stepType + "]";
-        list.appendChild(item);
-      });
-    }
-  };
+window.addStep = function() {
+  const list = document.getElementById('stepList');
+  const name = document.getElementById('scenarioName').value || 'Step ' + (++stepCounter);
+  const item = document.createElement('div');
+  item.className = 'step-block';
+  item.innerText = name;
+  list.appendChild(item);
 }
-
-function clearInputs() {
-  document.getElementById("stepName").value = "";
-  document.getElementById("stepType").value = "Instruction";
-  document.getElementById("instructionText").value = "";
-  document.getElementById("imageNames").value = "";
-  document.getElementById("videoNames").value = "";
-  document.getElementById("pdfNames").value = "";
-  document.getElementById("modelNames").value = "";
-}
-
-window.addEventListener("DOMContentLoaded", setupUI);

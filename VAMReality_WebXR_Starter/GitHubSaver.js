@@ -1,36 +1,32 @@
 
-import { scenarioManager } from './main.js';
+export async function saveScenarioToGitHub(scenarioName, content, token, user, repo, path) {
+  const apiUrl = `https://api.github.com/repos/${user}/${repo}/contents/${path}/${scenarioName}.json`;
 
-document.getElementById("saveBtn").onclick = async () => {
-  const jsonData = scenarioManager.toJSON();
-  const token = prompt("GitHub token:");
-  const repo = prompt("GitHub repo (e.g. username/repo):");
-  const name = scenarioManager.currentName || "UnnamedScenario";
-  const filePath = name + ".json";
+  // Get the SHA if file exists
+  let sha = null;
+  try {
+    const getRes = await fetch(apiUrl, {
+      headers: { Authorization: `token ${token}` }
+    });
+    if (getRes.ok) {
+      const json = await getRes.json();
+      sha = json.sha;
+    }
+  } catch (e) { console.warn("SHA not found, creating new file"); }
 
-  const apiURL = `https://api.github.com/repos/${repo}/contents/${filePath}`;
-
-  const existing = await fetch(apiURL, {
-    headers: { Authorization: `token ${token}` }
-  }).then(r => r.ok ? r.json() : null);
-
-  const response = await fetch(apiURL, {
+  const response = await fetch(apiUrl, {
     method: "PUT",
     headers: {
       Authorization: `token ${token}`,
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      message: `Update scenario: ${name}`,
-      content: btoa(unescape(encodeURIComponent(jsonData))),
-      sha: existing?.sha
+      message: "Save scenario",
+      content: btoa(unescape(encodeURIComponent(content))),
+      sha
     })
   });
 
-  if (response.ok) {
-    alert("✅ Scenario saved to GitHub!");
-  } else {
-    alert("❌ Save failed");
-    console.error(await response.text());
-  }
-};
+  if (!response.ok) throw new Error("Failed to save scenario: " + await response.text());
+  console.log("✅ Scenario saved to GitHub");
+}

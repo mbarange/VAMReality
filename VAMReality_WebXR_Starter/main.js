@@ -1,6 +1,8 @@
 
-import { ScenarioManager } from './ScenarioManager.js';
-import './StepBuilderUI.js';
-import './GitHubSaver.js';
+import { initializeStepBuilder } from './StepBuilderUI.js';
+import { initializeScenarioManager } from './ScenarioManager.js';
 
-export const scenarioManager = new ScenarioManager();
+window.onload = () => {
+  initializeScenarioManager();
+  initializeStepBuilder();
+};

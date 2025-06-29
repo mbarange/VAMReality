@@ -3,39 +3,51 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>VAMReality WebXR Authoring Tool</title>
+  <title>VAMReality Scenario Editor</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div id="ui-panel">
-    <h2>VAMReality Authoring</h2>
-
-    <label for="scenarioName">Scenario Name:</label>
-    <input id="scenarioName" placeholder="Enter new scenario name..." />
-    <button id="createScenarioBtn">➕ Create Scenario</button>
-
-    <label for="scenarioList">Choose Existing Scenario:</label>
-    <select id="scenarioList"></select>
-    <button id="loadScenarioBtn">📂 Load</button>
-
-    <hr />
-    <h3>Add Step</h3>
-    <input id="stepName" placeholder="Step Name" />
-    <select id="stepType">
-      <option value="Instruction">Instruction</option>
-      <option value="Action">Action</option>
-      <option value="Validation">Validation</option>
-    </select>
-    <textarea id="instructionText" placeholder="Instruction Text"></textarea>
-    <input id="imageNames" placeholder="Image names (comma-separated)" />
-    <input id="videoNames" placeholder="Video names (comma-separated)" />
-    <input id="pdfNames" placeholder="PDF names (comma-separated)" />
-    <input id="modelNames" placeholder="Model names (comma-separated)" />
-    <button id="addStepBtn">➕ Add Step</button>
-    <ul id="stepList"></ul>
-    <hr />
-    <button id="saveBtn">💾 Save Scenario to GitHub</button>
+  <div class="sidebar">
+    <h2>Spectral</h2>
+    <ul>
+      <li class="active">Scenarios</li>
+      <li>Media</li>
+      <li>Digital Twin</li>
+      <li>Advanced</li>
+      <li>Users</li>
+    </ul>
   </div>
+
+  <div class="main">
+    <div class="header">
+      <h1>List of scenarios</h1>
+      <input type="text" id="scenarioSearch" placeholder="Name of the scenario">
+    </div>
+
+    <div class="split">
+      <div class="editor-panel">
+        <h3>Scenario Selection</h3>
+        <input type="text" id="newScenarioName" placeholder="New scenario name" />
+        <button onclick="createScenario()">Create</button>
+        <br/><br/>
+        <select id="scenarioList"></select>
+        <button onclick="loadSelectedScenario()">Load</button>
+
+        <hr/>
+        <h3>Create/Edit Scenario</h3>
+        <input type="text" id="scenarioName" placeholder="Step name" />
+        <button onclick="addStep()">+ Add Step</button>
+        <div id="stepList"></div>
+      </div>
+
+      <div class="flow-panel">
+        <h3>Step Flow</h3>
+        <canvas id="flowCanvas"></canvas>
+        <div id="flowBlocks"></div>
+      </div>
+    </div>
+  </div>
+
   <script type="module" src="main.js"></script>
 </body>
 </html>
