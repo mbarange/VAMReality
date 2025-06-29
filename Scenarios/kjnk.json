@@ -1,0 +1,40 @@
+{
+  "name": "kjnk",
+  "blocks": [
+    {
+      "steps": [
+        {
+          "name": "step1",
+          "instructionText": "jai",
+          "voiceCommand": "",
+          "stepType": "Instruction",
+          "instructionKeyTextPoints": [],
+          "instructionImages": [],
+          "instructionVideos": [],
+          "instructionPDFPaths": [],
+          "instructionModels": [],
+          "POIReferencePoints": [],
+          "conditions": [],
+          "resourcePlacements": []
+        },
+        {
+          "name": "step2",
+          "instructionText": "jai",
+          "voiceCommand": "",
+          "stepType": "Instruction",
+          "instructionKeyTextPoints": [],
+          "instructionImages": [],
+          "instructionVideos": [],
+          "instructionPDFPaths": [],
+          "instructionModels": [],
+          "POIReferencePoints": [],
+          "conditions": [],
+          "resourcePlacements": []
+        }
+      ]
+    },
+    {
+      "steps": []
+    }
+  ]
+}
