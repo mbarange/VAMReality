@@ -15,7 +15,8 @@ window.saveToGitHub = async function () {
   }
   
   const path = folder ? `${folder}/${scenario.name}.json` : `${scenario.name}.json`;
-  const apiUrl = \`https://api.github.com/repos/\${user}/\${repo}/contents/\${path}\`;
+  const apiUrl = "https://api.github.com/repos/" + user + "/" + repo + "/contents/" + path;
+
 
   try {
     const check = await fetch(apiUrl, {
