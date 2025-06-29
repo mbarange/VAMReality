@@ -1,4 +1,6 @@
 
+import { drawFlowArrows } from './FlowRenderer.js';
+
 export const scenarioStore = {
   scenarios: {},
   current: null,
@@ -95,20 +97,21 @@ export function renderCurrentScenario() {
 
       const flowDiv = document.createElement("div");
       flowDiv.className = "flow-block";
+      flowDiv.setAttribute("data-id", `flow-${block.blockId}-${idx + 1}`);
+      if (block.steps[idx + 1]) {
+        flowDiv.setAttribute("data-next", `flow-${block.blockId}-${idx + 2}`);
+      }
+      if (step.conditions?.length) {
+        flowDiv.setAttribute("data-conds", JSON.stringify(step.conditions));
+      }
       flowDiv.innerHTML = `
         <strong>${fullId}. ${step.name}</strong><br>
         <small>${step.instructionText}</small><br>
         <em>🖼️ ${step.images?.length || 0} | 📹 ${step.videos?.length || 0} | 📄 ${step.pdfs?.length || 0} | 🧱 ${step.models?.length || 0}</em>
-        ${step.conditions && step.conditions.length ? renderConditions(step.conditions) : ""}
       `;
       flow.appendChild(flowDiv);
     });
   });
-}
 
-function renderConditions(conditions) {
-  return `<ul class="conditions">
-    ${conditions.map(c =>
-      `<li>🔀 ${c.label} → ${c.targetBlock}.${c.targetStep}</li>`).join("")}
-  </ul>`;
+  setTimeout(drawFlowArrows, 100);
 }
