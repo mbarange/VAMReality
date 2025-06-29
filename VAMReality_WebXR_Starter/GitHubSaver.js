@@ -1,13 +1,13 @@
 
-import { scenarioStore } from './ScenarioManager.js';
+import { scenarioStore, renderCurrentScenario } from './ScenarioManager.js';
 
 window.saveToGitHub = async function () {
   const user = document.getElementById("githubUser").value.trim();
   const repo = document.getElementById("githubRepo").value.trim();
   const token = document.getElementById("githubToken").value.trim();
   const folder = document.getElementById("githubFolder").value.trim();
-
   const scenario = scenarioStore.current;
+
   if (!user || !repo || !token || !scenario) {
     alert("Please fill in GitHub credentials and select a scenario.");
     return;
@@ -17,8 +17,7 @@ window.saveToGitHub = async function () {
   const apiUrl = \`https://api.github.com/repos/\${user}/\${repo}/contents/\${path}\`;
 
   try {
-    // Check if file exists to get SHA
-    const res = await fetch(apiUrl, {
+    const check = await fetch(apiUrl, {
       headers: {
         "Authorization": \`token \${token}\`,
         "Accept": "application/vnd.github.v3+json"
@@ -26,21 +25,16 @@ window.saveToGitHub = async function () {
     });
 
     const content = btoa(unescape(encodeURIComponent(JSON.stringify(scenario, null, 2))));
-
     let method = "PUT";
     let body = {
-      message: "Update scenario",
-      content: content,
+      message: "Save scenario update",
+      content,
       branch: "main"
     };
 
-    if (res.ok) {
-      const data = await res.json();
-      body.sha = data.sha;
-    } else if (res.status === 404) {
-      body.message = "Create new scenario";
-    } else {
-      throw new Error("GitHub API error: " + res.statusText);
+    if (check.ok) {
+      const existing = await check.json();
+      body.sha = existing.sha;
     }
 
     const upload = await fetch(apiUrl, {
@@ -53,10 +47,10 @@ window.saveToGitHub = async function () {
     });
 
     if (upload.ok) {
-      alert("✅ Scenario saved to GitHub!");
+      alert("✅ Scenario saved to GitHub.");
     } else {
       const error = await upload.json();
-      alert("❌ Failed to save: " + (error.message || "Unknown error"));
+      alert("❌ Save failed: " + error.message);
     }
   } catch (e) {
     alert("❌ Error: " + e.message);
@@ -68,14 +62,14 @@ window.loadFromGitHub = async function () {
   const repo = document.getElementById("githubRepo").value.trim();
   const token = document.getElementById("githubToken").value.trim();
   const folder = document.getElementById("githubFolder").value.trim();
-  const scenarioName = prompt("Enter scenario filename (without .json)");
+  const name = prompt("Enter the scenario name to load (without .json):");
 
-  if (!user || !repo || !token || !scenarioName) {
-    alert("Missing required info.");
+  if (!user || !repo || !token || !name) {
+    alert("Please fill in GitHub info and a scenario name.");
     return;
   }
 
-  const path = folder ? \`\${folder}/\${scenarioName}.json\` : \`\${scenarioName}.json\`;
+  const path = folder ? \`\${folder}/\${name}.json\` : \`\${name}.json\`;
   const apiUrl = \`https://api.github.com/repos/\${user}/\${repo}/contents/\${path}\`;
 
   try {
@@ -86,18 +80,22 @@ window.loadFromGitHub = async function () {
       }
     });
 
-    if (!res.ok) throw new Error("GitHub fetch failed");
+    if (!res.ok) {
+      alert("❌ File not found or access denied.");
+      return;
+    }
 
-    const data = await res.json();
-    const decoded = JSON.parse(decodeURIComponent(escape(atob(data.content))));
+    const json = await res.json();
+    const content = decodeURIComponent(escape(atob(json.content)));
+    const parsed = JSON.parse(content);
 
-    scenarioStore.scenarios[decoded.name] = decoded;
-    scenarioStore.current = decoded;
+    scenarioStore.scenarios[parsed.name] = parsed;
+    scenarioStore.current = parsed;
 
-    alert("✅ Scenario loaded from GitHub!");
+    alert("✅ Scenario loaded successfully.");
     window.updateBlockSelector();
-    window.renderCurrentScenario();
+    renderCurrentScenario();
   } catch (e) {
-    alert("❌ Load error: " + e.message);
+    alert("❌ Load failed: " + e.message);
   }
 };
