@@ -32,6 +32,27 @@
       <button onclick="loadFromGitHub()">Load from GitHub</button>
     </div>
 
+    <hr />
+
+    <div>
+      <label>Add Block:</label>
+      <button onclick="addBlock()">➕ Add Block</button>
+      <label>Block:</label>
+      <select id="blockSelector"></select>
+    </div>
+
+    <div>
+      <h2>Add Step</h2>
+      <input type="text" id="stepName" placeholder="Step Name" />
+      <input type="text" id="stepInstruction" placeholder="Instruction Text" />
+      <input type="text" id="stepVoice" placeholder="Voice Command" />
+      <input type="text" id="stepImages" placeholder="Image File Names (comma-separated)" />
+      <input type="text" id="stepVideos" placeholder="Video File Names (comma-separated)" />
+      <input type="text" id="stepPDFs" placeholder="PDF File Names (comma-separated)" />
+      <input type="text" id="stepModels" placeholder="Model File Names (comma-separated)" />
+      <button onclick="addStep()">Add Step</button>
+    </div>
+
     <div>
       <button onclick="runScenario()">▶ Run Scenario</button>
     </div>
