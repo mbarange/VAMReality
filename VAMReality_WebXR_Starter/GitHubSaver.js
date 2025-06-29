@@ -1,88 +1,103 @@
 
-import { scenarioStore, renderCurrentScenario } from './ScenarioManager.js';
+import { scenarioStore } from './ScenarioManager.js';
 
-export async function saveToGitHub() {
-  const user = document.getElementById('githubUser').value;
-  const repo = document.getElementById('githubRepo').value;
-  const token = document.getElementById('githubToken').value;
-  const folder = document.getElementById('githubFolder').value;
+window.saveToGitHub = async function () {
+  const user = document.getElementById("githubUser").value.trim();
+  const repo = document.getElementById("githubRepo").value.trim();
+  const token = document.getElementById("githubToken").value.trim();
+  const folder = document.getElementById("githubFolder").value.trim();
+
   const scenario = scenarioStore.current;
-
-  if (!scenario || !user || !repo || !token) {
-    alert("Missing required info or no scenario loaded.");
+  if (!user || !repo || !token || !scenario) {
+    alert("Please fill in GitHub credentials and select a scenario.");
     return;
   }
 
-  const filename = scenario.name + ".json";
-  const apiUrl = `https://api.github.com/repos/${user}/${repo}/contents/${folder ? folder + '/' : ''}${filename}`;
-  let sha = null;
+  const path = folder ? \`\${folder}/\${scenario.name}.json\` : \`\${scenario.name}.json\`;
+  const apiUrl = \`https://api.github.com/repos/\${user}/\${repo}/contents/\${path}\`;
 
   try {
-    const existing = await fetch(apiUrl, {
-      headers: { Authorization: `token ${token}` }
+    // Check if file exists to get SHA
+    const res = await fetch(apiUrl, {
+      headers: {
+        "Authorization": \`token \${token}\`,
+        "Accept": "application/vnd.github.v3+json"
+      }
     });
-    if (existing.ok) {
-      const data = await existing.json();
-      sha = data.sha;
+
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(scenario, null, 2))));
+
+    let method = "PUT";
+    let body = {
+      message: "Update scenario",
+      content: content,
+      branch: "main"
+    };
+
+    if (res.ok) {
+      const data = await res.json();
+      body.sha = data.sha;
+    } else if (res.status === 404) {
+      body.message = "Create new scenario";
+    } else {
+      throw new Error("GitHub API error: " + res.statusText);
     }
-  } catch {}
 
-  const response = await fetch(apiUrl, {
-    method: "PUT",
-    headers: {
-      Authorization: "token " + token,
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      message: "Save scenario",
-      content: btoa(unescape(encodeURIComponent(JSON.stringify(scenario)))),
-      sha: sha || undefined
-    })
-  });
+    const upload = await fetch(apiUrl, {
+      method,
+      headers: {
+        "Authorization": \`token \${token}\`,
+        "Accept": "application/vnd.github.v3+json"
+      },
+      body: JSON.stringify(body)
+    });
 
-  if (response.ok) {
-    alert("✅ Scenario saved to GitHub");
-  } else {
-    alert("❌ Save failed: " + await response.text());
+    if (upload.ok) {
+      alert("✅ Scenario saved to GitHub!");
+    } else {
+      const error = await upload.json();
+      alert("❌ Failed to save: " + (error.message || "Unknown error"));
+    }
+  } catch (e) {
+    alert("❌ Error: " + e.message);
   }
-}
+};
 
-export async function loadFromGitHub() {
-  const user = document.getElementById('githubUser').value;
-  const repo = document.getElementById('githubRepo').value;
-  const token = document.getElementById('githubToken').value;
-  const folder = document.getElementById('githubFolder').value;
+window.loadFromGitHub = async function () {
+  const user = document.getElementById("githubUser").value.trim();
+  const repo = document.getElementById("githubRepo").value.trim();
+  const token = document.getElementById("githubToken").value.trim();
+  const folder = document.getElementById("githubFolder").value.trim();
+  const scenarioName = prompt("Enter scenario filename (without .json)");
 
-  const apiUrl = `https://api.github.com/repos/${user}/${repo}/contents/${folder}`;
-  const res = await fetch(apiUrl, {
-    headers: { Authorization: "token " + token }
-  });
-
-  if (!res.ok) {
-    alert("❌ Failed to list scenarios");
+  if (!user || !repo || !token || !scenarioName) {
+    alert("Missing required info.");
     return;
   }
 
-  const files = await res.json();
-  const scenarioFiles = files.filter(f => f.name.endsWith('.json'));
+  const path = folder ? \`\${folder}/\${scenarioName}.json\` : \`\${scenarioName}.json\`;
+  const apiUrl = \`https://api.github.com/repos/\${user}/\${repo}/contents/\${path}\`;
 
-  const dropdown = document.getElementById('scenarioList');
-  dropdown.innerHTML = "";
+  try {
+    const res = await fetch(apiUrl, {
+      headers: {
+        "Authorization": \`token \${token}\`,
+        "Accept": "application/vnd.github.v3+json"
+      }
+    });
 
-  for (let file of scenarioFiles) {
-    const option = document.createElement("option");
-    option.value = option.textContent = file.name.replace(".json", "");
-    dropdown.appendChild(option);
+    if (!res.ok) throw new Error("GitHub fetch failed");
+
+    const data = await res.json();
+    const decoded = JSON.parse(decodeURIComponent(escape(atob(data.content))));
+
+    scenarioStore.scenarios[decoded.name] = decoded;
+    scenarioStore.current = decoded;
+
+    alert("✅ Scenario loaded from GitHub!");
+    window.updateBlockSelector();
+    window.renderCurrentScenario();
+  } catch (e) {
+    alert("❌ Load error: " + e.message);
   }
-
-  dropdown.onchange = async () => {
-    const file = scenarioFiles.find(f => f.name.replace(".json", "") === dropdown.value);
-    if (!file) return;
-
-    const fileRes = await fetch(file.download_url);
-    const data = await fileRes.json();
-    scenarioStore.scenarios[data.name] = data;
-    scenarioStore.current = data;
-    renderCurrentScenario();
-  };
-}
+};
