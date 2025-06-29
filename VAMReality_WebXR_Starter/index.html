@@ -12,20 +12,20 @@
     <h1>3VAMReality Scenario Editor</h1>
 
     <!-- Scenario Management -->
-    <div style="margin-bottom: 1em;">
+    <div class="section">
       <label>Scenario Name:</label>
       <input type="text" id="newScenarioName" />
       <button onclick="createScenario()">Create</button>
     </div>
 
-    <div style="margin-bottom: 1em;">
-      <label>Select Scenario:</label>
-      <select id="scenarioList" style="margin-right: 0.5em;"></select>
+    <div class="section">
+      <label>Select Scenario:</label><br />
+      <select id="scenarioList"></select>
       <button onclick="loadSelectedScenario()">Load</button>
     </div>
 
     <!-- GitHub Auth & Storage -->
-    <div style="margin-bottom: 1em;">
+    <div class="section">
       <input type="text" id="githubUser" placeholder="GitHub username" value="mbarange" />
       <input type="text" id="githubRepo" placeholder="Repository name" value="VAMReality" />
       <input type="password" id="githubToken" placeholder="GitHub Token" value="" />
@@ -37,7 +37,7 @@
     <hr />
 
     <!-- Block and Step Editor -->
-    <div style="margin-bottom: 1em;">
+    <div class="section">
       <label>Add Block:</label>
       <button onclick="addBlock()">➕ Add Block</button>
       <label>Block:</label>
@@ -79,10 +79,9 @@
     </div>
 
     <!-- Runtime Output -->
-    <div id="stepDisplay" style="margin-top: 20px; border: 1px solid #ccc; padding: 10px;"></div>
+    <div id="stepDisplay" class="output"></div>
   </div>
 
-  <!-- JS scripts -->
   <script src="GitHubSaver.js"></script>
   <script src="main.js"></script>
 </body>

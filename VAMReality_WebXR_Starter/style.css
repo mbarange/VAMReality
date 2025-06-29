@@ -1,122 +1,40 @@
 
 body {
   font-family: sans-serif;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  background: #f0f2f5;
-}
-
-.sidebar {
-  width: 200px;
-  background: #222;
-  color: #fff;
-  height: 100vh;
-  padding: 1rem;
-}
-
-.sidebar h2 {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-.sidebar ul {
-  list-style: none;
-  padding: 0;
-}
-
-.sidebar li {
-  padding: 0.5rem 0;
-  color: #aaa;
-  cursor: pointer;
-}
-
-.sidebar li.active,
-.sidebar li:hover {
-  color: #fff;
-  font-weight: bold;
+  margin: 20px;
+  background-color: #f9f9f9;
 }
 
 .main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 850px;
+  margin: auto;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.section {
+  margin-bottom: 20px;
 }
 
-.split {
-  display: flex;
-  gap: 1rem;
+input, select, button {
+  margin: 6px 4px;
+  padding: 6px;
+  font-size: 14px;
+  max-width: 300px;
 }
 
-.editor-panel {
-  flex: 1;
-  background: #fff;
-  padding: 1rem;
-  border-radius: 8px;
-  overflow-y: auto;
-  max-height: 80vh;
-}
-
-.flow-panel {
-  flex: 1;
+select {
   position: relative;
-  background: #fafafa;
-  border-radius: 8px;
-  padding: 1rem;
-  overflow-y: auto;
-  max-height: 80vh;
+  z-index: 10;
+  background-color: white;
 }
 
-.flow-block {
-  position: relative;
-  background: #fff;
-  margin: 1rem 0;
-  padding: 0.5rem;
-  border-left: 4px solid #333;
-  border-radius: 4px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-}
-
-.flow-block:hover {
-  background: #f3f3f3;
-}
-
-.step-block {
-  background: #e6f7ff;
-  margin: 0.5rem 0;
-  padding: 0.5rem;
-  border-left: 4px solid #1890ff;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-#flowCanvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.flow-panel > div,
-.flow-panel canvas {
-  z-index: 1;
-}
-
-#flowBlocks > div {
-  position: relative;
-  z-index: 2;
-}
-
-.conditions {
-  font-size: 0.85em;
-  color: #008800;
-  margin-top: 0.5rem;
+.output {
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  min-height: 100px;
+  background: #fefefe;
 }
