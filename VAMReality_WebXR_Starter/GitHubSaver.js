@@ -1,14 +1,14 @@
 
 window.onload = function () {
-  const scenarioStore = window.scenarioStore;
-  const renderCurrentScenario = window.renderCurrentScenario;
+  const scenarioStore = window.scenarioStore || { scenarios: {}, current: null };
+  window.scenarioStore = scenarioStore;
 
   window.saveToGitHub = async function () {
     const user = document.getElementById("githubUser").value.trim();
     const repo = document.getElementById("githubRepo").value.trim();
     const token = document.getElementById("githubToken").value.trim();
     const folder = document.getElementById("githubFolder").value.trim();
-    const scenario = scenarioStore ? scenarioStore.current : null;
+    const scenario = scenarioStore.current;
 
     if (!user || !repo || !token || !scenario) {
       alert("Please fill in GitHub credentials and select a scenario.");
@@ -141,9 +141,10 @@ window.onload = function () {
       scenarioStore.scenarios[decoded.name] = decoded;
       scenarioStore.current = decoded;
 
-      alert("✅ Scenario loaded!");
-      window.updateBlockSelector();
-      renderCurrentScenario();
+      alert("✅ Scenario loaded: " + decoded.name);
+      if (typeof window.renderCurrentScenario === "function") {
+        window.renderCurrentScenario();
+      }
     } catch (e) {
       alert("❌ Load failed: " + e.message);
     }
