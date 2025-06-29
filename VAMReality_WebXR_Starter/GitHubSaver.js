@@ -13,9 +13,8 @@ window.saveToGitHub = async function () {
     alert("Please fill in GitHub credentials and select a scenario.");
     return;
   }
-  const path = folder ? folder + "/" + scenario.name + ".json" : scenario.name + ".json";
-
   
+  const path = folder ? `${folder}/${scenario.name}.json` : `${scenario.name}.json`;
   const apiUrl = \`https://api.github.com/repos/\${user}/\${repo}/contents/\${path}\`;
 
   try {
