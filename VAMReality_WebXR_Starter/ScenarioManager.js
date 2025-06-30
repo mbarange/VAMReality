@@ -12,74 +12,12 @@ export function createScenario() {
   scenarioStore.current = scenario;
   scenarioStore.all.push(scenario);
 
-  updateScenarioList(); // ⬅️ Ensures <option> is added first
+  updateScenarioList();
   document.getElementById("scenarioList").value = scenario.name;
 
   updateBlockSelector();
   renderCurrentScenario();
-
   alert("✅ Scenario created: " + name);
-}
-
-
-
-export function deleteStep(blockIndex, stepIndex) {
-  const block = scenarioStore.current.blocks[blockIndex];
-  if (!block || !block.steps[stepIndex]) return;
-
-  block.steps.splice(stepIndex, 1);
-
-  scenarioStore.current.blocks.forEach((b) => {
-    b.steps.forEach((s) => {
-      if (s.conditions) {
-        s.conditions = s.conditions.filter(
-          (c) => !(c.target.block === blockIndex && c.target.step === stepIndex)
-        );
-      }
-    });
-  });
-
-  renderCurrentScenario();
-}
-
-export function editSelectedStep() {
-  const sel = window.selectedStep;
-  if (!sel) return alert("❗No step selected");
-  const step = scenarioStore.current.blocks[sel.block].steps[sel.step];
-  document.getElementById("stepName").value = step.name;
-  document.getElementById("stepType").value = step.type;
-  document.getElementById("stepInstruction").value = step.instructionText;
-  document.getElementById("stepVoice").value = step.voiceCommand;
-  document.getElementById("stepKeyPoints").value = step.instructionKeyTextPoints.join(", ");
-  document.getElementById("stepImages").value = step.instructionImages.join(", ");
-  document.getElementById("stepVideos").value = step.instructionVideos.join(", ");
-  document.getElementById("stepPDFs").value = step.instructionPDFPaths.join(", ");
-  document.getElementById("stepModels").value = step.instructionModels.join(", ");
-  document.getElementById("stepPOIRefs").value = step.POIReferencePoints.join(", ");
-}
-
-
-export function deleteSelectedStep() {
-  const sel = window.selectedStep;
-  if (!sel) return alert("❗No step selected");
-  const block = scenarioStore.current.blocks[sel.block];
-  if (!block || !block.steps[sel.step]) return;
-
-  block.steps.splice(sel.step, 1);
-
-  // Remove conditions pointing to this step
-  scenarioStore.current.blocks.forEach(b => {
-    b.steps.forEach(s => {
-      if (s.conditions) {
-        s.conditions = s.conditions.filter(c =>
-          !(c.target.block === sel.block && c.target.step === sel.step)
-        );
-      }
-    });
-  });
-
-  window.selectedStep = null;
-  renderCurrentScenario();
 }
 
 export function loadSelectedScenario() {
@@ -127,7 +65,20 @@ export function addStep() {
 }
 
 export function saveStep() {
-  alert("💾 Step saved (placeholder)");
+  const sel = window.selectedStep;
+  if (!sel) return alert("❗No step selected");
+  const step = scenarioStore.current.blocks[sel.block].steps[sel.step];
+  step.name = getVal("stepName");
+  step.type = getVal("stepType");
+  step.instructionText = getVal("stepInstruction");
+  step.voiceCommand = getVal("stepVoice");
+  step.instructionKeyTextPoints = split("stepKeyPoints");
+  step.instructionImages = split("stepImages");
+  step.instructionVideos = split("stepVideos");
+  step.instructionPDFPaths = split("stepPDFs");
+  step.instructionModels = split("stepModels");
+  step.POIReferencePoints = split("stepPOIRefs");
+  renderCurrentScenario();
 }
 
 export function addCondition() {
@@ -147,7 +98,7 @@ export function addCondition() {
 }
 
 export function saveConditions() {
-  alert("Conditions saved (placeholder)");
+  alert("Conditions saved.");
 }
 
 export function updateScenarioList() {
@@ -162,7 +113,7 @@ export function updateScenarioList() {
 
 export function updateBlockSelector() {
   const selector = document.getElementById("blockSelector");
-  if (!selector || !scenarioStore.current || !scenarioStore.current.blocks) return;
+  if (!selector || !scenarioStore.current?.blocks) return;
 
   selector.innerHTML = "";
   scenarioStore.current.blocks.forEach((block, i) => {
@@ -215,26 +166,66 @@ export function renderCurrentScenario() {
       const el = document.createElement("div");
       el.className = "step";
       el.textContent = `${bIdx + 1}.${sIdx + 1}: ${step.name || "Unnamed Step"}`;
+      el.onclick = () => {
+        window.selectedStep = { block: bIdx, step: sIdx };
+        alert("✅ Selected: " + el.textContent);
+      };
       div.appendChild(el);
     });
     list.appendChild(div);
   });
 }
 
+export function editSelectedStep() {
+  const sel = window.selectedStep;
+  if (!sel) return alert("❗No step selected");
+  const step = scenarioStore.current.blocks[sel.block].steps[sel.step];
+  document.getElementById("stepName").value = step.name;
+  document.getElementById("stepType").value = step.type;
+  document.getElementById("stepInstruction").value = step.instructionText;
+  document.getElementById("stepVoice").value = step.voiceCommand;
+  document.getElementById("stepKeyPoints").value = step.instructionKeyTextPoints.join(", ");
+  document.getElementById("stepImages").value = step.instructionImages.join(", ");
+  document.getElementById("stepVideos").value = step.instructionVideos.join(", ");
+  document.getElementById("stepPDFs").value = step.instructionPDFPaths.join(", ");
+  document.getElementById("stepModels").value = step.instructionModels.join(", ");
+  document.getElementById("stepPOIRefs").value = step.POIReferencePoints.join(", ");
+}
+
+export function deleteSelectedStep() {
+  const sel = window.selectedStep;
+  if (!sel) return alert("❗No step selected");
+  const block = scenarioStore.current.blocks[sel.block];
+  if (!block || !block.steps[sel.step]) return;
+
+  block.steps.splice(sel.step, 1);
+
+  scenarioStore.current.blocks.forEach(b => {
+    b.steps.forEach(s => {
+      if (s.conditions) {
+        s.conditions = s.conditions.filter(c =>
+          !(c.target.block === sel.block && c.target.step === sel.step)
+        );
+      }
+    });
+  });
+
+  window.selectedStep = null;
+  renderCurrentScenario();
+}
+
 export function initializeScenarioManager() {
   console.log("✅ Scenario Manager initialized");
-  if (!window.scenarioStore) window.scenarioStore = scenarioStore;
   if (scenarioStore.current) {
     updateBlockSelector();
     renderCurrentScenario();
   }
 }
 
-// Utility
 function getVal(id) {
   return document.getElementById(id)?.value?.trim() || "";
 }
+
 function split(id) {
   return getVal(id).split(",").map(s => s.trim()).filter(Boolean);
 }
-window.scenarioStore = scenarioStore;
