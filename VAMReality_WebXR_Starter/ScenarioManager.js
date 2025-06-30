@@ -198,13 +198,22 @@ export function renderCurrentScenario() {
           const stepSel = document.getElementById("conditionStepSelect");
           const labelInput = document.getElementById("conditionLabel");
         
-          if (blockSel && stepSel && labelInput && target.block != null && target.step != null) {
-            blockSel.value = target.block;
-            blockSel.dispatchEvent(new Event("change"));
-            setTimeout(() => {
-              stepSel.value = target.step;
-              labelInput.value = cond.label;
-            }, 100);
+          if (cond && cond.target && blockSel && stepSel && labelInput) {
+            if (
+              typeof cond.target.block === "number" &&
+              typeof cond.target.step === "number"
+            ) {
+              blockSel.value = cond.target.block;
+              blockSel.dispatchEvent(new Event("change"));
+              setTimeout(() => {
+                stepSel.value = cond.target.step;
+                labelInput.value = cond.label || "";
+              }, 100);
+            } else {
+              blockSel.selectedIndex = 0;
+              stepSel.selectedIndex = 0;
+              labelInput.value = "";
+            }
           }
         } else {
           document.getElementById("conditionLabel").value = "";
