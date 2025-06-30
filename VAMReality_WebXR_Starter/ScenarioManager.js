@@ -105,18 +105,17 @@ export function addStepCondition(step) {
       if (!step.conditions) step.conditions = [];
       step.conditions.push({ label, target: { block: targetBlock, step: targetStep } });
       updateConditionList(step); // 👈 this line must be here
-      const condList = document.getElementById("conditionList");
-      condList.innerHTML = "";
-      
-      if (Array.isArray(step.conditions)) {
-        step.conditions.forEach((cond, i) => {
-          const li = document.createElement("li");
-          li.textContent = `→ ${cond.label || "Condition"}: Block ${cond.target.block + 1}, Step ${cond.target.step + 1}`;
-          condList.appendChild(li);
-        });
+        const condList = document.getElementById("conditionList");
+        condList.innerHTML = "";
+        
+        if (Array.isArray(step.conditions)) {
+          step.conditions.forEach((cond, i) => {
+            const li = document.createElement("li");
+            li.textContent = `→ ${cond.label || "Condition"}: Block ${cond.target.block + 1}, Step ${cond.target.step + 1}`;
+            condList.appendChild(li);
+          });
 
   }
-}
 }
 
 export function addCondition() {
@@ -256,6 +255,10 @@ export function renderCurrentScenario() {
               labelInput.value = "";
             }
           }
+
+
+
+
         } else {
           document.getElementById("conditionLabel").value = "";
         }
