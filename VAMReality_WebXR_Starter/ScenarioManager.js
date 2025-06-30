@@ -210,6 +210,20 @@ export function editSelectedStep() {
   document.getElementById("stepPDFs").value = step.instructionPDFPaths.join(", ");
   document.getElementById("stepModels").value = step.instructionModels.join(", ");
   document.getElementById("stepPOIRefs").value = step.POIReferencePoints.join(", ");
+
+  if (step.conditions && step.conditions.length) {
+    const blockSel = document.getElementById("conditionBlockSelect");
+    const stepSel = document.getElementById("conditionStepSelect");
+    if (blockSel && stepSel) {
+      const last = step.conditions[step.conditions.length - 1];
+      blockSel.value = last.target.block;
+      blockSel.dispatchEvent(new Event("change"));
+      setTimeout(() => {
+        stepSel.value = last.target.step;
+        document.getElementById("conditionLabel").value = last.label;
+      }, 100);
+    }
+  }
 }
 
 export function deleteSelectedStep() {
