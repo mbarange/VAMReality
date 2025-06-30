@@ -8,6 +8,7 @@ export function createScenario() {
   const name = document.getElementById("newScenarioName").value.trim();
   if (!name) return alert("Please enter a scenario name.");
   const scenario = { name, blocks: [] };
+  document.getElementById("scenarioList").value = scenario.name;
   scenarioStore.current = scenario;
   scenarioStore.all.push(scenario);
   updateScenarioList();
@@ -157,12 +158,9 @@ export function renderCurrentScenario() {
 
 export function initializeScenarioManager() {
   console.log("✅ Scenario Manager initialized");
-
-  if (scenarioStore.current && scenarioStore.current.blocks) {
+  if (scenarioStore.current) {
     updateBlockSelector();
     renderCurrentScenario();
-  } else {
-    console.warn("⚠️ No scenario loaded. Waiting for user to create or load a scenario.");
   }
 }
 
