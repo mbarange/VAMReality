@@ -7,38 +7,53 @@ window.saveToGitHub = async function () {
   const scenario = window.scenarioStore?.current;
 
   if (!user || !repo || !token || !scenario) {
-    alert("Missing GitHub credentials or scenario data.");
+    alert("Missing GitHub credentials or scenario.");
     return;
   }
 
-  const filename = scenario.name + ".json";
-  const path = folder ? folder + "/" + filename : filename;
-  const apiUrl = "https://api.github.com/repos/" + user + "/" + repo + "/contents/" + path;
-
+  let filename = scenario.name + ".json";
+  let path = folder ? folder + "/" + filename : filename;
+  let apiUrl = "https://api.github.com/repos/" + user + "/" + repo + "/contents/" + path;
   const content = btoa(unescape(encodeURIComponent(JSON.stringify(scenario, null, 2))));
 
   try {
-    const checkRes = await fetch(apiUrl, {
+    const check = await fetch(apiUrl, {
       headers: {
         Authorization: "token " + token,
-        Accept: "application/vnd.github.v3+json",
-      },
+        Accept: "application/vnd.github.v3+json"
+      }
     });
 
-    const isUpdating = checkRes.ok;
-    const sha = isUpdating ? (await checkRes.json()).sha : undefined;
+    let sha = undefined;
+    if (check.ok) {
+      const shouldOverwrite = confirm("Scenario already exists. Overwrite it?");
+      if (!shouldOverwrite) {
+        const newName = prompt("Enter a new scenario name:");
+        if (!newName) {
+          alert("❌ Save cancelled.");
+          return;
+        }
+        scenario.name = newName;
+        filename = scenario.name + ".json";
+        path = folder ? folder + "/" + filename : filename;
+        apiUrl = "https://api.github.com/repos/" + user + "/" + repo + "/contents/" + path;
+      } else {
+        const result = await check.json();
+        sha = result.sha;
+      }
+    }
 
     const saveRes = await fetch(apiUrl, {
       method: "PUT",
       headers: {
         Authorization: "token " + token,
-        Accept: "application/vnd.github.v3+json",
+        Accept: "application/vnd.github.v3+json"
       },
       body: JSON.stringify({
-        message: isUpdating ? "Update scenario" : "Create scenario",
-        content: content,
-        sha: sha,
-      }),
+        message: check.ok ? "Update scenario" : "Create scenario",
+        content,
+        sha
+      })
     });
 
     if (saveRes.ok) {
@@ -69,8 +84,8 @@ window.loadFromGitHub = async function () {
     const res = await fetch(apiUrl, {
       headers: {
         Authorization: "token " + token,
-        Accept: "application/vnd.github.v3+json",
-      },
+        Accept: "application/vnd.github.v3+json"
+      }
     });
 
     const files = await res.json();
