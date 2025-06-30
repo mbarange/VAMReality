@@ -6,8 +6,12 @@ window.saveToGitHub = async function () {
   const folder = document.getElementById("githubFolder").value || "";
   const scenario = window.scenarioStore?.current;
 
-  if (!user || !repo || !token || !scenario) {
-    alert("Missing GitHub credentials or scenario.");
+  if (!user || !repo || !token ) {
+    alert("Missing GitHub credentials.");
+    return;
+  }
+  if (!scenario) {
+    alert("Missing  scenario.");
     return;
   }
 
