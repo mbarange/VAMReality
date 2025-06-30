@@ -63,7 +63,8 @@ export function addStep() {
     resourcePlacements: [],
     conditions: []
   };
-  block.steps.push(step);
+  addStepCondition(step);
+  block.steps.push(step);  
   renderCurrentScenario();
   clearStepEditorFields();
   drawScenarioGraph();
