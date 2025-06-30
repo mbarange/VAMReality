@@ -15,7 +15,7 @@ export function initializeScenarioManager() {
     updateScenarioDropdown();
     renderCurrentScenario();
     updateBlockSelector();
-  };
+  }
 
 export function createScenario() {
   const name = document.getElementById("newScenarioName").value.trim();
