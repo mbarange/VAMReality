@@ -61,6 +61,8 @@
       <input type="text" id="stepPOIRefs" placeholder="POI References (comma-separated)" />
       <button id="addStep">➕ Add Step</button>
       <button id="saveStep">💾 Save Step</button>
+      <button id="editSelectedStep">✏️ Edit Step</button>
+      <button id="deleteSelectedStep">🗑 Delete Step</button>
     </div>
 
     <!-- Condition Editor -->
@@ -100,6 +102,8 @@
 
     window.addStep = Scenario.addStep;
     window.saveStep = Scenario.saveStep;
+    window.editSelectedStep = Scenario.editSelectedStep;
+    window.deleteSelectedStep = Scenario.deleteSelectedStep;
     window.addCondition = Scenario.addCondition;
     window.saveConditions = Scenario.saveConditions;
     window.createScenario = Scenario.createScenario;
