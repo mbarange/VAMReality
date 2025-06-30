@@ -117,7 +117,7 @@ export function addStepCondition(step) {
 
   }
 }
-}
+
 
 export function addCondition() {
   const blockIdx = parseInt(document.getElementById("blockSelector").value);
