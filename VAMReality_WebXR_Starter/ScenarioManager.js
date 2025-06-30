@@ -62,6 +62,8 @@ export function addStep() {
   };
   block.steps.push(step);
   renderCurrentScenario();
+  clearStepEditorFields();
+
 }
 
 export function saveStep() {
@@ -79,6 +81,7 @@ export function saveStep() {
   step.instructionModels = split("stepModels");
   step.POIReferencePoints = split("stepPOIRefs");
   renderCurrentScenario();
+  clearStepEditorFields();
 }
 
 export function addCondition() {
@@ -168,6 +171,17 @@ export function renderCurrentScenario() {
       el.textContent = `${bIdx + 1}.${sIdx + 1}: ${step.name || "Unnamed Step"}`;
       el.onclick = () => {
         window.selectedStep = { block: bIdx, step: sIdx };
+        const step = scenarioStore.current.blocks[bIdx].steps[sIdx];
+        document.getElementById("stepName").value = step.name;
+        document.getElementById("stepType").value = step.type;
+        document.getElementById("stepInstruction").value = step.instructionText;
+        document.getElementById("stepVoice").value = step.voiceCommand;
+        document.getElementById("stepKeyPoints").value = step.instructionKeyTextPoints.join(", ");
+        document.getElementById("stepImages").value = step.instructionImages.join(", ");
+        document.getElementById("stepVideos").value = step.instructionVideos.join(", ");
+        document.getElementById("stepPDFs").value = step.instructionPDFPaths.join(", ");
+        document.getElementById("stepModels").value = step.instructionModels.join(", ");
+        document.getElementById("stepPOIRefs").value = step.POIReferencePoints.join(", ");
         alert("✅ Selected: " + el.textContent);
       };
       div.appendChild(el);
@@ -223,6 +237,7 @@ export function deleteSelectedStep() {
 
   // Re-render UI
   renderCurrentScenario();
+  clearStepEditorFields();
 }
 
 export function initializeScenarioManager() {
@@ -239,4 +254,15 @@ function getVal(id) {
 
 function split(id) {
   return getVal(id).split(",").map(s => s.trim()).filter(Boolean);
+}
+function clearStepEditorFields() {
+  const fields = [
+    "stepName", "stepType", "stepInstruction", "stepVoice",
+    "stepKeyPoints", "stepImages", "stepVideos",
+    "stepPDFs", "stepModels", "stepPOIRefs"
+  ];
+  fields.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = "";
+  });
 }
