@@ -114,6 +114,7 @@ export function addStepCondition(step) {
             li.textContent = `→ ${cond.label || "Condition"}: Block ${cond.target.block + 1}, Step ${cond.target.step + 1}`;
             condList.appendChild(li);
           });
+        }
 
   }
 }
