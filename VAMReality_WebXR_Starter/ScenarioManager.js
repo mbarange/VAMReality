@@ -307,6 +307,7 @@ export function deleteSelectedStep() {
 }
 
 function updateConditionList(step) {
+  console.log("calling update conditions");
   const condList = document.getElementById("conditionList");
   if (!condList) return;
   condList.innerHTML = "";
