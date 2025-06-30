@@ -30,3 +30,7 @@ export function addBlock() {
 export function initializeScenarioManager() {
   console.log("🧠 ScenarioManager initialized.");
 }
+export const scenarioStore = {
+  current: null,
+  all: []
+}
