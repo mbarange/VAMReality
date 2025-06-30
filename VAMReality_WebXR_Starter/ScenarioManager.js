@@ -63,7 +63,7 @@ export function addStep() {
     resourcePlacements: [],
     conditions: []
   };
-  addCondition();
+  addCondition(step);
   block.steps.push(step);
   renderCurrentScenario();
   clearStepEditorFields();
@@ -90,6 +90,7 @@ export function saveStep() {
 }
 
 export function addCondition(step) {
+  console.log("adding condition to step");
   const blockIdx = parseInt(document.getElementById("blockSelector").value);
   const block = scenarioStore.current?.blocks?.[blockIdx];
    if (!step) return alert("No step to add condition.");
