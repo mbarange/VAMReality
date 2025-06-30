@@ -193,15 +193,16 @@ export function renderCurrentScenario() {
         // Load first condition (if any)
         if (step.conditions && step.conditions.length > 0) {
           const cond = step.conditions[0];
+          const target = cond?.target || {};
           const blockSel = document.getElementById("conditionBlockSelect");
           const stepSel = document.getElementById("conditionStepSelect");
           const labelInput = document.getElementById("conditionLabel");
-      
-          if (blockSel && stepSel && labelInput) {
-            blockSel.value = cond.target.block;
+        
+          if (blockSel && stepSel && labelInput && target.block != null && target.step != null) {
+            blockSel.value = target.block;
             blockSel.dispatchEvent(new Event("change"));
             setTimeout(() => {
-              stepSel.value = cond.target.step;
+              stepSel.value = target.step;
               labelInput.value = cond.label;
             }, 100);
           }
