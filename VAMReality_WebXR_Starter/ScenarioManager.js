@@ -20,6 +20,80 @@ export function createScenario() {
 
   alert("✅ Scenario created: " + name);
 }
+
+export function selectStepForEditing(blockIndex, stepIndex) {
+  const step = scenarioStore.current.blocks[blockIndex].steps[stepIndex];
+  document.getElementById("stepName").value = step.name;
+  document.getElementById("stepType").value = step.type;
+  document.getElementById("stepInstruction").value = step.instructionText;
+  document.getElementById("stepVoice").value = step.voiceCommand;
+  document.getElementById("stepKeyPoints").value = step.instructionKeyTextPoints.join(", ");
+  document.getElementById("stepImages").value = step.instructionImages.join(", ");
+  document.getElementById("stepVideos").value = step.instructionVideos.join(", ");
+  document.getElementById("stepPDFs").value = step.instructionPDFPaths.join(", ");
+  document.getElementById("stepModels").value = step.instructionModels.join(", ");
+  document.getElementById("stepPOIRefs").value = step.POIReferencePoints.join(", ");
+}
+
+export function deleteStep(blockIndex, stepIndex) {
+  const block = scenarioStore.current.blocks[blockIndex];
+  if (!block || !block.steps[stepIndex]) return;
+
+  block.steps.splice(stepIndex, 1);
+
+  scenarioStore.current.blocks.forEach((b) => {
+    b.steps.forEach((s) => {
+      if (s.conditions) {
+        s.conditions = s.conditions.filter(
+          (c) => !(c.target.block === blockIndex && c.target.step === stepIndex)
+        );
+      }
+    });
+  });
+
+  renderCurrentScenario();
+}
+
+export function editSelectedStep() {
+  const sel = window.selectedStep;
+  if (!sel) return alert("❗No step selected");
+  const step = scenarioStore.current.blocks[sel.block].steps[sel.step];
+  document.getElementById("stepName").value = step.name;
+  document.getElementById("stepType").value = step.type;
+  document.getElementById("stepInstruction").value = step.instructionText;
+  document.getElementById("stepVoice").value = step.voiceCommand;
+  document.getElementById("stepKeyPoints").value = step.instructionKeyTextPoints.join(", ");
+  document.getElementById("stepImages").value = step.instructionImages.join(", ");
+  document.getElementById("stepVideos").value = step.instructionVideos.join(", ");
+  document.getElementById("stepPDFs").value = step.instructionPDFPaths.join(", ");
+  document.getElementById("stepModels").value = step.instructionModels.join(", ");
+  document.getElementById("stepPOIRefs").value = step.POIReferencePoints.join(", ");
+}
+
+
+export function deleteSelectedStep() {
+  const sel = window.selectedStep;
+  if (!sel) return alert("❗No step selected");
+  const block = scenarioStore.current.blocks[sel.block];
+  if (!block || !block.steps[sel.step]) return;
+
+  block.steps.splice(sel.step, 1);
+
+  // Remove conditions pointing to this step
+  scenarioStore.current.blocks.forEach(b => {
+    b.steps.forEach(s => {
+      if (s.conditions) {
+        s.conditions = s.conditions.filter(c =>
+          !(c.target.block === sel.block && c.target.step === sel.step)
+        );
+      }
+    });
+  });
+
+  window.selectedStep = null;
+  renderCurrentScenario();
+}
+
 export function loadSelectedScenario() {
   const select = document.getElementById("scenarioList");
   const url = select.value;
@@ -81,72 +155,6 @@ export function addCondition() {
 
   if (!step.conditions) step.conditions = [];
   step.conditions.push({ label, target: { block: targetBlock, step: targetStep } });
-  renderCurrentScenario();
-}
-export function selectStepForEditing(blockIndex, stepIndex) {
-  const step = scenarioStore.current.blocks[blockIndex].steps[stepIndex];
-  document.getElementById("stepName").value = step.name;
-  document.getElementById("stepType").value = step.type;
-  document.getElementById("stepInstruction").value = step.instructionText;
-  document.getElementById("stepVoice").value = step.voiceCommand;
-  document.getElementById("stepKeyPoints").value = step.instructionKeyTextPoints.join(", ");
-  document.getElementById("stepImages").value = step.instructionImages.join(", ");
-  document.getElementById("stepVideos").value = step.instructionVideos.join(", ");
-  document.getElementById("stepPDFs").value = step.instructionPDFPaths.join(", ");
-  document.getElementById("stepModels").value = step.instructionModels.join(", ");
-  document.getElementById("stepPOIRefs").value = step.POIReferencePoints.join(", ");
-  // Optionally store selected step indices in a variable if needed later
-}
-export function deleteStep(blockIndex, stepIndex) {
-  const block = scenarioStore.current.blocks[blockIndex];
-  if (!block || !block.steps[stepIndex]) return;
-
-  block.steps.splice(stepIndex, 1); // remove step
-
-  // remove conditions pointing to this step
-  scenarioStore.current.blocks.forEach((b) => {
-    b.steps.forEach((s) => {
-      if (s.conditions) {
-        s.conditions = s.conditions.filter(c =>
-          !(c.target.block === blockIndex && c.target.step === stepIndex)
-        );
-      }
-    });
-  });
-
-  renderCurrentScenario();
-}
-
-export function selectStepForEditing(blockIndex, stepIndex) {
-  const step = scenarioStore.current.blocks[blockIndex].steps[stepIndex];
-  document.getElementById("stepName").value = step.name;
-  document.getElementById("stepType").value = step.type;
-  document.getElementById("stepInstruction").value = step.instructionText;
-  document.getElementById("stepVoice").value = step.voiceCommand;
-  document.getElementById("stepKeyPoints").value = step.instructionKeyTextPoints.join(", ");
-  document.getElementById("stepImages").value = step.instructionImages.join(", ");
-  document.getElementById("stepVideos").value = step.instructionVideos.join(", ");
-  document.getElementById("stepPDFs").value = step.instructionPDFPaths.join(", ");
-  document.getElementById("stepModels").value = step.instructionModels.join(", ");
-  document.getElementById("stepPOIRefs").value = step.POIReferencePoints.join(", ");
-}
-
-export function deleteStep(blockIndex, stepIndex) {
-  const block = scenarioStore.current.blocks[blockIndex];
-  if (!block || !block.steps[stepIndex]) return;
-
-  block.steps.splice(stepIndex, 1);
-
-  scenarioStore.current.blocks.forEach((b) => {
-    b.steps.forEach((s) => {
-      if (s.conditions) {
-        s.conditions = s.conditions.filter(
-          (c) => !(c.target.block === blockIndex && c.target.step === stepIndex)
-        );
-      }
-    });
-  });
-
   renderCurrentScenario();
 }
 

@@ -3,16 +3,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>3VAMReality Scenario Editor</title>
+  <title>VAMReality Scenario Editor</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="main">
-    <h1>3VAMReality Scenario Editor</h1>
+    <h1>VAMReality Scenario Editor</h1>
 
     <!-- Scenario Management -->
     <div class="section">
+      <h2>📁 Manage Scenarios</h2>
       <label>Scenario Name:</label>
       <input type="text" id="newScenarioName" />
       <button id="createScenario">Create</button>
@@ -26,6 +27,7 @@
 
     <!-- GitHub Credentials -->
     <div class="section">
+      <h2>🔐 GitHub Settings</h2>
       <input type="text" id="githubUser" placeholder="GitHub username" value="mbarange" />
       <input type="text" id="githubRepo" placeholder="Repository name" value="VAMReality" />
       <input type="password" id="githubToken" placeholder="GitHub Token" />
@@ -36,6 +38,7 @@
 
     <!-- Block Management -->
     <div class="section">
+      <h2>🧱 Blocks and Steps</h2>
       <h3>Blocks</h3>
       <button id="addBlock">➕ Add Block</button>
       <label for="blockSelector">Select Block for Step:</label><br />
@@ -44,7 +47,7 @@
 
     <!-- Step Editor -->
     <div class="section">
-      <h2>Step Editor</h2>
+      <h3>➕✏️Step Editor</h3>
       <input type="text" id="stepName" placeholder="Step Name" />
       <input type="text" id="stepInstruction" placeholder="Instruction Text" />
       <input type="text" id="stepVoice" placeholder="Voice Command" />
@@ -65,10 +68,10 @@
       <button id="deleteSelectedStep">🗑 Delete Step</button>
     </div>
 
-    
+
     <!-- Condition Editor -->
     <div class="section">
-      <h3>Step Conditions</h3>
+      <h3>🎯 Step Conditions</h3>
       <input type="text" id="conditionLabel" placeholder="Condition Label (e.g., 'yes')" />
       <label for="conditionBlockSelect">Target Block:</label>
       <select id="conditionBlockSelect"></select>
@@ -87,6 +90,7 @@
     </div>
 
     <div class="section">
+      <h2>🧠 Scenario Flow</h2>
       <h3>▶ Run Scenario</h3>
       <button onclick="runScenario()">Run Scenario</button>
       <div id="stepDisplay" class="output"></div>
