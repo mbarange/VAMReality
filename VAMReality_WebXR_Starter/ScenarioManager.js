@@ -1,4 +1,4 @@
-
+import { drawScenarioGraph } from "./FlowRenderer.js";
 export const scenarioStore = {
   current: null,
   all: []
@@ -17,6 +17,7 @@ export function createScenario() {
 
   updateBlockSelector();
   renderCurrentScenario();
+  drawScenarioGraph();
   alert("✅ Scenario created: " + name);
 }
 
@@ -30,6 +31,7 @@ export function loadSelectedScenario() {
       scenarioStore.current = data;
       updateBlockSelector();
       renderCurrentScenario();
+      drawScenarioGraph();
     })
     .catch((e) => alert("❌ Failed to load scenario: " + e.message));
 }
@@ -40,6 +42,7 @@ export function addBlock() {
   scenarioStore.current.blocks.push(newBlock);
   updateBlockSelector();
   renderCurrentScenario();
+  drawScenarioGraph();
 }
 
 export function addStep() {
@@ -63,7 +66,7 @@ export function addStep() {
   block.steps.push(step);
   renderCurrentScenario();
   clearStepEditorFields();
-
+  drawScenarioGraph();
 }
 
 export function saveStep() {
@@ -82,6 +85,7 @@ export function saveStep() {
   step.POIReferencePoints = split("stepPOIRefs");
   renderCurrentScenario();
   clearStepEditorFields();
+  drawScenarioGraph();
 }
 
 export function addCondition() {
@@ -98,6 +102,7 @@ export function addCondition() {
   if (!step.conditions) step.conditions = [];
   step.conditions.push({ label, target: { block: targetBlock, step: targetStep } });
   renderCurrentScenario();
+  drawScenarioGraph();
 }
 
 export function saveConditions() {
@@ -112,6 +117,7 @@ export function updateScenarioList() {
   if (![...list.options].some(o => o.value === opt.value)) {
     list.appendChild(opt);
   }
+  drawScenarioGraph();
 }
 
 export function updateBlockSelector() {
@@ -209,7 +215,6 @@ export function editSelectedStep() {
 export function deleteSelectedStep() {
   const sel = window.selectedStep;
   if (!sel) return alert("❗No step selected");
-
   const block = scenarioStore.current?.blocks?.[sel.block];
   if (!block || !block.steps?.[sel.step]) return;
 
@@ -238,6 +243,7 @@ export function deleteSelectedStep() {
   // Re-render UI
   renderCurrentScenario();
   clearStepEditorFields();
+  drawScenarioGraph();
 }
 
 export function initializeScenarioManager() {
@@ -245,6 +251,7 @@ export function initializeScenarioManager() {
   if (scenarioStore.current) {
     updateBlockSelector();
     renderCurrentScenario();
+    drawScenarioGraph();
   }
 }
 
