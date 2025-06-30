@@ -15,13 +15,13 @@
     <div class="section">
       <label>Scenario Name:</label>
       <input type="text" id="newScenarioName" />
-      <button id="createScenario">Create</button>
+      <button onclick="createScenario()">Create</button>
     </div>
 
     <div class="section">
       <label>Select Scenario:</label><br />
       <select id="scenarioList"></select>
-      <button id="loadSelectedScenario">Load</button>
+      <button onclick="loadSelectedScenario()">Load</button>
     </div>
 
     <!-- GitHub Credentials -->
@@ -34,17 +34,12 @@
       <button onclick="loadFromGitHub()">Load from GitHub</button>
     </div>
 
-    <!-- Block Management -->
-    <div class="section">
-      <h3>Blocks</h3>
-      <button id="addBlock">➕ Add Block</button>
-      <label for="blockSelector">Select Block for Step:</label><br />
-      <select id="blockSelector"></select>
-    </div>
+    <hr />
 
-    <!-- Step Editor -->
+    <!-- Step Input UI -->
     <div class="section">
       <h2>Step Editor</h2>
+      <select id="blockSelector"></select>
       <input type="text" id="stepName" placeholder="Step Name" />
       <input type="text" id="stepInstruction" placeholder="Instruction Text" />
       <input type="text" id="stepVoice" placeholder="Voice Command" />
@@ -67,15 +62,12 @@
     <div class="section">
       <h3>Step Conditions</h3>
       <input type="text" id="conditionLabel" placeholder="Condition Label (e.g., 'yes')" />
-      <label for="conditionBlockSelect">Target Block:</label>
-      <select id="conditionBlockSelect"></select>
-      <label for="conditionStepSelect">Target Step:</label>
-      <select id="conditionStepSelect"></select>
+      <input type="text" id="targetStep" placeholder="Target Step (e.g., 1.2)" />
       <button id="addCondition">➕ Add Condition</button>
       <button id="saveConditions">💾 Save Conditions</button>
     </div>
 
-    <!-- Scenario Flow and Execution -->
+    <!-- Block Diagram Area -->
     <div class="section">
       <h3>Scenario Structure</h3>
       <div id="stepList"></div>
@@ -84,8 +76,7 @@
     </div>
 
     <div class="section">
-      <h3>▶ Run Scenario</h3>
-      <button onclick="runScenario()">Run Scenario</button>
+      <button onclick="runScenario()">▶ Run Scenario</button>
       <div id="stepDisplay" class="output"></div>
     </div>
   </div>
@@ -93,66 +84,15 @@
   <!-- Script Modules -->
   <script src="GitHubSaver.js"></script>
   <script type="module">
-    import * as Scenario from './ScenarioManager.js';
+    import { initializeScenarioManager } from './ScenarioManager.js';
     import { initializeStepBuilder } from './StepBuilderUI.js';
     import { runScenario } from './ScenarioRuntime.js';
     import './FlowRenderer.js';
 
-    window.addStep = Scenario.addStep;
-    window.saveStep = Scenario.saveStep;
-    window.addCondition = Scenario.addCondition;
-    window.saveConditions = Scenario.saveConditions;
-    window.createScenario = Scenario.createScenario;
-    window.loadSelectedScenario = Scenario.loadSelectedScenario;
-    window.runScenario = runScenario;
-    window.addBlock = Scenario.addBlock;
-
     window.addEventListener("DOMContentLoaded", () => {
-      Scenario.initializeScenarioManager();
+      initializeScenarioManager();
       initializeStepBuilder();
-
-      document.getElementById("createScenario").onclick = window.createScenario;
-      document.getElementById("loadSelectedScenario").onclick = window.loadSelectedScenario;
-
-      const blockSelector = document.getElementById("conditionBlockSelect");
-      const stepSelector = document.getElementById("conditionStepSelect");
-
-      if (blockSelector && stepSelector) {
-        blockSelector.innerHTML = "";
-        stepSelector.innerHTML = "";
-
-        if (window.scenarioStore?.current?.blocks?.length) {
-          window.scenarioStore.current.blocks.forEach((block, bIndex) => {
-            const blockOpt = document.createElement("option");
-            blockOpt.value = bIndex;
-            blockOpt.text = "Block " + (bIndex + 1);
-            blockSelector.appendChild(blockOpt);
-          });
-
-          window.scenarioStore.current.blocks[0]?.steps?.forEach((step, sIndex) => {
-            const stepOpt = document.createElement("option");
-            stepOpt.value = sIndex;
-            stepOpt.text = (sIndex + 1) + ". " + (step.name || "Unnamed Step");
-            stepSelector.appendChild(stepOpt);
-          });
-
-          blockSelector.onchange = () => {
-            const blockId = blockSelector.value;
-            stepSelector.innerHTML = "";
-            window.scenarioStore.current.blocks[blockId]?.steps?.forEach((step, sIndex) => {
-              const stepOpt = document.createElement("option");
-              stepOpt.value = sIndex;
-              stepOpt.text = (sIndex + 1) + ". " + (step.name || "Unnamed Step");
-              stepSelector.appendChild(stepOpt);
-            });
-          };
-        }
-      }
-
-      const addBlockBtn = document.getElementById("addBlock");
-      if (addBlockBtn) {
-        addBlockBtn.onclick = window.addBlock;
-      }
+      window.runScenario = runScenario;
     });
   </script>
 </body>
