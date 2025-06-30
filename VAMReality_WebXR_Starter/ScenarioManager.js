@@ -204,12 +204,13 @@ export function editSelectedStep() {
   document.getElementById("stepType").value = step.type;
   document.getElementById("stepInstruction").value = step.instructionText;
   document.getElementById("stepVoice").value = step.voiceCommand;
-  document.getElementById("stepKeyPoints").value = step.instructionKeyTextPoints.join(", ");
-  document.getElementById("stepImages").value = step.instructionImages.join(", ");
-  document.getElementById("stepVideos").value = step.instructionVideos.join(", ");
-  document.getElementById("stepPDFs").value = step.instructionPDFPaths.join(", ");
-  document.getElementById("stepModels").value = step.instructionModels.join(", ");
-  document.getElementById("stepPOIRefs").value = step.POIReferencePoints.join(", ");
+
+  document.getElementById("stepKeyPoints").value = (step.instructionKeyTextPoints || []).join(", ");
+  document.getElementById("stepImages").value = (step.instructionImages || []).join(", ");
+  document.getElementById("stepVideos").value = (step.instructionVideos || []).join(", ");
+  document.getElementById("stepPDFs").value = (step.instructionPDFPaths || []).join(", ");
+  document.getElementById("stepModels").value = (step.instructionModels || []).join(", ");
+  document.getElementById("stepPOIRefs").value = (step.POIReferencePoints || []).join(", ");
 
   if (step.conditions && step.conditions.length) {
     const blockSel = document.getElementById("conditionBlockSelect");
