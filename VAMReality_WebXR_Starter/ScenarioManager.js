@@ -158,6 +158,7 @@ export function renderCurrentScenario() {
 
 export function initializeScenarioManager() {
   console.log("✅ Scenario Manager initialized");
+  if (!window.scenarioStore) window.scenarioStore = scenarioStore;
   if (scenarioStore.current) {
     updateBlockSelector();
     renderCurrentScenario();
@@ -171,3 +172,4 @@ function getVal(id) {
 function split(id) {
   return getVal(id).split(",").map(s => s.trim()).filter(Boolean);
 }
+window.scenarioStore = scenarioStore;
