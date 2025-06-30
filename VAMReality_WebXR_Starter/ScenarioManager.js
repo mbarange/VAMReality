@@ -193,6 +193,7 @@ export function editSelectedStep() {
 }
 
 export function deleteSelectedStep() {
+  console.log("trying to delete step");
   const sel = window.selectedStep;
   if (!sel) return alert("❗No step selected");
   const block = scenarioStore.current.blocks[sel.block];
