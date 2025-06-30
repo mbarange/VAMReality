@@ -189,7 +189,16 @@ export function renderCurrentScenario() {
         document.getElementById("stepPDFs").value = (step.instructionPDFPaths || []).join(", ");
         document.getElementById("stepModels").value = (step.instructionModels || []).join(", ");
         document.getElementById("stepPOIRefs").value = (step.POIReferencePoints || []).join(", ");
-      
+        const condList = document.getElementById("conditionList");
+        condList.innerHTML = "";
+        
+        if (Array.isArray(step.conditions)) {
+          step.conditions.forEach((cond, i) => {
+            const li = document.createElement("li");
+            li.textContent = `→ ${cond.label || "Condition"}: Block ${cond.target.block + 1}, Step ${cond.target.step + 1}`;
+            condList.appendChild(li);
+          });
+        }
         // Load first condition (if any)
         if (step.conditions && step.conditions.length > 0) {
           const cond = step.conditions[0];
@@ -216,16 +225,7 @@ export function renderCurrentScenario() {
             }
           }
 
-          const condList = document.getElementById("conditionList");
-          condList.innerHTML = "";
-          
-          if (Array.isArray(step.conditions)) {
-            step.conditions.forEach((cond, i) => {
-              const li = document.createElement("li");
-              li.textContent = `→ ${cond.label || "Condition"}: Block ${cond.target.block + 1}, Step ${cond.target.step + 1}`;
-              condList.appendChild(li);
-            });
-          }
+
 
 
         } else {
