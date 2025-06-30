@@ -63,7 +63,6 @@ export function addStep() {
     resourcePlacements: [],
     conditions: []
   };
-  addStepCondition(step);
   block.steps.push(step);
   renderCurrentScenario();
   clearStepEditorFields();
@@ -87,36 +86,6 @@ export function saveStep() {
   renderCurrentScenario();
   clearStepEditorFields();
   drawScenarioGraph();
-}
-
-export function addStepCondition(step) {
-  console.log("adding condition to step");
-  const blockIdx = parseInt(document.getElementById("blockSelector").value);
-  const block = scenarioStore.current?.blocks?.[blockIdx];
-   if (!step) return alert("No step to add condition.");
-
-  const label = getVal("conditionLabel");
-  console.log(label );
-  if(label!=""){
-      const targetBlock = parseInt(getVal("conditionBlockSelect"));
-      const targetStep = parseInt(getVal("conditionStepSelect"));
-      if (!label) return alert("Enter a condition label.");
-
-      if (!step.conditions) step.conditions = [];
-      step.conditions.push({ label, target: { block: targetBlock, step: targetStep } });
-      updateConditionList(step); // 👈 this line must be here
-        const condList = document.getElementById("conditionList");
-        condList.innerHTML = "";
-        
-        if (Array.isArray(step.conditions)) {
-          step.conditions.forEach((cond, i) => {
-            const li = document.createElement("li");
-            li.textContent = `→ ${cond.label || "Condition"}: Block ${cond.target.block + 1}, Step ${cond.target.step + 1}`;
-            condList.appendChild(li);
-          });
-        }
-
-  }
 }
 
 export function addCondition() {
