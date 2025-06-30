@@ -193,25 +193,35 @@ export function editSelectedStep() {
 }
 
 export function deleteSelectedStep() {
-  console.log("trying to delete step");
   const sel = window.selectedStep;
   if (!sel) return alert("❗No step selected");
-  const block = scenarioStore.current.blocks[sel.block];
-  if (!block || !block.steps[sel.step]) return;
 
+  const block = scenarioStore.current?.blocks?.[sel.block];
+  if (!block || !block.steps?.[sel.step]) return;
+
+  // Delete the selected step
   block.steps.splice(sel.step, 1);
 
+  // Update all condition targets to shift down if they were after deleted step
   scenarioStore.current.blocks.forEach(b => {
     b.steps.forEach(s => {
       if (s.conditions) {
-        s.conditions = s.conditions.filter(c =>
-          !(c.target.block === sel.block && c.target.step === sel.step)
-        );
+        s.conditions = s.conditions
+          .filter(c => !(c.target.block === sel.block && c.target.step === sel.step))
+          .map(c => {
+            if (c.target.block === sel.block && c.target.step > sel.step) {
+              c.target.step -= 1;
+            }
+            return c;
+          });
       }
     });
   });
 
+  // Clear selection
   window.selectedStep = null;
+
+  // Re-render UI
   renderCurrentScenario();
 }
 
