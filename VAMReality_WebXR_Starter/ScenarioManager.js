@@ -7,16 +7,19 @@ export const scenarioStore = {
 export function createScenario() {
   const name = document.getElementById("newScenarioName").value.trim();
   if (!name) return alert("Please enter a scenario name.");
+
   const scenario = { name, blocks: [] };
-  document.getElementById("scenarioList").value = scenario.name;
   scenarioStore.current = scenario;
   scenarioStore.all.push(scenario);
-  updateScenarioList();
+
+  updateScenarioList(); // ⬅️ Ensures <option> is added first
+  document.getElementById("scenarioList").value = scenario.name;
+
   updateBlockSelector();
   renderCurrentScenario();
+
   alert("✅ Scenario created: " + name);
 }
-
 export function loadSelectedScenario() {
   const select = document.getElementById("scenarioList");
   const url = select.value;
