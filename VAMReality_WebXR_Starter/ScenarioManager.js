@@ -188,7 +188,6 @@ export function renderCurrentScenario() {
         document.getElementById("stepPDFs").value = (step.instructionPDFPaths || []).join(", ");
         document.getElementById("stepModels").value = (step.instructionModels || []).join(", ");
         document.getElementById("stepPOIRefs").value = (step.POIReferencePoints || []).join(", ");
-
         alert("✅ Selected: " + el.textContent);
       };
       div.appendChild(el);
