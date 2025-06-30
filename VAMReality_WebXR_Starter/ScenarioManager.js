@@ -101,6 +101,7 @@ export function addCondition() {
 
   if (!step.conditions) step.conditions = [];
   step.conditions.push({ label, target: { block: targetBlock, step: targetStep } });
+  updateConditionList(step); // 👈 this line must be here
   renderCurrentScenario();
   drawScenarioGraph();
 }
