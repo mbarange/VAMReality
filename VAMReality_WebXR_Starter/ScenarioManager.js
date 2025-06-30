@@ -117,6 +117,7 @@ export function addStepCondition(step) {
 
   }
 }
+}
 
 export function addCondition() {
   const blockIdx = parseInt(document.getElementById("blockSelector").value);
@@ -255,14 +256,9 @@ export function renderCurrentScenario() {
               labelInput.value = "";
             }
           }
-
-
-
-
         } else {
           document.getElementById("conditionLabel").value = "";
-        }
-      
+        }      
         alert("✅ Selected: " + el.textContent);
       };
       div.appendChild(el);
