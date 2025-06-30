@@ -1,0 +1,24 @@
+{
+  "name": "testScenario",
+  "blocks": [
+    {
+      "id": 1,
+      "steps": [
+        {
+          "name": "sdf",
+          "type": "Instruction",
+          "instructionText": "gg",
+          "voiceCommand": "",
+          "instructionKeyTextPoints": [],
+          "instructionImages": [],
+          "instructionVideos": [],
+          "instructionPDFPaths": [],
+          "instructionModels": [],
+          "POIReferencePoints": [],
+          "resourcePlacements": [],
+          "conditions": []
+        }
+      ]
+    }
+  ]
+}
