@@ -115,7 +115,6 @@ export function addStepCondition(step) {
           condList.appendChild(li);
         });
 
-    }
   }
 }
 
@@ -258,7 +257,8 @@ export function renderCurrentScenario() {
           }
         } else {
           document.getElementById("conditionLabel").value = "";
-        }      
+        }
+      
         alert("✅ Selected: " + el.textContent);
       };
       div.appendChild(el);
