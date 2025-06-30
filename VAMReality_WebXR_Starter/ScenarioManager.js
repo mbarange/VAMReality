@@ -96,7 +96,7 @@ export function updateScenarioList() {
 
 export function updateBlockSelector() {
   const selector = document.getElementById("blockSelector");
-  if (!selector || !scenarioStore.current?.blocks) return;
+  if (!selector || !scenarioStore.current || !scenarioStore.current.blocks) return;
 
   selector.innerHTML = "";
   scenarioStore.current.blocks.forEach((block, i) => {
@@ -108,17 +108,20 @@ export function updateBlockSelector() {
 
   const conditionBlock = document.getElementById("conditionBlockSelect");
   const conditionStep = document.getElementById("conditionStepSelect");
+
   if (conditionBlock && conditionStep) {
     conditionBlock.innerHTML = "";
     conditionStep.innerHTML = "";
+
     scenarioStore.current.blocks.forEach((block, i) => {
       const opt = document.createElement("option");
       opt.value = i;
       opt.text = "Block " + (i + 1);
       conditionBlock.appendChild(opt);
     });
+
     conditionBlock.onchange = () => {
-      const steps = scenarioStore.current.blocks[conditionBlock.value].steps || [];
+      const steps = scenarioStore.current?.blocks?.[conditionBlock.value]?.steps || [];
       conditionStep.innerHTML = "";
       steps.forEach((step, i) => {
         const opt = document.createElement("option");
@@ -127,7 +130,10 @@ export function updateBlockSelector() {
         conditionStep.appendChild(opt);
       });
     };
-    conditionBlock.dispatchEvent(new Event("change"));
+
+    if (scenarioStore.current.blocks.length > 0) {
+      conditionBlock.dispatchEvent(new Event("change"));
+    }
   }
 }
 
