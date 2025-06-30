@@ -1,18 +1,30 @@
 
 export function addStep() {
-  console.log("➕ addStep triggered (placeholder)");
+  console.log("➕ addStep called");
 }
 
 export function saveStep() {
-  console.log("💾 saveStep triggered (placeholder)");
+  console.log("💾 saveStep called");
 }
 
 export function addCondition() {
-  console.log("➕ addCondition triggered (placeholder)");
+  console.log("📎 addCondition called");
 }
 
 export function saveConditions() {
-  console.log("💾 saveConditions triggered (placeholder)");
+  console.log("✅ saveConditions called");
+}
+
+export function createScenario() {
+  console.log("📘 createScenario called");
+}
+
+export function loadSelectedScenario() {
+  console.log("📂 loadSelectedScenario called");
+}
+
+export function addBlock() {
+  console.log("🧱 addBlock called");
 }
 
 export function initializeScenarioManager() {
