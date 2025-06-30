@@ -70,6 +70,25 @@ export function addStep() {
   drawScenarioGraph();
 }
 
+export function saveStep() {
+  const sel = window.selectedStep;
+  if (!sel) return alert("❗No step selected");
+  const step = scenarioStore.current.blocks[sel.block].steps[sel.step];
+  step.name = getVal("stepName");
+  step.type = getVal("stepType");
+  step.instructionText = getVal("stepInstruction");
+  step.voiceCommand = getVal("stepVoice");
+  step.instructionKeyTextPoints = split("stepKeyPoints");
+  step.instructionImages = split("stepImages");
+  step.instructionVideos = split("stepVideos");
+  step.instructionPDFPaths = split("stepPDFs");
+  step.instructionModels = split("stepModels");
+  step.POIReferencePoints = split("stepPOIRefs");
+  renderCurrentScenario();
+  clearStepEditorFields();
+  drawScenarioGraph();
+}
+
 export function addStepCondition(step) {
   console.log("adding condition to step");
   const blockIdx = parseInt(document.getElementById("blockSelector").value);
@@ -98,28 +117,6 @@ export function addStepCondition(step) {
 
     }
   }
-}
-
-
-
-
-export function saveStep() {
-  const sel = window.selectedStep;
-  if (!sel) return alert("❗No step selected");
-  const step = scenarioStore.current.blocks[sel.block].steps[sel.step];
-  step.name = getVal("stepName");
-  step.type = getVal("stepType");
-  step.instructionText = getVal("stepInstruction");
-  step.voiceCommand = getVal("stepVoice");
-  step.instructionKeyTextPoints = split("stepKeyPoints");
-  step.instructionImages = split("stepImages");
-  step.instructionVideos = split("stepVideos");
-  step.instructionPDFPaths = split("stepPDFs");
-  step.instructionModels = split("stepModels");
-  step.POIReferencePoints = split("stepPOIRefs");
-  renderCurrentScenario();
-  clearStepEditorFields();
-  drawScenarioGraph();
 }
 
 export function addCondition() {
