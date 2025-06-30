@@ -178,16 +178,37 @@ export function renderCurrentScenario() {
       el.onclick = () => {
         window.selectedStep = { block: bIdx, step: sIdx };
         const step = scenarioStore.current.blocks[bIdx].steps[sIdx];
-        document.getElementById("stepName").value = step.name;
-        document.getElementById("stepType").value = step.type;
-        document.getElementById("stepInstruction").value = step.instructionText;
-        document.getElementById("stepVoice").value = step.voiceCommand;
+      
+        document.getElementById("stepName").value = step.name || "";
+        document.getElementById("stepType").value = step.type || "";
+        document.getElementById("stepInstruction").value = step.instructionText || "";
+        document.getElementById("stepVoice").value = step.voiceCommand || "";
         document.getElementById("stepKeyPoints").value = (step.instructionKeyTextPoints || []).join(", ");
         document.getElementById("stepImages").value = (step.instructionImages || []).join(", ");
         document.getElementById("stepVideos").value = (step.instructionVideos || []).join(", ");
         document.getElementById("stepPDFs").value = (step.instructionPDFPaths || []).join(", ");
         document.getElementById("stepModels").value = (step.instructionModels || []).join(", ");
         document.getElementById("stepPOIRefs").value = (step.POIReferencePoints || []).join(", ");
+      
+        // Load first condition (if any)
+        if (step.conditions && step.conditions.length > 0) {
+          const cond = step.conditions[0];
+          const blockSel = document.getElementById("conditionBlockSelect");
+          const stepSel = document.getElementById("conditionStepSelect");
+          const labelInput = document.getElementById("conditionLabel");
+      
+          if (blockSel && stepSel && labelInput) {
+            blockSel.value = cond.target.block;
+            blockSel.dispatchEvent(new Event("change"));
+            setTimeout(() => {
+              stepSel.value = cond.target.step;
+              labelInput.value = cond.label;
+            }, 100);
+          }
+        } else {
+          document.getElementById("conditionLabel").value = "";
+        }
+      
         alert("✅ Selected: " + el.textContent);
       };
       div.appendChild(el);
