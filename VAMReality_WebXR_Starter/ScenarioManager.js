@@ -256,6 +256,7 @@ function split(id) {
   return getVal(id).split(",").map(s => s.trim()).filter(Boolean);
 }
 function clearStepEditorFields() {
+  console.log("✅ trying to clean fields");
   const fields = [
     "stepName", "stepType", "stepInstruction", "stepVoice",
     "stepKeyPoints", "stepImages", "stepVideos",
