@@ -215,6 +215,19 @@ export function renderCurrentScenario() {
               labelInput.value = "";
             }
           }
+
+          const condList = document.getElementById("conditionList");
+          condList.innerHTML = "";
+          
+          if (Array.isArray(step.conditions)) {
+            step.conditions.forEach((cond, i) => {
+              const li = document.createElement("li");
+              li.textContent = `→ ${cond.label || "Condition"}: Block ${cond.target.block + 1}, Step ${cond.target.step + 1}`;
+              condList.appendChild(li);
+            });
+          }
+
+
         } else {
           document.getElementById("conditionLabel").value = "";
         }
@@ -319,4 +332,6 @@ function clearStepEditorFields() {
     const el = document.getElementById(id);
     if (el) el.value = "";
   });
+
+  document.getElementById("conditionList").innerHTML = "";
 }
