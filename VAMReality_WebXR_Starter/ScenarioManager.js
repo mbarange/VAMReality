@@ -3,6 +3,19 @@ export const scenarioStore = {
   current: null,
   all: []
 };
+export function initializeScenarioManager() {
+  const selector = document.getElementById("scenarioList");
+  updateScenarioDropdown();
+
+  window.createScenario = () => {
+    const name = document.getElementById("newScenarioName").value.trim();
+    if (!name || scenarioStore.scenarios[name]) return;
+    scenarioStore.scenarios[name] = { name, blocks: [] };
+    scenarioStore.current = scenarioStore.scenarios[name];
+    updateScenarioDropdown();
+    renderCurrentScenario();
+    updateBlockSelector();
+  };
 
 export function createScenario() {
   const name = document.getElementById("newScenarioName").value.trim();
