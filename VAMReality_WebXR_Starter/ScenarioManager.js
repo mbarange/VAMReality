@@ -305,6 +305,53 @@ export function deleteSelectedStep() {
   drawScenarioGraph();
 }
 
+function updateConditionList(step) {
+  const condList = document.getElementById("conditionList");
+  if (!condList) return;
+  condList.innerHTML = "";
+
+  step.conditions.forEach((cond, i) => {
+    const li = document.createElement("li");
+    const label = cond.label || "Unnamed";
+    const block = cond.target?.block != null ? cond.target.block + 1 : "?";
+    const stepNum = cond.target?.step != null ? cond.target.step + 1 : "?";
+
+    li.innerHTML = `
+      📌 ${label} → Block ${block}, Step ${stepNum}
+      <button data-edit="${i}">✏</button>
+      <button data-delete="${i}">🗑</button>
+    `;
+
+    condList.appendChild(li);
+  });
+
+  // Hook buttons after list is rendered
+  condList.querySelectorAll("button[data-edit]").forEach(btn => {
+    btn.onclick = () => {
+      const i = parseInt(btn.dataset.edit);
+      const cond = step.conditions[i];
+      if (!cond) return;
+      document.getElementById("conditionBlockSelect").value = cond.target.block;
+      document.getElementById("conditionBlockSelect").dispatchEvent(new Event("change"));
+      setTimeout(() => {
+        document.getElementById("conditionStepSelect").value = cond.target.step;
+        document.getElementById("conditionLabel").value = cond.label || "";
+      }, 100);
+    };
+  });
+
+  condList.querySelectorAll("button[data-delete]").forEach(btn => {
+    btn.onclick = () => {
+      const i = parseInt(btn.dataset.delete);
+      if (confirm("Delete this condition?")) {
+        step.conditions.splice(i, 1);
+        updateConditionList(step);
+      }
+    };
+  });
+}
+
+
 export function initializeScenarioManager() {
   console.log("✅ Scenario Manager initialized");
   if (scenarioStore.current) {
