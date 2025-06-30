@@ -316,7 +316,7 @@ function updateConditionList(step) {
     const label = cond.label || "Unnamed";
     const block = cond.target?.block != null ? cond.target.block + 1 : "?";
     const stepNum = cond.target?.step != null ? cond.target.step + 1 : "?";
-
+    console.log("adding conditions");
     li.innerHTML = `
       📌 ${label} → Block ${block}, Step ${stepNum}
       <button data-edit="${i}">✏</button>
