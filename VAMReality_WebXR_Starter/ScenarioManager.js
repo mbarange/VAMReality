@@ -16,6 +16,7 @@ export function createScenario() {
   scenarioStore.all.push(newScenario);
 
   updateScenarioList();
+  console.log(" scenario created");
   alert("✅ Scenario created: " + name);
 }
 
