@@ -157,9 +157,12 @@ export function renderCurrentScenario() {
 
 export function initializeScenarioManager() {
   console.log("✅ Scenario Manager initialized");
-  if (scenarioStore.current) {
+
+  if (scenarioStore.current && scenarioStore.current.blocks) {
     updateBlockSelector();
     renderCurrentScenario();
+  } else {
+    console.warn("⚠️ No scenario loaded. Waiting for user to create or load a scenario.");
   }
 }
 
