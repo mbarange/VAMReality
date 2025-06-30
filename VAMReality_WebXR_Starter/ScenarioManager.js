@@ -115,9 +115,9 @@ export function addStepCondition(step) {
           condList.appendChild(li);
         });
 
+    }
   }
 }
-
 
 export function addCondition() {
   const blockIdx = parseInt(document.getElementById("blockSelector").value);
