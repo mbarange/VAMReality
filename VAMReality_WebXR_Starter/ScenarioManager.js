@@ -21,19 +21,7 @@ export function createScenario() {
   alert("✅ Scenario created: " + name);
 }
 
-export function selectStepForEditing(blockIndex, stepIndex) {
-  const step = scenarioStore.current.blocks[blockIndex].steps[stepIndex];
-  document.getElementById("stepName").value = step.name;
-  document.getElementById("stepType").value = step.type;
-  document.getElementById("stepInstruction").value = step.instructionText;
-  document.getElementById("stepVoice").value = step.voiceCommand;
-  document.getElementById("stepKeyPoints").value = step.instructionKeyTextPoints.join(", ");
-  document.getElementById("stepImages").value = step.instructionImages.join(", ");
-  document.getElementById("stepVideos").value = step.instructionVideos.join(", ");
-  document.getElementById("stepPDFs").value = step.instructionPDFPaths.join(", ");
-  document.getElementById("stepModels").value = step.instructionModels.join(", ");
-  document.getElementById("stepPOIRefs").value = step.POIReferencePoints.join(", ");
-}
+
 
 export function deleteStep(blockIndex, stepIndex) {
   const block = scenarioStore.current.blocks[blockIndex];
