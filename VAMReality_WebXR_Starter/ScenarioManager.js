@@ -1,4 +1,4 @@
-import { renderFlowGraph } from "./FlowRenderer.js";
+import { drawScenarioGraph } from "./FlowRenderer.js";
 export const scenarioStore = {
   current: null,
   all: []
@@ -223,13 +223,7 @@ export function renderCurrentScenario() {
         if (Array.isArray(step.conditions)) {
           step.conditions.forEach((cond, i) => {
             const li = document.createElement("li");
-          
-            if (cond?.target && typeof cond.target.block === "number" && typeof cond.target.step === "number") {
-              li.textContent = `→ ${cond.label || "Condition"}: Block ${cond.target.block + 1}, Step ${cond.target.step + 1}`;
-            } else {
-              li.textContent = `⚠ Invalid condition: Missing target`;
-            }
-          
+            li.textContent = `→ ${cond.label || "Condition"}: Block ${cond.target.block + 1}, Step ${cond.target.step + 1}`;
             condList.appendChild(li);
           });
         }
@@ -335,38 +329,39 @@ export function deleteSelectedStep() {
 }
 
 function updateConditionList(step) {
-  console.log("calling update conditions");
   const condList = document.getElementById("conditionList");
   if (!condList) return;
   condList.innerHTML = "";
 
   step.conditions.forEach((cond, i) => {
-    const li = document.createElement("li");
+    if (!cond || !cond.target || cond.target.block == null || cond.target.step == null) return;
+
     const label = cond.label || "Unnamed";
-    const block = cond.target?.block != null ? cond.target.block + 1 : "?";
-    const stepNum = cond.target?.step != null ? cond.target.step + 1 : "?";
-    console.log("adding conditions");
+    const block = cond.target.block + 1;
+    const stepNum = cond.target.step + 1;
+
+    const li = document.createElement("li");
     li.innerHTML = `
       📌 ${label} → Block ${block}, Step ${stepNum}
       <button data-edit="${i}">✏</button>
       <button data-delete="${i}">🗑</button>
     `;
-
     condList.appendChild(li);
   });
 
-  // Hook buttons after list is rendered
+  // Attach handlers after rendering
   condList.querySelectorAll("button[data-edit]").forEach(btn => {
     btn.onclick = () => {
       const i = parseInt(btn.dataset.edit);
       const cond = step.conditions[i];
-      if (!cond) return;
-      document.getElementById("conditionBlockSelect").value = cond.target.block;
-      document.getElementById("conditionBlockSelect").dispatchEvent(new Event("change"));
-      setTimeout(() => {
-        document.getElementById("conditionStepSelect").value = cond.target.step;
-        document.getElementById("conditionLabel").value = cond.label || "";
-      }, 100);
+      if (cond && cond.target) {
+        document.getElementById("conditionBlockSelect").value = cond.target.block;
+        document.getElementById("conditionBlockSelect").dispatchEvent(new Event("change"));
+        setTimeout(() => {
+          document.getElementById("conditionStepSelect").value = cond.target.step;
+          document.getElementById("conditionLabel").value = cond.label || "";
+        }, 100);
+      }
     };
   });
 
@@ -380,7 +375,6 @@ function updateConditionList(step) {
     };
   });
 }
-
 
 export function initializeScenarioManager() {
   console.log("✅ Scenario Manager initialized");
