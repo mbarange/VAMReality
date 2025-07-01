@@ -1,7 +1,7 @@
 
 import { scenarioStore } from './ScenarioManager.js';
 
-export function renderFlowGraph() {
+export function drawScenarioGraph() {
   const svg = document.getElementById("graphCanvas");
   svg.innerHTML = "";
 
