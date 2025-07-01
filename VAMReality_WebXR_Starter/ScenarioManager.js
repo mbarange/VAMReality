@@ -1,4 +1,4 @@
-import { drawScenarioGraph } from "./FlowRenderer.js";
+import { renderFlowGraph } from "./FlowRenderer.js";
 export const scenarioStore = {
   current: null,
   all: []
