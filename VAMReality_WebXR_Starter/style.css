@@ -34,3 +34,20 @@ h1, h2, h3 {
   background: #f0f0f0;
   min-height: 60px;
 }
+
+.arrow {
+  height: 2px;
+  background-color: #00f;
+  position: absolute;
+  transform-origin: 0 0;
+  z-index: 0;
+}
+
+.arrow-label {
+  position: absolute;
+  background-color: #fff;
+  border: 1px solid #aaa;
+  font-size: 12px;
+  padding: 1px 4px;
+  z-index: 1;
+}
