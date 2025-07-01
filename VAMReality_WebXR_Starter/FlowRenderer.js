@@ -1,3 +1,4 @@
+
 import { scenarioStore } from './ScenarioManager.js';
 
 export function drawScenarioGraph() {
