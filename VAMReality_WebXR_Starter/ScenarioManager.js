@@ -223,7 +223,13 @@ export function renderCurrentScenario() {
         if (Array.isArray(step.conditions)) {
           step.conditions.forEach((cond, i) => {
             const li = document.createElement("li");
-            li.textContent = `→ ${cond.label || "Condition"}: Block ${cond.target.block + 1}, Step ${cond.target.step + 1}`;
+        
+            if (cond?.target && typeof cond.target.block === "number" && typeof cond.target.step === "number") {
+              li.textContent = `→ ${cond.label || "Condition"}: Block ${cond.target.block + 1}, Step ${cond.target.step + 1}`;
+            } else {
+              li.textContent = `⚠ Invalid condition: Missing target`;
+            }
+        
             condList.appendChild(li);
           });
         }
