@@ -1,11 +1,16 @@
 
+import { scenarioStore } from './ScenarioManager.js';
 window.saveToGitHub = async function () {
   const user = document.getElementById("githubUser").value;
   const repo = document.getElementById("githubRepo").value;
   const token = document.getElementById("githubToken").value;
   const folder = document.getElementById("githubFolder").value || "";
   const scenario = window.scenarioStore?.current;
-
+  if (!scenario || typeof scenario !== "object" || !scenario.name || !Array.isArray(scenario.blocks)) {
+    console.warn("❌ Invalid scenario object:", scenario);
+    alert("❌ No valid scenario selected. Please create or select one first.");
+    return;
+  }
   if (!user || !repo || !token ) {
     alert("Missing GitHub credentials.");
     return;
@@ -67,7 +72,7 @@ window.saveToGitHub = async function () {
       alert("❌ Save failed: " + (err.message || "Unknown error"));
     }
   } catch (err) {
-    alert("❌ Error: " + err.message);
+    alert("❌ Error during Save : " + err.message);
   }
 };
 
