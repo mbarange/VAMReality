@@ -25,23 +25,29 @@ function showStep(step) {
   const display = document.getElementById("stepDisplay");
   display.innerHTML = `<h2>${step.name || `Step ${currentBlockIndex + 1}.${currentStepIndex + 1}`}</h2><p>${step.instructionText || ""}</p>`;
 
-  const nextBtn = document.createElement("button");
+  const scenario = scenarioStore.current;
 
   if (step.conditions && step.conditions.length > 0) {
-    const cond = step.conditions[0]; // First defined condition
-    nextBtn.textContent = `Next: ${cond.label}`;
-    nextBtn.onclick = () => {
-      currentBlockIndex = cond.target.block;
-      currentStepIndex = cond.target.step;
-      executeStep();
-    };
+    step.conditions.forEach((cond, idx) => {
+      if (!cond.target) return;
+
+      const btn = document.createElement("button");
+      btn.textContent = cond.label || `Condition ${idx + 1}`;
+      btn.onclick = () => {
+        currentBlockIndex = cond.target.block;
+        currentStepIndex = cond.target.step;
+        executeStep();
+      };
+      display.appendChild(btn);
+    });
   } else {
+    const nextBtn = document.createElement("button");
     nextBtn.textContent = "Next";
     nextBtn.onclick = () => {
-      const block = scenarioStore.current.blocks[currentBlockIndex];
+      const block = scenario.blocks[currentBlockIndex];
       if (currentStepIndex + 1 < block.steps.length) {
         currentStepIndex++;
-      } else if (currentBlockIndex + 1 < scenarioStore.current.blocks.length) {
+      } else if (currentBlockIndex + 1 < scenario.blocks.length) {
         currentBlockIndex++;
         currentStepIndex = 0;
       } else {
@@ -50,7 +56,6 @@ function showStep(step) {
       }
       executeStep();
     };
+    display.appendChild(nextBtn);
   }
-
-  display.appendChild(nextBtn);
 }
