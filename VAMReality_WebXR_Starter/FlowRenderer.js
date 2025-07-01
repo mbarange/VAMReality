@@ -28,19 +28,16 @@ export function renderFlowGraph() {
       flowContainer.appendChild(stepEl);
     });
 
-    // Draw arrows
     block.steps.forEach((step, i) => {
       const stepId = `${blockIndex + 1}.${i + 1}`;
       const from = document.getElementById(`step-${stepId}`);
 
-      // Default sequential arrow
       if (i < block.steps.length - 1) {
         const toId = `${blockIndex + 1}.${i + 2}`;
         const to = document.getElementById(`step-${toId}`);
         drawArrow(from, to);
       }
 
-      // Conditional arrows
       if (step.conditions) {
         step.conditions.forEach((cond, idx) => {
           const toId = `${cond.block}.${cond.step}`;
@@ -62,10 +59,6 @@ function drawArrow(from, to, labelText = "") {
   const label = document.createElement("span");
   label.className = "arrow-label";
   label.innerText = labelText;
-
-  // Calculate positions
-  const fromRect = from.getBoundingClientRect();
-  const toRect = to.getBoundingClientRect();
 
   const x1 = from.offsetLeft + from.offsetWidth;
   const y1 = from.offsetTop + from.offsetHeight / 2;
