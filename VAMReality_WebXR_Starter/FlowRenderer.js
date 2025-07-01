@@ -2,7 +2,7 @@ import { scenarioStore } from "./ScenarioManager.js";
 
 const flowContainer = document.getElementById("flowContainer");
 
-export function renderFlowGraph() {
+export function drawScenarioGraph() {
   flowContainer.innerHTML = ""; // Clear old content
 
   if (!scenarioStore.current || !scenarioStore.current.blocks) return;
