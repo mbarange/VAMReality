@@ -219,31 +219,7 @@ export function renderCurrentScenario() {
         document.getElementById("stepPOIRefs").value = (step.POIReferencePoints || []).join(", ");
         const condList = document.getElementById("conditionList");
         condList.innerHTML = "";
-        updateConditionList(step); // 👈 Show all conditions
-
-        // ✅ Safely prefill first valid condition (if it exists)
-        if (step.conditions?.length > 0) {
-          const validCond = step.conditions.find(c => c?.target?.block != null && c?.target?.step != null);
-          if (validCond) {
-            document.getElementById("conditionLabel").value = validCond.label || "";
-            document.getElementById("conditionBlockSelect").value = validCond.target.block;
-            document.getElementById("conditionBlockSelect").dispatchEvent(new Event("change"));
-      
-            setTimeout(() => {
-              document.getElementById("conditionStepSelect").value = validCond.target.step;
-            }, 100);
-          } else {
-            document.getElementById("conditionLabel").value = "";
-            document.getElementById("conditionBlockSelect").selectedIndex = 0;
-            document.getElementById("conditionStepSelect").selectedIndex = 0;
-          }
-        } else {
-          // Clear all condition inputs
-          document.getElementById("conditionLabel").value = "";
-          document.getElementById("conditionBlockSelect").selectedIndex = 0;
-          document.getElementById("conditionStepSelect").selectedIndex = 0;
-        }
-
+        
         if (Array.isArray(step.conditions)) {
           step.conditions.forEach((cond, i) => {
             const li = document.createElement("li");
@@ -257,7 +233,34 @@ export function renderCurrentScenario() {
             condList.appendChild(li);
           });
         }
-      
+        // Load first condition (if any)
+        if (step.conditions && step.conditions.length > 0) {
+          const cond = step.conditions[0];
+          const target = cond?.target || {};
+          const blockSel = document.getElementById("conditionBlockSelect");
+          const stepSel = document.getElementById("conditionStepSelect");
+          const labelInput = document.getElementById("conditionLabel");
+        
+          if (cond && cond.target && blockSel && stepSel && labelInput) {
+            if (
+              typeof cond.target.block === "number" &&
+              typeof cond.target.step === "number"
+            ) {
+              blockSel.value = cond.target.block;
+              blockSel.dispatchEvent(new Event("change"));
+              setTimeout(() => {
+                stepSel.value = cond.target.step;
+                labelInput.value = cond.label || "";
+              }, 100);
+            } else {
+              blockSel.selectedIndex = 0;
+              stepSel.selectedIndex = 0;
+              labelInput.value = "";
+            }
+          }
+        } else {
+          document.getElementById("conditionLabel").value = "";
+        }      
         alert("✅ Selected: " + el.textContent);
       };
       div.appendChild(el);
