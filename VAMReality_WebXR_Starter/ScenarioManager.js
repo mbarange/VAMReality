@@ -335,39 +335,38 @@ export function deleteSelectedStep() {
 }
 
 function updateConditionList(step) {
+  console.log("calling update conditions");
   const condList = document.getElementById("conditionList");
   if (!condList) return;
   condList.innerHTML = "";
 
   step.conditions.forEach((cond, i) => {
-    if (!cond || !cond.target || cond.target.block == null || cond.target.step == null) return;
-
-    const label = cond.label || "Unnamed";
-    const block = cond.target.block + 1;
-    const stepNum = cond.target.step + 1;
-
     const li = document.createElement("li");
+    const label = cond.label || "Unnamed";
+    const block = cond.target?.block != null ? cond.target.block + 1 : "?";
+    const stepNum = cond.target?.step != null ? cond.target.step + 1 : "?";
+    console.log("adding conditions");
     li.innerHTML = `
       📌 ${label} → Block ${block}, Step ${stepNum}
       <button data-edit="${i}">✏</button>
       <button data-delete="${i}">🗑</button>
     `;
+
     condList.appendChild(li);
   });
 
-  // Attach handlers after rendering
+  // Hook buttons after list is rendered
   condList.querySelectorAll("button[data-edit]").forEach(btn => {
     btn.onclick = () => {
       const i = parseInt(btn.dataset.edit);
       const cond = step.conditions[i];
-      if (cond && cond.target) {
-        document.getElementById("conditionBlockSelect").value = cond.target.block;
-        document.getElementById("conditionBlockSelect").dispatchEvent(new Event("change"));
-        setTimeout(() => {
-          document.getElementById("conditionStepSelect").value = cond.target.step;
-          document.getElementById("conditionLabel").value = cond.label || "";
-        }, 100);
-      }
+      if (!cond) return;
+      document.getElementById("conditionBlockSelect").value = cond.target.block;
+      document.getElementById("conditionBlockSelect").dispatchEvent(new Event("change"));
+      setTimeout(() => {
+        document.getElementById("conditionStepSelect").value = cond.target.step;
+        document.getElementById("conditionLabel").value = cond.label || "";
+      }, 100);
     };
   });
 
@@ -381,6 +380,7 @@ function updateConditionList(step) {
     };
   });
 }
+
 
 export function initializeScenarioManager() {
   console.log("✅ Scenario Manager initialized");
