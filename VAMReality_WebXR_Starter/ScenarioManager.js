@@ -220,13 +220,7 @@ export function renderCurrentScenario() {
         const condList = document.getElementById("conditionList");
         condList.innerHTML = "";
         
-        if (Array.isArray(step.conditions)) {
-          step.conditions.forEach((cond, i) => {
-            const li = document.createElement("li");
-            li.textContent = `→ ${cond.label || "Condition"}: Block ${cond.target.block + 1}, Step ${cond.target.step + 1}`;
-            condList.appendChild(li);
-          });
-        }
+        pdateConditionList(step);
         // Load first condition (if any)
         if (step.conditions && step.conditions.length > 0) {
           const cond = step.conditions[0];
