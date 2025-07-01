@@ -220,7 +220,7 @@ export function renderCurrentScenario() {
         const condList = document.getElementById("conditionList");
         condList.innerHTML = "";
         
-        pdateConditionList(step);
+        updateConditionList(step);
         // Load first condition (if any)
         if (step.conditions && step.conditions.length > 0) {
           const cond = step.conditions[0];
