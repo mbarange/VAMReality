@@ -224,11 +224,17 @@ export function renderCurrentScenario() {
           step.conditions.forEach((cond, i) => {
             const li = document.createElement("li");
         
-            if (cond?.target && typeof cond.target.block === "number" && typeof cond.target.step === "number") {
-              li.textContent = `→ ${cond.label || "Condition"}: Block ${cond.target.block + 1}, Step ${cond.target.step + 1}`;
-            } else {
-              li.textContent = `⚠ Invalid condition: Missing target`;
-            }
+            step.conditions.forEach((cond, i) => {
+              const li = document.createElement("li");
+            
+              if (cond?.target && typeof cond.target.block === "number" && typeof cond.target.step === "number") {
+                li.textContent = `→ ${cond.label || "Condition"}: Block ${cond.target.block + 1}, Step ${cond.target.step + 1}`;
+              } else {
+                li.textContent = `⚠ Invalid condition at index ${i}`;
+              }
+            
+              condList.appendChild(li);
+            });
         
             condList.appendChild(li);
           });
