@@ -186,8 +186,52 @@
           "POIReferencePoints": [],
           "resourcePlacements": [],
           "conditions": []
+        },
+        {
+          "name": "step11",
+          "type": "",
+          "instructionText": "",
+          "voiceCommand": "",
+          "instructionKeyTextPoints": [],
+          "instructionImages": [],
+          "instructionVideos": [],
+          "instructionPDFPaths": [],
+          "instructionModels": [],
+          "POIReferencePoints": [],
+          "resourcePlacements": [],
+          "conditions": []
+        },
+        {
+          "name": "step11",
+          "type": "",
+          "instructionText": "sqdf",
+          "voiceCommand": "",
+          "instructionKeyTextPoints": [],
+          "instructionImages": [],
+          "instructionVideos": [],
+          "instructionPDFPaths": [],
+          "instructionModels": [],
+          "POIReferencePoints": [],
+          "resourcePlacements": [],
+          "conditions": [
+            {
+              "label": "condition2",
+              "target": {
+                "block": 0,
+                "step": 2
+              }
+            }
+          ]
         }
       ]
+    },
+    {
+      "id": 5,
+      "steps": []
+    },
+    {
+      "id": 6,
+      "steps": []
     }
   ]
 }
