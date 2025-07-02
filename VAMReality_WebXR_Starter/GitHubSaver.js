@@ -88,6 +88,8 @@ window.loadFromGitHub = async function () {
     });
 
     const files = await res.json();
+    scenarioStore.current = files;
+
     const scenarioList = document.getElementById("scenarioList");
     scenarioList.innerHTML = "";
 
@@ -99,7 +101,8 @@ window.loadFromGitHub = async function () {
         opt.text = file.name.replace(".json", "");
         scenarioList.appendChild(opt);
       });
-
+      updateScenarioList();
+      renderCurrentScenario();
     alert("✅ Scenario list loaded.");
   } catch (err) {
     alert("❌ Failed to fetch scenario list: " + err.message);
