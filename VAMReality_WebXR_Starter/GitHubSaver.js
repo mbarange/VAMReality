@@ -1,83 +1,64 @@
 
 import { scenarioStore } from './ScenarioManager.js';
 window.saveToGitHub = async function () {
-  const user = document.getElementById("githubUser").value;
-  const repo = document.getElementById("githubRepo").value;
-  const token = document.getElementById("githubToken").value;
-  const folder = document.getElementById("githubFolder").value || "";
-
+  const token = document.getElementById("githubToken").value.trim();
+  const user = document.getElementById("githubUser").value.trim();
+  const repo = document.getElementById("githubRepo").value.trim();
+  const folder = document.getElementById("githubFolder").value.trim();
   const scenario = JSON.parse(JSON.stringify(scenarioStore.current)); // deep clone
-
 
   if (!scenario || typeof scenario !== "object" || !scenario.name || !Array.isArray(scenario.blocks)) {
     console.warn("❌ Invalid scenario object:", scenario);
     alert("❌ No valid scenario selected. Please create or select one first.");
     return;
   }
-  if (!user || !repo || !token ) {
-    alert("Missing GitHub credentials.");
-    return;
-  }
-  if (!scenario) {
-    alert("Missing  scenario.");
-    return;
-  }
 
-  let filename = scenario.name + ".json";
-  let path = folder ? folder + "/" + filename : filename;
-  let apiUrl = "https://api.github.com/repos/" + user + "/" + repo + "/contents/" + path;
-  const content = btoa(unescape(encodeURIComponent(JSON.stringify(scenario, null, 2))));
+  console.log("📦 Saving scenario: ", scenario);
+
+  const path = folder ? `${folder}/${scenario.name}.json` : `${scenario.name}.json`;
+  const apiUrl = `https://api.github.com/repos/${user}/${repo}/contents/${path}`;
 
   try {
     const check = await fetch(apiUrl, {
       headers: {
-        Authorization: "token " + token,
-        Accept: "application/vnd.github.v3+json"
+        "Authorization": `token ${token}`,
+        "Accept": "application/vnd.github.v3+json"
       }
     });
 
-    let sha = undefined;
+    let sha = null;
     if (check.ok) {
-      const shouldOverwrite = confirm("Scenario already exists. Overwrite it?");
-      if (!shouldOverwrite) {
-        const newName = prompt("Enter a new scenario name:");
-        if (!newName) {
-          alert("❌ Save cancelled.");
-          return;
-        }
-        scenario.name = newName;
-        filename = scenario.name + ".json";
-        path = folder ? folder + "/" + filename : filename;
-        apiUrl = "https://api.github.com/repos/" + user + "/" + repo + "/contents/" + path;
-      } else {
-        const result = await check.json();
-        sha = result.sha;
-      }
+      const data = await check.json();
+      const confirmReplace = confirm("Scenario already exists on GitHub. Replace it?");
+      if (!confirmReplace) return;
+      sha = data.sha;
     }
 
-    const saveRes = await fetch(apiUrl, {
+    const response = await fetch(apiUrl, {
       method: "PUT",
       headers: {
-        Authorization: "token " + token,
-        Accept: "application/vnd.github.v3+json"
+        "Authorization": `token ${token}`,
+        "Accept": "application/vnd.github.v3+json"
       },
       body: JSON.stringify({
-        message: check.ok ? "Update scenario" : "Create scenario",
-        content,
-        sha
+        message: `Save scenario: ${scenario.name}`,
+        content: btoa(unescape(encodeURIComponent(JSON.stringify(scenario, null, 2)))),
+        sha: sha
       })
     });
 
-    if (saveRes.ok) {
+    if (response.ok) {
       alert("✅ Scenario saved to GitHub!");
     } else {
-      const err = await saveRes.json();
-      alert("❌ Save failed: " + (err.message || "Unknown error"));
+      const error = await response.json();
+      alert("❌ Failed to save scenario: " + (error.message || response.statusText));
     }
+
   } catch (err) {
-    alert("❌ Error during Save : " + err.message);
+    alert("❌ Error during save: " + err.message);
   }
 };
+
 
 window.loadFromGitHub = async function () {
   const user = document.getElementById("githubUser").value;
