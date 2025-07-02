@@ -5,8 +5,8 @@
       "id": 1,
       "steps": [
         {
-          "name": "sdf",
-          "type": "Instruction",
+          "name": "sqdf",
+          "type": "",
           "instructionText": "",
           "voiceCommand": "",
           "instructionKeyTextPoints": [],
@@ -19,7 +19,7 @@
           "conditions": []
         },
         {
-          "name": "qsdf",
+          "name": "gt",
           "type": "",
           "instructionText": "",
           "voiceCommand": "",
