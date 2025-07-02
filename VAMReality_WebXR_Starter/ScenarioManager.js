@@ -28,7 +28,10 @@ export function loadSelectedScenario() {
   fetch(url)
     .then((r) => r.json())
     .then((data) => {
-      scenarioStore.current = data;
+      const newScenario = structuredClone(data);
+      scenarioStore.current = newScenario;
+      const found = scenarioStore.all.find(s => s.name === newScenario.name);
+      if (!found) scenarioStore.all.push(newScenario);
       updateBlockSelector();
       renderCurrentScenario();
       drawScenarioGraph();
