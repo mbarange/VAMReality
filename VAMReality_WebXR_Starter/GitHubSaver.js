@@ -64,47 +64,37 @@ window.saveToGitHub = async function () {
 
 
 window.loadFromGitHub = async function () {
-  const user = document.getElementById("githubUser").value;
-  const repo = document.getElementById("githubRepo").value;
-  const token = document.getElementById("githubToken").value;
-  const folder = document.getElementById("githubFolder").value || "";
+  const token = document.getElementById("githubToken").value.trim();
+  const user = document.getElementById("githubUser").value.trim();
+  const repo = document.getElementById("githubRepo").value.trim();
+  const folder = document.getElementById("githubFolder").value.trim();
   const file = document.getElementById("scenarioList").value;
 
-  if (!user || !repo || !token) {
-    alert("Missing GitHub credentials.");
-    return;
-  }
+  if (!file) return alert("Select a scenario name to load");
 
-  const apiUrl =`https://api.github.com/repos/${user}/${repo}/contents/${folder}?t=${Date.now()}`;
-
- // const apiUrl = "https://api.github.com/repos/" + user + "/" + repo + "/contents/" + folder?t=${Date.now()}`;
+  const path = folder ? `${folder}/${file}.json` : `${file}.json`;
+  const url = `https://raw.githubusercontent.com/${user}/${repo}/main/${path}?t=${Date.now()}`;
 
   try {
-    const res = await fetch(apiUrl, {
-      headers: {
-        Authorization: "token " + token,
-        Accept: "application/vnd.github.v3+json"
-      }
+    const res = await fetch(url, {
+      headers: { "Accept": "application/json" }
     });
 
-    const files = await res.json();
-    scenarioStore.current = files;
+    if (!res.ok) throw new Error("Not found or fetch error");
 
-    const scenarioList = document.getElementById("scenarioList");
-    scenarioList.innerHTML = "";
+    const loaded = await res.json();
 
-    files
-      .filter((f) => f.name.endsWith(".json"))
-      .forEach((file) => {
-        const opt = document.createElement("option");
-        opt.value = file.download_url;
-        opt.text = file.name.replace(".json", "");
-        scenarioList.appendChild(opt);
-      });
-      updateScenarioList();
-      renderCurrentScenario();
-    alert("✅ Scenario list loaded.");
+    scenarioStore.current = loaded;
+
+    const existing = scenarioStore.all.find(s => s.name === loaded.name);
+    if (!existing) {
+      scenarioStore.all.push(loaded);
+    }
+
+    updateScenarioList();
+    renderCurrentScenario();
+    alert("✅ Scenario loaded: " + loaded.name);
   } catch (err) {
-    alert("❌ Failed to fetch scenario list: " + err.message);
+    alert("❌ Failed to load scenario: " + err.message);
   }
 };
