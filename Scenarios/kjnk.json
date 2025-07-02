@@ -131,6 +131,20 @@
               }
             }
           ]
+        },
+        {
+          "name": "Step8",
+          "type": "Instruction",
+          "instructionText": "helo",
+          "voiceCommand": "",
+          "instructionKeyTextPoints": [],
+          "instructionImages": [],
+          "instructionVideos": [],
+          "instructionPDFPaths": [],
+          "instructionModels": [],
+          "POIReferencePoints": [],
+          "resourcePlacements": [],
+          "conditions": []
         }
       ]
     }
