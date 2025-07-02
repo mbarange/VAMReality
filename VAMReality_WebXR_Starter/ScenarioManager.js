@@ -400,3 +400,4 @@ function clearStepEditorFields() {
 
   document.getElementById("conditionList").innerHTML = "";
 }
+window.scenarioStore = scenarioStore;
