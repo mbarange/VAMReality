@@ -50,8 +50,8 @@
     {
       "steps": [
         {
-          "name": "step4",
-          "type": "",
+          "name": "sste4",
+          "type": "Instruction",
           "instructionText": "",
           "voiceCommand": "",
           "instructionKeyTextPoints": [],
