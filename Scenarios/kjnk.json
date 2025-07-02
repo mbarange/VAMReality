@@ -48,7 +48,22 @@
       ]
     },
     {
-      "steps": []
+      "steps": [
+        {
+          "name": "sste4",
+          "type": "Instruction",
+          "instructionText": "",
+          "voiceCommand": "",
+          "instructionKeyTextPoints": [],
+          "instructionImages": [],
+          "instructionVideos": [],
+          "instructionPDFPaths": [],
+          "instructionModels": [],
+          "POIReferencePoints": [],
+          "resourcePlacements": [],
+          "conditions": []
+        }
+      ]
     }
   ]
 }
