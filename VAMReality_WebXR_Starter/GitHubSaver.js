@@ -1,11 +1,14 @@
 
-
+import { scenarioStore } from './ScenarioManager.js';
 window.saveToGitHub = async function () {
   const user = document.getElementById("githubUser").value;
   const repo = document.getElementById("githubRepo").value;
   const token = document.getElementById("githubToken").value;
   const folder = document.getElementById("githubFolder").value || "";
-  const scenario = window.scenarioStore?.current;
+
+  const scenario = JSON.parse(JSON.stringify(scenarioStore.current)); // deep clone
+
+
   if (!scenario || typeof scenario !== "object" || !scenario.name || !Array.isArray(scenario.blocks)) {
     console.warn("❌ Invalid scenario object:", scenario);
     alert("❌ No valid scenario selected. Please create or select one first.");
