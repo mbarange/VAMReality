@@ -62,6 +62,20 @@
           "POIReferencePoints": [],
           "resourcePlacements": [],
           "conditions": []
+        },
+        {
+          "name": "step5",
+          "type": "Instruction",
+          "instructionText": "helo",
+          "voiceCommand": "",
+          "instructionKeyTextPoints": [],
+          "instructionImages": [],
+          "instructionVideos": [],
+          "instructionPDFPaths": [],
+          "instructionModels": [],
+          "POIReferencePoints": [],
+          "resourcePlacements": [],
+          "conditions": []
         }
       ]
     }
