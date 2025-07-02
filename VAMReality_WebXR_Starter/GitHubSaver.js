@@ -1,4 +1,4 @@
-<script type="module" src="GitHubSaver.js"></script>
+
 import { scenarioStore } from './ScenarioManager.js';
 window.saveToGitHub = async function () {
   const user = document.getElementById("githubUser").value;
