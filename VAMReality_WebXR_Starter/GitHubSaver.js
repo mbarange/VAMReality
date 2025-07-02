@@ -18,7 +18,7 @@ window.saveToGitHub = async function () {
   console.log("📦 Saving scenario: ", scenario);
 
   const path = folder ? `${folder}/${scenario.name}.json` : `${scenario.name}.json`;
-  const apiUrl = `https://api.github.com/repos/${user}/${repo}/contents/${path}`;
+  const apiUrl = `https://api.github.com/repos/${user}/${repo}/main/${path}`;
 
   try {
     const check = await fetch(apiUrl, {
@@ -74,7 +74,7 @@ window.loadFromGitHub = async function () {
     return;
   }
 
-  const apiUrl =`https://api.github.com/repos/${user}/${repo}/contents/${folder}?t=${Date.now()}`;
+  const apiUrl =`https://api.github.com/repos/${user}/${repo}/main/${folder}?t=${Date.now()}`;
 
  // const apiUrl = "https://api.github.com/repos/" + user + "/" + repo + "/contents/" + folder?t=${Date.now()}`;
 
