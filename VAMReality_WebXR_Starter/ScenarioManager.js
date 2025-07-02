@@ -139,12 +139,19 @@ export function saveConditions() {
 
 export function updateScenarioList() {
   const list = document.getElementById("scenarioList");
-  const opt = document.createElement("option");
-  opt.text = scenarioStore.current.name;
-  opt.value = scenarioStore.current.name;
-  if (![...list.options].some(o => o.value === opt.value)) {
+  if (!list) return;
+  list.innerHTML = "";
+  scenarioStore.all.forEach(s => {
+    const opt = document.createElement("option");
+    opt.textContent = s.name;
+    opt.value = s.name;
     list.appendChild(opt);
+  });
+
+  if (scenarioStore.current) {
+    list.value = scenarioStore.current.name;
   }
+
   drawScenarioGraph();
 }
 
