@@ -44,6 +44,20 @@
           "POIReferencePoints": [],
           "resourcePlacements": [],
           "conditions": []
+        },
+        {
+          "name": "step6",
+          "type": "Instruction",
+          "instructionText": "here we go",
+          "voiceCommand": "",
+          "instructionKeyTextPoints": [],
+          "instructionImages": [],
+          "instructionVideos": [],
+          "instructionPDFPaths": [],
+          "instructionModels": [],
+          "POIReferencePoints": [],
+          "resourcePlacements": [],
+          "conditions": []
         }
       ]
     },
@@ -67,6 +81,25 @@
           "name": "step5",
           "type": "Instruction",
           "instructionText": "sf",
+          "voiceCommand": "",
+          "instructionKeyTextPoints": [],
+          "instructionImages": [],
+          "instructionVideos": [],
+          "instructionPDFPaths": [],
+          "instructionModels": [],
+          "POIReferencePoints": [],
+          "resourcePlacements": [],
+          "conditions": []
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "steps": [
+        {
+          "name": "step6",
+          "type": "Instruction",
+          "instructionText": "here we go",
           "voiceCommand": "",
           "instructionKeyTextPoints": [],
           "instructionImages": [],
