@@ -145,6 +145,28 @@
           "POIReferencePoints": [],
           "resourcePlacements": [],
           "conditions": []
+        },
+        {
+          "name": "step9",
+          "type": "Instruction",
+          "instructionText": "",
+          "voiceCommand": "",
+          "instructionKeyTextPoints": [],
+          "instructionImages": [],
+          "instructionVideos": [],
+          "instructionPDFPaths": [],
+          "instructionModels": [],
+          "POIReferencePoints": [],
+          "resourcePlacements": [],
+          "conditions": [
+            {
+              "label": "Condition9",
+              "target": {
+                "block": 0,
+                "step": 0
+              }
+            }
+          ]
         }
       ]
     }
