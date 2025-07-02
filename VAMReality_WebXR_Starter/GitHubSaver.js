@@ -5,10 +5,9 @@ window.saveToGitHub = async function () {
   const user = document.getElementById("githubUser").value.trim();
   const repo = document.getElementById("githubRepo").value.trim();
   const folder = document.getElementById("githubFolder").value.trim();
-  const file = document.getElementById("scenarioList").value;
+ 
   const scenario = JSON.parse(JSON.stringify(scenarioStore.current)); // deep clone
 
-  if (!file) return alert("Select a scenario name to load");
   
   if (!scenario || typeof scenario !== "object" || !scenario.name || !Array.isArray(scenario.blocks)) {
     console.warn("❌ Invalid scenario object:", scenario);
