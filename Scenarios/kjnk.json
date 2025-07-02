@@ -109,6 +109,28 @@
           "POIReferencePoints": [],
           "resourcePlacements": [],
           "conditions": []
+        },
+        {
+          "name": "step7",
+          "type": "Instruction",
+          "instructionText": "",
+          "voiceCommand": "",
+          "instructionKeyTextPoints": [],
+          "instructionImages": [],
+          "instructionVideos": [],
+          "instructionPDFPaths": [],
+          "instructionModels": [],
+          "POIReferencePoints": [],
+          "resourcePlacements": [],
+          "conditions": [
+            {
+              "label": "condition7",
+              "target": {
+                "block": 0,
+                "step": 2
+              }
+            }
+          ]
         }
       ]
     }
