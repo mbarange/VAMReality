@@ -31,8 +31,26 @@
           "POIReferencePoints": [],
           "resourcePlacements": [],
           "conditions": []
+        },
+        {
+          "name": "step1",
+          "type": "Instruction",
+          "instructionText": "hello",
+          "voiceCommand": "",
+          "instructionKeyTextPoints": [],
+          "instructionImages": [],
+          "instructionVideos": [],
+          "instructionPDFPaths": [],
+          "instructionModels": [],
+          "POIReferencePoints": [],
+          "resourcePlacements": [],
+          "conditions": []
         }
       ]
+    },
+    {
+      "id": 2,
+      "steps": []
     }
   ]
 }
