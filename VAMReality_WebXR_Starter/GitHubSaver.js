@@ -1,12 +1,15 @@
 
-import { scenarioStore } from './ScenarioManager.js';
+import { scenarioStore, updateScenarioList,renderCurrentScenario  } from './ScenarioManager.js';
 window.saveToGitHub = async function () {
   const token = document.getElementById("githubToken").value.trim();
   const user = document.getElementById("githubUser").value.trim();
   const repo = document.getElementById("githubRepo").value.trim();
   const folder = document.getElementById("githubFolder").value.trim();
+  const file = document.getElementById("scenarioList").value;
   const scenario = JSON.parse(JSON.stringify(scenarioStore.current)); // deep clone
 
+  if (!file) return alert("Select a scenario name to load");
+  
   if (!scenario || typeof scenario !== "object" || !scenario.name || !Array.isArray(scenario.blocks)) {
     console.warn("❌ Invalid scenario object:", scenario);
     alert("❌ No valid scenario selected. Please create or select one first.");
@@ -65,13 +68,16 @@ window.loadFromGitHub = async function () {
   const repo = document.getElementById("githubRepo").value;
   const token = document.getElementById("githubToken").value;
   const folder = document.getElementById("githubFolder").value || "";
+  const file = document.getElementById("scenarioList").value;
 
   if (!user || !repo || !token) {
     alert("Missing GitHub credentials.");
     return;
   }
 
-  const apiUrl = "https://api.github.com/repos/" + user + "/" + repo + "/contents/" + folder;
+  const apiUrl =`https://api.github.com/repos/${user}/${repo}/contents/${folder}?t=${Date.now()}`;
+
+ // const apiUrl = "https://api.github.com/repos/" + user + "/" + repo + "/contents/" + folder?t=${Date.now()}`;
 
   try {
     const res = await fetch(apiUrl, {
