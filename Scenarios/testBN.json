@@ -1,0 +1,24 @@
+{
+  "name": "testBN",
+  "blocks": [
+    {
+      "id": 1,
+      "steps": [
+        {
+          "name": "step5",
+          "type": "Instruction",
+          "instructionText": "sf",
+          "voiceCommand": "",
+          "instructionKeyTextPoints": [],
+          "instructionImages": [],
+          "instructionVideos": [],
+          "instructionPDFPaths": [],
+          "instructionModels": [],
+          "POIReferencePoints": [],
+          "resourcePlacements": [],
+          "conditions": []
+        }
+      ]
+    }
+  ]
+}
