@@ -1,4 +1,38 @@
 {
   "name": "Maintenance",
-  "blocks": []
+  "blocks": [
+    {
+      "id": 1,
+      "steps": [
+        {
+          "name": "sdf",
+          "type": "Instruction",
+          "instructionText": "",
+          "voiceCommand": "",
+          "instructionKeyTextPoints": [],
+          "instructionImages": [],
+          "instructionVideos": [],
+          "instructionPDFPaths": [],
+          "instructionModels": [],
+          "POIReferencePoints": [],
+          "resourcePlacements": [],
+          "conditions": []
+        },
+        {
+          "name": "qsdf",
+          "type": "",
+          "instructionText": "",
+          "voiceCommand": "",
+          "instructionKeyTextPoints": [],
+          "instructionImages": [],
+          "instructionVideos": [],
+          "instructionPDFPaths": [],
+          "instructionModels": [],
+          "POIReferencePoints": [],
+          "resourcePlacements": [],
+          "conditions": []
+        }
+      ]
+    }
+  ]
 }
