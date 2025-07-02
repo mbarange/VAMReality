@@ -48,7 +48,22 @@
       ]
     },
     {
-      "steps": []
+      "steps": [
+        {
+          "name": "step4",
+          "type": "",
+          "instructionText": "",
+          "voiceCommand": "",
+          "instructionKeyTextPoints": [],
+          "instructionImages": [],
+          "instructionVideos": [],
+          "instructionPDFPaths": [],
+          "instructionModels": [],
+          "POIReferencePoints": [],
+          "resourcePlacements": [],
+          "conditions": []
+        }
+      ]
     }
   ]
 }
