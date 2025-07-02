@@ -1,5 +1,5 @@
 
-import { scenarioStore } from './ScenarioManager.js';
+
 window.saveToGitHub = async function () {
   const user = document.getElementById("githubUser").value;
   const repo = document.getElementById("githubRepo").value;
