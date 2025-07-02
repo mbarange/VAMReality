@@ -169,6 +169,25 @@
           "conditions": []
         }
       ]
+    },
+    {
+      "id": 4,
+      "steps": [
+        {
+          "name": "step10",
+          "type": "Instruction",
+          "instructionText": "",
+          "voiceCommand": "",
+          "instructionKeyTextPoints": [],
+          "instructionImages": [],
+          "instructionVideos": [],
+          "instructionPDFPaths": [],
+          "instructionModels": [],
+          "POIReferencePoints": [],
+          "resourcePlacements": [],
+          "conditions": []
+        }
+      ]
     }
   ]
 }
