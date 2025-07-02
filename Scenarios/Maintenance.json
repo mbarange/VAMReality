@@ -1,38 +1,25 @@
 {
-  "name": "kjnk",
+  "name": "Maintenance",
   "blocks": [
     {
+      "id": 1,
       "steps": [
         {
-          "name": "step1",
-          "instructionText": "jai",
+          "name": "sqdf",
+          "type": "",
+          "instructionText": "",
           "voiceCommand": "",
-          "stepType": "Instruction",
           "instructionKeyTextPoints": [],
           "instructionImages": [],
           "instructionVideos": [],
           "instructionPDFPaths": [],
           "instructionModels": [],
           "POIReferencePoints": [],
-          "conditions": [],
-          "resourcePlacements": []
+          "resourcePlacements": [],
+          "conditions": []
         },
         {
-          "name": "step2",
-          "instructionText": "jai",
-          "voiceCommand": "",
-          "stepType": "Instruction",
-          "instructionKeyTextPoints": [],
-          "instructionImages": [],
-          "instructionVideos": [],
-          "instructionPDFPaths": [],
-          "instructionModels": [],
-          "POIReferencePoints": [],
-          "conditions": [],
-          "resourcePlacements": []
-        },
-        {
-          "name": "step3",
+          "name": "gt",
           "type": "",
           "instructionText": "",
           "voiceCommand": "",
@@ -46,9 +33,6 @@
           "conditions": []
         }
       ]
-    },
-    {
-      "steps": []
     }
   ]
 }
