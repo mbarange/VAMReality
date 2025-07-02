@@ -75,8 +75,7 @@ window.loadFromGitHub = async function () {
   }
 
 
-  const apiUrl = "https://api.github.com/repos/" + user + "/" + repo + "/contents/" + folder?t=${Date.now()}`;
-
+  const apiUrl = "https://api.github.com/repos/" + user + "/" + repo + "/contents/" + folder;
   try {
     const res = await fetch(apiUrl, {
       headers: {
