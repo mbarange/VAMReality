@@ -30,6 +30,20 @@
           "POIReferencePoints": [],
           "conditions": [],
           "resourcePlacements": []
+        },
+        {
+          "name": "step3",
+          "type": "",
+          "instructionText": "",
+          "voiceCommand": "",
+          "instructionKeyTextPoints": [],
+          "instructionImages": [],
+          "instructionVideos": [],
+          "instructionPDFPaths": [],
+          "instructionModels": [],
+          "POIReferencePoints": [],
+          "resourcePlacements": [],
+          "conditions": []
         }
       ]
     },
