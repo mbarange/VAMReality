@@ -8,7 +8,7 @@ window.saveToGitHub = async function () {
   const file = document.getElementById("scenarioList").value;
   const scenario = JSON.parse(JSON.stringify(scenarioStore.current)); // deep clone
 
-
+  if (!file) return alert("Select a scenario name to load");
   
   if (!scenario || typeof scenario !== "object" || !scenario.name || !Array.isArray(scenario.blocks)) {
     console.warn("❌ Invalid scenario object:", scenario);
@@ -75,9 +75,7 @@ window.loadFromGitHub = async function () {
     return;
   }
 
-  const apiUrl =`https://api.github.com/repos/${user}/${repo}/contents/${folder}?t=${Date.now()}`;
-
- // const apiUrl = "https://api.github.com/repos/" + user + "/" + repo + "/contents/" + folder?t=${Date.now()}`;
+  const apiUrl = "https://api.github.com/repos/" + user + "/" + repo + "/contents/" + folder
 
   try {
     const res = await fetch(apiUrl, {
@@ -88,8 +86,6 @@ window.loadFromGitHub = async function () {
     });
 
     const files = await res.json();
-    scenarioStore.current = files;
-
     const scenarioList = document.getElementById("scenarioList");
     scenarioList.innerHTML = "";
 
@@ -101,8 +97,7 @@ window.loadFromGitHub = async function () {
         opt.text = file.name.replace(".json", "");
         scenarioList.appendChild(opt);
       });
-      updateScenarioList();
-      renderCurrentScenario();
+
     alert("✅ Scenario list loaded.");
   } catch (err) {
     alert("❌ Failed to fetch scenario list: " + err.message);
