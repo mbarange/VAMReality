@@ -96,8 +96,8 @@
             {
               "label": "Condition12",
               "target": {
-                "block": 3,
-                "step": 0
+                "block": 2,
+                "step": 2
               }
             }
           ]
