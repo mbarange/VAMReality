@@ -4,7 +4,7 @@ import { addStep, saveStep, addCondition, saveConditions, renderCurrentScenario 
 let editingConditionIndex = null;
 export function initializeStepBuilder() {
   console.log("🛠️ Initializing StepBuilder...");
-
+  enableConditionInputs(false); // disables all at startup
   const mapClick = (id, handler, label) => {
     const el = document.getElementById(id);
     if (el) {
@@ -41,10 +41,13 @@ export function initializeStepBuilder() {
   enableInputs(false);
 
   addBtn.onclick = () => {
-    // Clear fields
+
+    enableConditionInputs(true); // 💡 make inputs editable
     inputs.label.value = "";
     inputs.block.innerHTML = "";
     inputs.step.innerHTML = "";
+    saveBtn.disabled = false;
+
 
     // Enable fields
     enableInputs(true);
@@ -127,6 +130,14 @@ export function initializeStepBuilder() {
     drawScenarioGraph();
     enableInputs(false);
   };
+
+  function enableConditionInputs(enable = true) {
+    const ids = ["conditionLabel", "conditionBlockSelect", "conditionStepSelect", "saveConditions"];
+    ids.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.disabled = !enable;
+    });
+  }
 
   
 }

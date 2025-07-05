@@ -379,6 +379,7 @@ function updateConditionList(step) {
         document.getElementById("conditionBlockSelect").disabled = false;
         document.getElementById("conditionStepSelect").disabled = false;
         document.getElementById("saveConditions").disabled = false;
+        enableConditionInputs(true); // reuse helper
     
         // 🔐 Track index
         window.editingConditionIndex = i;
