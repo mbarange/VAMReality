@@ -46,7 +46,7 @@
           "resourcePlacements": [],
           "conditions": [
             {
-              "label": "condition1",
+              "label": "condition3",
               "target": {
                 "block": 0,
                 "step": 0
