@@ -1,4 +1,4 @@
-import { drawScenarioGraph } from "./FlowRenderer.js";
+import { drawScenarioGraph, enableConditionInputs } from "./FlowRenderer.js";
 export const scenarioStore = {
   current: null,
   all: []
@@ -430,12 +430,5 @@ function clearStepEditorFields() {
   document.getElementById("conditionList").innerHTML = "";
 }
 
- function enableConditionInputs(enable = true) {
-  const ids = ["conditionLabel", "conditionBlockSelect", "conditionStepSelect", "saveConditions"];
-  ids.forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.disabled = !enable;
-  });
-}
 
 window.scenarioStore = scenarioStore;
