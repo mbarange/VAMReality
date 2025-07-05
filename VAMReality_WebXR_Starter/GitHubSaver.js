@@ -6,6 +6,14 @@ window.saveToGitHub = async function () {
   const repo = document.getElementById("githubRepo").value.trim();
   const folder = document.getElementById("githubFolder").value.trim();
  
+  if (window.selectedStep) {
+    try {
+      window.saveStep(); // this updates scenarioStore.current with any unsaved changes
+    } catch (e) {
+      console.warn("⚠️ Failed to auto-save step before GitHub export:", e);
+    }
+  }
+
   const scenario = JSON.parse(JSON.stringify(scenarioStore.current)); // deep clone
 
   
