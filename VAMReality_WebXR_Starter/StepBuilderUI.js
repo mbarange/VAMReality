@@ -78,24 +78,36 @@ export function initializeStepBuilder() {
     const label = inputs.label.value.trim();
     const targetBlock = parseInt(inputs.block.value);
     const targetStep = parseInt(inputs.step.value);
-
+  
     if (!label || isNaN(targetBlock) || isNaN(targetStep)) {
       alert("Please complete the condition fields.");
       return;
     }
-
+  
+    const scenario = window.scenarioStore?.current;
+    if (!scenario) return alert("⚠️ No scenario loaded.");
+  
     const step = window.selectedStep
-      ? scenarioStore.current.blocks[window.selectedStep.block].steps[window.selectedStep.step]
-      : scenarioStore.current.blocks.at(-1)?.steps.at(-1);
-
-    if (!step) return alert("No valid step found to attach the condition to.");
-
+      ? scenario.blocks[window.selectedStep.block]?.steps[window.selectedStep.step]
+      : scenario.blocks.at(-1)?.steps.at(-1);
+  
+    if (!step) {
+      alert("❌ No valid step found to attach the condition to.");
+      return;
+    }
+  
+    // Add the condition
     step.conditions = step.conditions || [];
     step.conditions.push({ label, target: { block: targetBlock, step: targetStep } });
-
-    alert("✅ Condition added.");
+  
+    // Update UI + graph
     updateConditionList(step);
-      drawScenarioGraph();
+    renderCurrentScenario();
+    drawScenarioGraph();
+  
+    alert("✅ Condition added to step.");
+  
+    // Reset input state
     enableInputs(false);
   };
 
