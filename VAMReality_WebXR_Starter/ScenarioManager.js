@@ -116,6 +116,7 @@ export function addStepCondition(step) {
           condList.appendChild(li);
         });   
   }
+  drawScenarioGraph();
 }
 
 export function addCondition() {
@@ -265,6 +266,8 @@ export function renderCurrentScenario() {
     });
     list.appendChild(div);
   });
+
+  drawScenarioGraph();
 }
 
 export function editSelectedStep() {
