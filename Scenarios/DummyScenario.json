@@ -58,6 +58,13 @@
                 "block": 0,
                 "step": 1
               }
+            },
+            {
+              "label": "condition4",
+              "target": {
+                "block": 0,
+                "step": 3
+              }
             }
           ]
         },
