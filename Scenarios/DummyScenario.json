@@ -19,9 +19,9 @@
           "conditions": []
         },
         {
-          "name": "step2",
-          "type": "Instruction",
-          "instructionText": "here",
+          "name": "Choose Your Path",
+          "type": "",
+          "instructionText": "Would you like to review the theory or jump into practice?",
           "voiceCommand": "",
           "instructionKeyTextPoints": [],
           "instructionImages": [],
@@ -33,9 +33,9 @@
           "conditions": []
         },
         {
-          "name": "Step3",
+          "name": "step3",
           "type": "",
-          "instructionText": "image",
+          "instructionText": "read theory",
           "voiceCommand": "",
           "instructionKeyTextPoints": [],
           "instructionImages": [],
@@ -45,48 +45,8 @@
           "POIReferencePoints": [],
           "resourcePlacements": [],
           "conditions": []
-        },
-        {
-          "name": "step4",
-          "type": "",
-          "instructionText": "dog",
-          "voiceCommand": "",
-          "instructionKeyTextPoints": [],
-          "instructionImages": [],
-          "instructionVideos": [],
-          "instructionPDFPaths": [],
-          "instructionModels": [],
-          "POIReferencePoints": [],
-          "resourcePlacements": [],
-          "conditions": []
-        },
-        {
-          "name": "Step5",
-          "type": "",
-          "instructionText": "video",
-          "voiceCommand": "",
-          "instructionKeyTextPoints": [],
-          "instructionImages": [],
-          "instructionVideos": [],
-          "instructionPDFPaths": [],
-          "instructionModels": [],
-          "POIReferencePoints": [],
-          "resourcePlacements": [],
-          "conditions": [
-            {
-              "label": "condition1",
-              "target": {
-                "block": 0,
-                "step": 0
-              }
-            }
-          ]
         }
       ]
-    },
-    {
-      "id": 2,
-      "steps": []
     }
   ]
 }
