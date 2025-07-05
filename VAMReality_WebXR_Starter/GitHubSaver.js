@@ -1,7 +1,7 @@
 
 import { scenarioStore, updateScenarioList,renderCurrentScenario  } from './ScenarioManager.js';
 window.saveToGitHub = async function () {
-  const token = document.getElementById("githubToken").value.trim();
+  const token = document.getElementById("githubToken").value.trim().replace(/[^\x00-\x7F]/g, "");
   const user = document.getElementById("githubUser").value.trim();
   const repo = document.getElementById("githubRepo").value.trim();
   const folder = document.getElementById("githubFolder").value.trim();
