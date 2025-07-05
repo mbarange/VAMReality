@@ -1,6 +1,7 @@
 
 import { addStep, saveStep, addCondition, saveConditions, renderCurrentScenario } from './ScenarioManager.js';
 
+let editingConditionIndex = null;
 export function initializeStepBuilder() {
   console.log("🛠️ Initializing StepBuilder...");
 
@@ -91,23 +92,39 @@ export function initializeStepBuilder() {
       ? scenario.blocks[window.selectedStep.block]?.steps[window.selectedStep.step]
       : scenario.blocks.at(-1)?.steps.at(-1);
   
-    if (!step) {
-      alert("❌ No valid step found to attach the condition to.");
-      return;
+    if (!step) return alert("❌ No valid step found to attach the condition to.");
+  
+    step.conditions = step.conditions || [];
+  
+    const existingIndex = step.conditions.findIndex(c => c.label === label);
+  
+    if (typeof window.editingConditionIndex === "number") {
+      // 🔁 Update existing condition at known index
+      step.conditions[window.editingConditionIndex] = {
+        label,
+        target: { block: targetBlock, step: targetStep }
+      };
+      alert("🔁 Condition updated.");
+      window.editingConditionIndex = null;
+    } else if (existingIndex !== -1) {
+      // 🔄 Update existing condition by label
+      step.conditions[existingIndex] = {
+        label,
+        target: { block: targetBlock, step: targetStep }
+      };
+      alert("🔄 Existing condition updated by label.");
+    } else {
+      // ➕ Add new condition
+      step.conditions.push({
+        label,
+        target: { block: targetBlock, step: targetStep }
+      });
+      alert("✅ Condition added.");
     }
   
-    // Add the condition
-    step.conditions = step.conditions || [];
-    step.conditions.push({ label, target: { block: targetBlock, step: targetStep } });
-  
-    // Update UI + graph
     updateConditionList(step);
     renderCurrentScenario();
     drawScenarioGraph();
-  
-    alert("✅ Condition added to step.");
-  
-    // Reset input state
     enableInputs(false);
   };
 

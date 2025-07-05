@@ -373,6 +373,15 @@ function updateConditionList(step) {
           document.getElementById("conditionStepSelect").value = cond.target.step;
           document.getElementById("conditionLabel").value = cond.label || "";
         }, 100);
+    
+        // 👉 Make Save Condition editable
+        document.getElementById("conditionLabel").disabled = false;
+        document.getElementById("conditionBlockSelect").disabled = false;
+        document.getElementById("conditionStepSelect").disabled = false;
+        document.getElementById("saveConditions").disabled = false;
+    
+        // 🔐 Track index
+        window.editingConditionIndex = i;
       }
     };
   });
