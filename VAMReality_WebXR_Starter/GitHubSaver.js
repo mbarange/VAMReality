@@ -61,7 +61,6 @@ window.saveToGitHub = async function () {
   }
 };
 
-
 window.loadFromGitHub = async function () {
   const user = document.getElementById("githubUser").value.trim();
   const repo = document.getElementById("githubRepo").value.trim();
@@ -75,8 +74,6 @@ window.loadFromGitHub = async function () {
   }
 
   const apiUrl = `https://api.github.com/repos/${user}/${repo}/contents/${folder}`;
-  scenarioList.innerHTML = `<option>Loading...</option>`;
-
   try {
     const res = await fetch(apiUrl, {
       headers: {
@@ -86,24 +83,31 @@ window.loadFromGitHub = async function () {
     });
 
     const files = await res.json();
-    if (!Array.isArray(files)) throw new Error("Invalid file list");
+    if (!Array.isArray(files)) throw new Error("Unexpected response format.");
 
-    const scenarioFiles = files.filter((f) => f.name.endsWith(".json"));
+    // Filter scenario files
+    const scenarioFiles = files.filter(f => f.name.endsWith(".json"));
+
+    // Clear dropdown
     scenarioList.innerHTML = "";
 
+    // Populate dropdown with preview names
     for (const file of scenarioFiles) {
-      const rawRes = await fetch(file.download_url);
-      const data = await rawRes.json();
-      const previewName = data.name || file.name.replace(".json", "");
-      const opt = document.createElement("option");
-      opt.value = file.download_url;
-      opt.text = `${previewName} (${file.name})`;
-      scenarioList.appendChild(opt);
+      try {
+        const raw = await fetch(file.download_url);
+        const data = await raw.json();
+        const previewName = data.name || file.name.replace(".json", "");
+        const opt = document.createElement("option");
+        opt.value = file.download_url;
+        opt.text = `${previewName} (${file.name})`;
+        scenarioList.appendChild(opt);
+      } catch (err) {
+        console.warn(`⚠️ Failed to parse ${file.name}`, err);
+      }
     }
 
-    alert("✅ Scenario list with previews loaded.");
+    alert("✅ Scenario list loaded.");
   } catch (err) {
-    alert("❌ Failed to fetch scenario previews: " + err.message);
-    scenarioList.innerHTML = `<option disabled>Failed to load</option>`;
+    alert("❌ Failed to fetch scenario list: " + err.message);
   }
 };

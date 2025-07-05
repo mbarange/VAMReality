@@ -7,7 +7,8 @@ export function drawScenarioGraph() {
   const ns = "http://www.w3.org/2000/svg";
   let y = 50;
 
-  // Arrow marker definitions
+ 
+  // 🟢 Define arrow markers once at the top
   const defs = document.createElementNS(ns, "defs");
   defs.innerHTML = `
     <marker id="arrow" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto">
@@ -15,8 +16,10 @@ export function drawScenarioGraph() {
     </marker>
     <marker id="condArrow" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto">
       <path d="M0,0 L0,6 L9,3 z" fill="red"/>
-    </marker>`;
+    </marker>
+  `;
   svg.appendChild(defs);
+
 
   const nodePositions = {}; // Keep track of node positions for conditional lines
 
@@ -73,29 +76,31 @@ export function drawScenarioGraph() {
     y += 120;
   });
 
-  // Conditional arrows (in red, curved)
-  scenarioStore.current?.blocks?.forEach((block, bIdx) => {
-    block.steps?.forEach((step, sIdx) => {
-      const fromId = `B${bIdx}_S${sIdx}`;
-      step.conditions?.forEach((cond) => {
-        const toId = `B${cond.target.block}_S${cond.target.step}`;
-        const from = nodePositions[fromId];
-        const to = nodePositions[toId];
-        if (!from || !to) return;
+// Conditional arrows (in red, curved)
+scenarioStore.current?.blocks?.forEach((block, bIdx) => {
+  block.steps?.forEach((step, sIdx) => {
+    const fromId = `B${bIdx}_S${sIdx}`;
+    const from = nodePositions[fromId];
 
-        const path = document.createElementNS(ns, "path");
-        const deltaX = to.x - from.x;
-        const deltaY = to.y - from.y;
-        const controlX = from.x + deltaX / 2;
-        const controlY = from.y + deltaY / 2 - 40; // control point for curve
+    step.conditions?.forEach((cond) => {
+      const toId = `B${cond.target.block}_S${cond.target.step}`;
+      const to = nodePositions[toId];
+      if (!from || !to) return;
 
-        path.setAttribute("d", `M${from.x + 140},${from.y + 30} Q${controlX},${controlY} ${to.x},${to.y + 30}`);
-        path.setAttribute("fill", "none");
-        path.setAttribute("stroke", "red");
-        path.setAttribute("stroke-dasharray", "5,3");
-        path.setAttribute("marker-end", "url(#condArrow)");
-        svg.appendChild(path);
-      });
+      const path = document.createElementNS(ns, "path");
+
+      const deltaX = to.x - from.x;
+      const deltaY = to.y - from.y;
+      const controlX = from.x + deltaX / 2;
+      const controlY = from.y + deltaY / 2 - 60; // vertical offset for curve
+
+      path.setAttribute("d", `M${from.x + 140},${from.y + 30} Q${controlX},${controlY} ${to.x},${to.y + 30}`);
+      path.setAttribute("fill", "none");
+      path.setAttribute("stroke", "red");
+      path.setAttribute("stroke-dasharray", "4,2");
+      path.setAttribute("marker-end", "url(#condArrow)");
+      svg.appendChild(path);
     });
   });
+});
 }
