@@ -30,15 +30,10 @@ export function initializeStepBuilder() {
     step: document.getElementById("conditionStepSelect")
   };
 
-  const enableInputs = (enabled) => {
-    inputs.label.disabled = !enabled;
-    inputs.block.disabled = !enabled;
-    inputs.step.disabled = !enabled;
-    saveBtn.disabled = !enabled;
-  };
+ 
 
   // Initial disable
-  enableInputs(false);
+  enableConditionInputs(false);
 
   addBtn.onclick = () => {
 
@@ -50,7 +45,7 @@ export function initializeStepBuilder() {
 
 
     // Enable fields
-    enableInputs(true);
+    enableConditionInputs(true);
 
     // Populate block and step lists
     const scenario = window.scenarioStore?.current;
@@ -128,8 +123,20 @@ export function initializeStepBuilder() {
     updateConditionList(step);
     renderCurrentScenario();
     drawScenarioGraph();
-    enableInputs(false);
+    enableConditionInputs(false);
   };
   
 }
 
+function enableConditionInputs(enabled = true) {
+  const ids = [
+    "conditionLabel",
+    "conditionBlockSelect",
+    "conditionStepSelect",
+    "saveConditions"
+  ];
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.disabled = !enabled;
+  });
+}
