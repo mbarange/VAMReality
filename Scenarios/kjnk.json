@@ -78,6 +78,27 @@
                 "block": 0,
                 "step": 0
               }
+            },
+            {
+              "label": "Condition10",
+              "target": {
+                "block": 1,
+                "step": 1
+              }
+            },
+            {
+              "label": "Condition11",
+              "target": {
+                "block": 2,
+                "step": 2
+              }
+            },
+            {
+              "label": "Condition12",
+              "target": {
+                "block": 2,
+                "step": 2
+              }
             }
           ]
         }
