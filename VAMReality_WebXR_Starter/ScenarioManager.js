@@ -122,8 +122,13 @@ export function addStepCondition(step) {
 export function addCondition() {
   const blockIdx = parseInt(document.getElementById("blockSelector").value);
   const block = scenarioStore.current?.blocks?.[blockIdx];
-  const step = block?.steps?.at(-1);
-  if (!step) return alert("No step to add condition.");
+
+  const sel = window.selectedStep;
+  if (!sel || sel.block !== blockIdx) return alert("❗Select a step in this block to add a condition.");
+
+  const step = scenarioStore.current.blocks[sel.block].steps[sel.step];
+  if (!step) return alert("❗No step selected.");
+
 
   const label = getVal("conditionLabel");
   const targetBlock = parseInt(getVal("conditionBlockSelect"));
