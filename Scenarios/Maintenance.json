@@ -44,7 +44,15 @@
           "instructionModels": [],
           "POIReferencePoints": [],
           "resourcePlacements": [],
-          "conditions": []
+          "conditions": [
+            {
+              "label": "label1",
+              "target": {
+                "block": 0,
+                "step": 0
+              }
+            }
+          ]
         }
       ]
     },
