@@ -131,13 +131,7 @@ export function initializeStepBuilder() {
     enableInputs(false);
   };
 
-  function enableConditionInputs(enable = true) {
-    const ids = ["conditionLabel", "conditionBlockSelect", "conditionStepSelect", "saveConditions"];
-    ids.forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.disabled = !enable;
-    });
-  }
+
 
   
 }
