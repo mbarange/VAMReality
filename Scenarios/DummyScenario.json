@@ -1,0 +1,24 @@
+{
+  "name": "DummyScenario",
+  "blocks": [
+    {
+      "id": 1,
+      "steps": [
+        {
+          "name": "step1",
+          "type": "Instruction",
+          "instructionText": "Welcome",
+          "voiceCommand": "",
+          "instructionKeyTextPoints": [],
+          "instructionImages": [],
+          "instructionVideos": [],
+          "instructionPDFPaths": [],
+          "instructionModels": [],
+          "POIReferencePoints": [],
+          "resourcePlacements": [],
+          "conditions": []
+        }
+      ]
+    }
+  ]
+}
