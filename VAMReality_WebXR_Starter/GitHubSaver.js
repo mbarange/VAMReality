@@ -1,19 +1,11 @@
 
 import { scenarioStore, updateScenarioList,renderCurrentScenario  } from './ScenarioManager.js';
 window.saveToGitHub = async function () {
-  const token = document.getElementById("githubToken").value.trim().replace(/[^\x00-\x7F]/g, "");
+  const token = document.getElementById("githubToken").value.trim();
   const user = document.getElementById("githubUser").value.trim();
   const repo = document.getElementById("githubRepo").value.trim();
   const folder = document.getElementById("githubFolder").value.trim();
  
-  if (window.selectedStep) {
-    try {
-      window.saveStep(); // this updates scenarioStore.current with any unsaved changes
-    } catch (e) {
-      console.warn("⚠️ Failed to auto-save step before GitHub export:", e);
-    }
-  }
-
   const scenario = JSON.parse(JSON.stringify(scenarioStore.current)); // deep clone
 
   
@@ -71,18 +63,19 @@ window.saveToGitHub = async function () {
 
 
 window.loadFromGitHub = async function () {
-  const user = document.getElementById("githubUser").value.trim();
-  const repo = document.getElementById("githubRepo").value.trim();
-  const token = document.getElementById("githubToken").value.trim();
-  const folder = document.getElementById("githubFolder").value.trim();
-  const scenarioList = document.getElementById("scenarioList");
+  const user = document.getElementById("githubUser").value;
+  const repo = document.getElementById("githubRepo").value;
+  const token = document.getElementById("githubToken").value;
+  const folder = document.getElementById("githubFolder").value || "";
+  const file = document.getElementById("scenarioList").value;
 
   if (!user || !repo || !token) {
     alert("Missing GitHub credentials.");
     return;
   }
 
-  const apiUrl = `https://api.github.com/repos/${user}/${repo}/contents/${folder}`;
+
+  const apiUrl = "https://api.github.com/repos/" + user + "/" + repo + "/contents/" + folder;
   try {
     const res = await fetch(apiUrl, {
       headers: {
@@ -92,29 +85,21 @@ window.loadFromGitHub = async function () {
     });
 
     const files = await res.json();
-    if (!Array.isArray(files)) throw new Error("Unexpected response format.");
+    scenarioStore.current = files;
 
-    // Filter scenario files
-    const scenarioFiles = files.filter(f => f.name.endsWith(".json"));
-
-    // Clear dropdown
+    const scenarioList = document.getElementById("scenarioList");
     scenarioList.innerHTML = "";
 
-    // Populate dropdown with preview names
-    for (const file of scenarioFiles) {
-      try {
-        const raw = await fetch(file.download_url);
-        const data = await raw.json();
-        const previewName = data.name || file.name.replace(".json", "");
+    files
+      .filter((f) => f.name.endsWith(".json"))
+      .forEach((file) => {
         const opt = document.createElement("option");
         opt.value = file.download_url;
-        opt.text = `${previewName} (${file.name})`;
+        opt.text = file.name.replace(".json", "");
         scenarioList.appendChild(opt);
-      } catch (err) {
-        console.warn(`⚠️ Failed to parse ${file.name}`, err);
-      }
-    }
-
+      });
+      updateScenarioList();
+      renderCurrentScenario();
     alert("✅ Scenario list loaded.");
   } catch (err) {
     alert("❌ Failed to fetch scenario list: " + err.message);
