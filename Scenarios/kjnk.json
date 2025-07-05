@@ -92,6 +92,13 @@
                 "block": 2,
                 "step": 2
               }
+            },
+            {
+              "label": "Condition12",
+              "target": {
+                "block": 3,
+                "step": 0
+              }
             }
           ]
         }
