@@ -1,5 +1,5 @@
 
-import { addStep, saveStep, addCondition, saveConditions, renderCurrentScenario } from './ScenarioManager.js';
+import { addStep, saveStep, addCondition, saveConditions, renderCurrentScenario, enableConditionInputs } from './ScenarioManager.js';
 
 let editingConditionIndex = null;
 export function initializeStepBuilder() {
