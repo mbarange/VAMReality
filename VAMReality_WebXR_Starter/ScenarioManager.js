@@ -430,7 +430,7 @@ function clearStepEditorFields() {
   document.getElementById("conditionList").innerHTML = "";
 }
 
-function enableConditionInputs(enable = true) {
+export function enableConditionInputs(enable = true) {
   const ids = ["conditionLabel", "conditionBlockSelect", "conditionStepSelect", "saveConditions"];
   ids.forEach(id => {
     const el = document.getElementById(id);
