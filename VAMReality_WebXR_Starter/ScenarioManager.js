@@ -1,4 +1,4 @@
-import { drawScenarioGraph, enableConditionInputs } from "./FlowRenderer.js";
+import { drawScenarioGraph } from "./FlowRenderer.js";
 export const scenarioStore = {
   current: null,
   all: []
