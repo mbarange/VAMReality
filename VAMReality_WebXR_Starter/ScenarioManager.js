@@ -215,6 +215,7 @@ export function renderCurrentScenario() {
     const div = document.createElement("div");
     div.className = "block";
     div.innerHTML = `<h4>Block ${bIdx + 1}</h4>`;
+    enableConditionInputs(true);
     block.steps.forEach((step, sIdx) => {
       const el = document.createElement("div");
       el.className = "step";
@@ -239,13 +240,15 @@ export function renderCurrentScenario() {
         updateConditionList(step);
         // Load first condition (if any)
         if (step.conditions && step.conditions.length > 0) {
-          const cond = step.conditions[0];
+          const cond = step.conditions.at(-1); // get the most recent one
           const target = cond?.target || {};
           const blockSel = document.getElementById("conditionBlockSelect");
           const stepSel = document.getElementById("conditionStepSelect");
           const labelInput = document.getElementById("conditionLabel");
         
           if (cond && cond.target && blockSel && stepSel && labelInput) {
+            enableConditionInputs(true); // 🟢 allow editing
+        
             if (
               typeof cond.target.block === "number" &&
               typeof cond.target.step === "number"
@@ -256,15 +259,13 @@ export function renderCurrentScenario() {
                 stepSel.value = cond.target.step;
                 labelInput.value = cond.label || "";
               }, 100);
-            } else {
-              blockSel.selectedIndex = 0;
-              stepSel.selectedIndex = 0;
-              labelInput.value = "";
             }
           }
         } else {
+          // Reset inputs if no conditions
+          enableConditionInputs(false);
           document.getElementById("conditionLabel").value = "";
-        }      
+        }     
         alert("✅ Selected: " + el.textContent);
       };
       div.appendChild(el);
