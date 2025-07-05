@@ -63,19 +63,18 @@ window.saveToGitHub = async function () {
 
 
 window.loadFromGitHub = async function () {
-  const user = document.getElementById("githubUser").value;
-  const repo = document.getElementById("githubRepo").value;
-  const token = document.getElementById("githubToken").value;
-  const folder = document.getElementById("githubFolder").value || "";
-  const file = document.getElementById("scenarioList").value;
+  const user = document.getElementById("githubUser").value.trim();
+  const repo = document.getElementById("githubRepo").value.trim();
+  const token = document.getElementById("githubToken").value.trim();
+  const folder = document.getElementById("githubFolder").value.trim();
+  const scenarioList = document.getElementById("scenarioList");
 
   if (!user || !repo || !token) {
     alert("Missing GitHub credentials.");
     return;
   }
 
-
-  const apiUrl = "https://api.github.com/repos/" + user + "/" + repo + "/contents/" + folder;
+  const apiUrl = `https://api.github.com/repos/${user}/${repo}/contents/${folder}`;
   try {
     const res = await fetch(apiUrl, {
       headers: {
@@ -85,21 +84,29 @@ window.loadFromGitHub = async function () {
     });
 
     const files = await res.json();
-    scenarioStore.current = files;
+    if (!Array.isArray(files)) throw new Error("Unexpected response format.");
 
-    const scenarioList = document.getElementById("scenarioList");
+    // Filter scenario files
+    const scenarioFiles = files.filter(f => f.name.endsWith(".json"));
+
+    // Clear dropdown
     scenarioList.innerHTML = "";
 
-    files
-      .filter((f) => f.name.endsWith(".json"))
-      .forEach((file) => {
+    // Populate dropdown with preview names
+    for (const file of scenarioFiles) {
+      try {
+        const raw = await fetch(file.download_url);
+        const data = await raw.json();
+        const previewName = data.name || file.name.replace(".json", "");
         const opt = document.createElement("option");
         opt.value = file.download_url;
-        opt.text = file.name.replace(".json", "");
+        opt.text = `${previewName} (${file.name})`;
         scenarioList.appendChild(opt);
-      });
-      updateScenarioList();
-      renderCurrentScenario();
+      } catch (err) {
+        console.warn(`⚠️ Failed to parse ${file.name}`, err);
+      }
+    }
+
     alert("✅ Scenario list loaded.");
   } catch (err) {
     alert("❌ Failed to fetch scenario list: " + err.message);
