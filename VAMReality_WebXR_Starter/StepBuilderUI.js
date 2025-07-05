@@ -1,5 +1,5 @@
 
-import { addStep, saveStep, addCondition, saveConditions } from './ScenarioManager.js';
+import { addStep, saveStep, addCondition, saveConditions, renderCurrentScenario } from './ScenarioManager.js';
 
 export function initializeStepBuilder() {
   console.log("🛠️ Initializing StepBuilder...");
@@ -95,6 +95,7 @@ export function initializeStepBuilder() {
 
     alert("✅ Condition added.");
     updateConditionList(step);
+      drawScenarioGraph();
     enableInputs(false);
   };
 
