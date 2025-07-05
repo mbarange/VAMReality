@@ -1,0 +1,60 @@
+{
+  "name": "DummyScenario",
+  "blocks": [
+    {
+      "id": 1,
+      "steps": [
+        {
+          "name": "step1",
+          "type": "Instruction",
+          "instructionText": "Welcome",
+          "voiceCommand": "",
+          "instructionKeyTextPoints": [],
+          "instructionImages": [],
+          "instructionVideos": [],
+          "instructionPDFPaths": [],
+          "instructionModels": [],
+          "POIReferencePoints": [],
+          "resourcePlacements": [],
+          "conditions": []
+        },
+        {
+          "name": "Choose Your Path",
+          "type": "",
+          "instructionText": "Would you like to review the theory or jump into practice?",
+          "voiceCommand": "",
+          "instructionKeyTextPoints": [],
+          "instructionImages": [],
+          "instructionVideos": [],
+          "instructionPDFPaths": [],
+          "instructionModels": [],
+          "POIReferencePoints": [],
+          "resourcePlacements": [],
+          "conditions": []
+        },
+        {
+          "name": "step3",
+          "type": "",
+          "instructionText": "read theory",
+          "voiceCommand": "",
+          "instructionKeyTextPoints": [],
+          "instructionImages": [],
+          "instructionVideos": [],
+          "instructionPDFPaths": [],
+          "instructionModels": [],
+          "POIReferencePoints": [],
+          "resourcePlacements": [],
+          "conditions": [
+            {
+              "label": "condition3",
+              "target": {
+                "block": 0,
+                "step": 0
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
