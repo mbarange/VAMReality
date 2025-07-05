@@ -33,9 +33,9 @@
           "conditions": []
         },
         {
-          "name": "step1",
-          "type": "Instruction",
-          "instructionText": "hello",
+          "name": "",
+          "type": "",
+          "instructionText": "",
           "voiceCommand": "",
           "instructionKeyTextPoints": [],
           "instructionImages": [],
