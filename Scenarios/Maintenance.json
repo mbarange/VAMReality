@@ -51,6 +51,13 @@
                 "block": 0,
                 "step": 0
               }
+            },
+            {
+              "label": "condittion3",
+              "target": {
+                "block": 0,
+                "step": 1
+              }
             }
           ]
         }
