@@ -64,7 +64,7 @@
         {
           "name": "step4",
           "type": "Instruction",
-          "instructionText": "MUKESH",
+          "instructionText": "read theory",
           "voiceCommand": "",
           "instructionKeyTextPoints": [],
           "instructionImages": [],
@@ -75,7 +75,7 @@
           "resourcePlacements": [],
           "conditions": [
             {
-              "label": "CONDITION4",
+              "label": "condition3",
               "target": {
                 "block": 0,
                 "step": 0
