@@ -60,6 +60,28 @@
               }
             }
           ]
+        },
+        {
+          "name": "step4",
+          "type": "Instruction",
+          "instructionText": "MUKESH",
+          "voiceCommand": "",
+          "instructionKeyTextPoints": [],
+          "instructionImages": [],
+          "instructionVideos": [],
+          "instructionPDFPaths": [],
+          "instructionModels": [],
+          "POIReferencePoints": [],
+          "resourcePlacements": [],
+          "conditions": [
+            {
+              "label": "CONDITION4",
+              "target": {
+                "block": 0,
+                "step": 0
+              }
+            }
+          ]
         }
       ]
     },
