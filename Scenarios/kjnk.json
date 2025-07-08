@@ -253,6 +253,39 @@
     {
       "id": 6,
       "steps": []
+    },
+    {
+      "id": 7,
+      "steps": [
+        {
+          "name": "Step32",
+          "type": "Instruction",
+          "instructionText": "MANTHA",
+          "voiceCommand": "",
+          "instructionKeyTextPoints": [],
+          "instructionImages": [
+            "I1"
+          ],
+          "instructionVideos": [],
+          "instructionPDFPaths": [],
+          "instructionModels": [],
+          "POIReferencePoints": [],
+          "resourcePlacements": [],
+          "conditions": [
+            {
+              "label": "Condition9",
+              "target": {
+                "block": 0,
+                "step": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "steps": []
     }
   ]
 }
