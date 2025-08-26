@@ -1,0 +1,24 @@
+{
+  "name": "TestScenario26Aug",
+  "blocks": [
+    {
+      "id": 1,
+      "steps": [
+        {
+          "name": "Step1",
+          "type": "Instruction",
+          "instructionText": "",
+          "voiceCommand": "",
+          "instructionKeyTextPoints": [],
+          "instructionImages": [],
+          "instructionVideos": [],
+          "instructionPDFPaths": [],
+          "instructionModels": [],
+          "POIReferencePoints": [],
+          "resourcePlacements": [],
+          "conditions": []
+        }
+      ]
+    }
+  ]
+}
