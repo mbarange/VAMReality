@@ -1,0 +1,234 @@
+{
+  "name": "SRV",
+  "blocks": [
+    {
+      "id": 1,
+      "steps": [
+        {
+          "name": "Lancement",
+          "type": "",
+          "instructionText": "Welcome",
+          "voiceCommand": "",
+          "instructionKeyTextPoints": [],
+          "instructionImages": [],
+          "instructionVideos": [],
+          "instructionPDFPaths": [],
+          "instructionModels": [],
+          "POIReferencePoints": [],
+          "resourcePlacements": [],
+          "conditions": []
+        },
+        {
+          "name": "Choose expertise",
+          "type": "Instruction",
+          "instructionText": "Choisir une pathologie parmi les trois suivantes",
+          "voiceCommand": "",
+          "instructionKeyTextPoints": [],
+          "instructionImages": [],
+          "instructionVideos": [],
+          "instructionPDFPaths": [],
+          "instructionModels": [],
+          "POIReferencePoints": [],
+          "resourcePlacements": [],
+          "conditions": []
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "steps": [
+        {
+          "name": "Pathologie 1",
+          "type": "Instruction",
+          "instructionText": "Condensation",
+          "voiceCommand": "",
+          "instructionKeyTextPoints": [
+            "Vérifier le plafond"
+          ],
+          "instructionImages": [
+            "Image 1"
+          ],
+          "instructionVideos": [],
+          "instructionPDFPaths": [],
+          "instructionModels": [],
+          "POIReferencePoints": [],
+          "resourcePlacements": [],
+          "conditions": []
+        },
+        {
+          "name": "Pathologie 2",
+          "type": "Instruction",
+          "instructionText": "Infiltration par façade",
+          "voiceCommand": "",
+          "instructionKeyTextPoints": [
+            "Constaté les façades/murs"
+          ],
+          "instructionImages": [
+            "Image 2"
+          ],
+          "instructionVideos": [],
+          "instructionPDFPaths": [],
+          "instructionModels": [],
+          "POIReferencePoints": [],
+          "resourcePlacements": [],
+          "conditions": []
+        },
+        {
+          "name": "Pathologie 3",
+          "type": "Instruction",
+          "instructionText": "Remontée par capillarité",
+          "voiceCommand": "",
+          "instructionKeyTextPoints": [
+            "Fixé le bas des murs"
+          ],
+          "instructionImages": [
+            "Image 3"
+          ],
+          "instructionVideos": [],
+          "instructionPDFPaths": [],
+          "instructionModels": [],
+          "POIReferencePoints": [],
+          "resourcePlacements": [],
+          "conditions": []
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "steps": [
+        {
+          "name": "Mode opératoire",
+          "type": "Action",
+          "instructionText": "Affichage du mode opératoire",
+          "voiceCommand": "",
+          "instructionKeyTextPoints": [
+            "Lire le texte"
+          ],
+          "instructionImages": [
+            "Image 4"
+          ],
+          "instructionVideos": [],
+          "instructionPDFPaths": [],
+          "instructionModels": [],
+          "POIReferencePoints": [],
+          "resourcePlacements": [],
+          "conditions": []
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "steps": [
+        {
+          "name": "Affichage de l'ensemble des mots clés",
+          "type": "Action",
+          "instructionText": "Moisissure, sol, fondations, fuite, micro fissure, pont thermique, étanchéité, ventilation, matériaux",
+          "voiceCommand": "",
+          "instructionKeyTextPoints": [
+            "Choisir trois mots définissant la pathologie sélectionnée"
+          ],
+          "instructionImages": [],
+          "instructionVideos": [],
+          "instructionPDFPaths": [],
+          "instructionModels": [],
+          "POIReferencePoints": [],
+          "resourcePlacements": [],
+          "conditions": []
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "steps": [
+        {
+          "name": "Validation de choix",
+          "type": "Instruction",
+          "instructionText": "choisir trois mots clés définissant la pathologie sélectionnée",
+          "voiceCommand": "",
+          "instructionKeyTextPoints": [],
+          "instructionImages": [],
+          "instructionVideos": [],
+          "instructionPDFPaths": [],
+          "instructionModels": [],
+          "POIReferencePoints": [],
+          "resourcePlacements": [],
+          "conditions": []
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "steps": [
+        {
+          "name": "Evaluation: pathologie 1",
+          "type": "",
+          "instructionText": "Ventilation, pont thermique, moisissure",
+          "voiceCommand": "",
+          "instructionKeyTextPoints": [],
+          "instructionImages": [],
+          "instructionVideos": [],
+          "instructionPDFPaths": [],
+          "instructionModels": [],
+          "POIReferencePoints": [],
+          "resourcePlacements": [],
+          "conditions": []
+        },
+        {
+          "name": "Evaluation: Pathologie 2",
+          "type": "",
+          "instructionText": "Etanchéité, fuite, micro fissure",
+          "voiceCommand": "",
+          "instructionKeyTextPoints": [],
+          "instructionImages": [],
+          "instructionVideos": [],
+          "instructionPDFPaths": [],
+          "instructionModels": [],
+          "POIReferencePoints": [],
+          "resourcePlacements": [],
+          "conditions": []
+        },
+        {
+          "name": "Évaluation : Pathologie 3",
+          "type": "",
+          "instructionText": "Sol, matériaux, fondations",
+          "voiceCommand": "",
+          "instructionKeyTextPoints": [],
+          "instructionImages": [],
+          "instructionVideos": [],
+          "instructionPDFPaths": [],
+          "instructionModels": [],
+          "POIReferencePoints": [],
+          "resourcePlacements": [],
+          "conditions": []
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "steps": [
+        {
+          "name": "Evaluation finale",
+          "type": "",
+          "instructionText": "Fin de test",
+          "voiceCommand": "",
+          "instructionKeyTextPoints": [],
+          "instructionImages": [],
+          "instructionVideos": [],
+          "instructionPDFPaths": [],
+          "instructionModels": [],
+          "POIReferencePoints": [],
+          "resourcePlacements": [],
+          "conditions": [
+            {
+              "label": "oui",
+              "target": {
+                "block": 0,
+                "step": 0
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
